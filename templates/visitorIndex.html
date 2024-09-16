@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kompaki</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Existing CSS from index.html */
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 800;
+        }
+        .category {
+            cursor: pointer;
+        }
+
+        .category:hover {
+            background-color: #f0f0f0;
+        }
+
+        .editable {
+            border: 1px solid #ddd;
+            padding: 5px;
+        }
+
+        /* Existing CSS */
+        .container {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
+            /* 增加每部分之间的间距 */
+        }
+
+        .section {
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .form-group-inline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .form-group-inline label {
+            margin: 0;
+            white-space: nowrap;
+            /* 确保标签不会换行 */
+        }
+
+        .form-group-inline input {
+            flex: 2;
+            padding: 10px;
+            border-radius: 4px;
+            min-width: 0;
+            /* 确保输入框不会超出父容器 */
+        }
+
+        .form-group-inline button {
+            flex: 1;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+            white-space: nowrap;
+            /* 确保按钮文字不会换行 */
+        }
+
+        .axis-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .axis {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 30%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .axis h2 {
+            margin-top: 0;
+        }
+
+        .axis.selected {
+            background-color: #FFD700 !important;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .slider-container label {
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+
+        .slider-container input {
+            flex-grow: 1;
+        }
+
+        .terminal-output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            height: 200px;
+            overflow-y: auto;
+            border-radius: 5px;
+        }
+
+        .langBtn {
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .langBtn img {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <!-- Top navigation bar -->
+    {% include 'visitornavbar.html' %}
+
+    <!-- Assuming you have a top bar where the categories will go -->
+    <div class="top-categories" id="categories">
+        <div class="category" id="category-individualworkflow">Individual Workflow</div>
+        <div class="category" id="category-planning">Planning</div>
+        <div class="category" id="category-machining">Machining</div>
+        <div class="category" id="category-monitoring">Monitoring</div>
+        <div class="category" id="category-community">Community</div>
+        <div class="category" id="category-development">Development</div>
+        <div class="category" id="category-utility">Utility</div>
+    </div>
+
+    <!-- Application icons will be displayed here when the Individual Workflow category is clicked -->
+    <div id="category-individualworkflow-apps-container" class="apps-container">
+        <a href="/connection" class="app-icon">
+            <img src="{{ url_for('static', filename='pc.jpg') }}" alt="仿真" />
+            <div class="app-label" data-key="label-sample">sample1</div>
+        </a>
+        <!-- Other applications... -->
+        <a href="/Tool manager" class="app-icon">
+            <img src="{{ url_for('static', filename='Tool-manager.jpg') }}" alt="连接" />
+            <div class="app-label" data-key="label-sample">sample2</div>
+        </a>
+        <a href="/Calendar" class="app-icon">
+            <img src="{{ url_for('static', filename='calendar.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-sample">sample3</div>
+        </a>
+        <a href="/File manager" class="app-icon">
+            <img src="{{ url_for('static', filename='file.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-sample">sample4</div>
+        </a>
+        </a>
+    </div>
+
+    <!-- Application icons will be displayed here when the Planning category is clicked -->
+    <div id="category-planning-apps-container" class="apps-container">
+        <a href="/connection" class="app-icon">
+            <img src="{{ url_for('static', filename='pc.jpg') }}" alt="仿真" />
+            <div class="app-label" data-key="label-connection">Connection</div>
+        </a>
+        <!-- Other applications... -->
+        <a href="/Tool manager" class="app-icon">
+            <img src="{{ url_for('static', filename='Tool-manager.jpg') }}" alt="连接" />
+            <div class="app-label" data-key="label-tool-manager">Tool Manager</div>
+        </a>
+        <a href="/Calendar" class="app-icon">
+            <img src="{{ url_for('static', filename='calendar.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-calendar">Calendar</div>
+        </a>
+        <a href="/File manager" class="app-icon">
+            <img src="{{ url_for('static', filename='file.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-file-manager">File Manager</div>
+        </a>
+        <a href="/Cycle time estimation" class="app-icon">
+            <img src="{{ url_for('static', filename='cycle.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-cycle-time-estimation">Cycle Time Estimation</div>
+        </a>
+        <a href="/code" class="app-icon">
+            <img src="{{ url_for('static', filename='code.jpg') }}" alt="仿真" />
+            <div class="app-label" data-key="label-code">Code</div>
+        </a>
+    </div>
+
+    <!-- Application icons will be displayed here when the Machining category is clicked -->
+    <div id="category-machining-apps-container" class="apps-container">
+        <a href="/simulation" class="app-icon">
+            <img src="{{ url_for('static', filename='simulation.jpg') }}" alt="仿真" />
+            <div class="app-label" data-key="label-simulation">Simulation</div>
+        </a>
+        <a href="/Digital twin" class="app-icon">
+            <img src="{{ url_for('static', filename='digital-twin.jpg') }}" alt="连接" />
+            <div class="app-label" data-key="label-digital-twin">Digital twin</div>
+        </a>
+        <a href="/3D viewer" class="app-icon">
+            <img src="{{ url_for('static', filename='3d-viewer.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-2d-3d-viewer">2D/3D viewer</div>
+        </a>
+        <a href="/NC operation" class="app-icon">
+            <img src="{{ url_for('static', filename='operations.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-nc-operation">NC operation</div>
+        </a>
+        <a href="/Collision advance" class="app-icon">
+            <img src="{{ url_for('static', filename='collision.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-collision-advance">Collision advance</div>
+        </a>
+    </div>
+    
+    
+
+    <!-- Application icons will be displayed here when the Monitoring category is clicked -->
+    <div id="category-monitoring-apps-container" class="apps-container">
+        <a href="/Data logger" class="app-icon">
+            <img src="{{ url_for('static', filename='log.jpg') }}" alt="仿真" />
+            <div class="app-label" data-key="label-data-logger">Data logger</div>
+        </a>
+        <a href="/Maintenance manager" class="app-icon">
+            <img src="{{ url_for('static', filename='report.jpg') }}" alt="连接" />
+            <div class="app-label" data-key="label-maintenance-manager">Maintenance manager</div>
+        </a>
+        <a href="/Servo viewer" class="app-icon">
+            <img src="{{ url_for('static', filename='Servo-viewer.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-servo-viewer">Servo viewer</div>
+        </a>
+        <a href="/KPI" class="app-icon">
+            <img src="{{ url_for('static', filename='kpi.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-kpi">KPI</div>
+        </a>
+    </div>
+    
+
+    <!-- Application icons will be displayed here when the Community category is clicked -->
+    <div id="category-community-apps-container" class="apps-container">
+        <a href="/team board" class="app-icon">
+            <img src="{{ url_for('static', filename='team.jpg') }}" alt="仿真" />
+            <div class="app-label" data-key="label-team-board">Team board</div>
+        </a>
+        <a href="/cloud" class="app-icon">
+            <img src="{{ url_for('static', filename='cloud.jpg') }}" alt="连接" />
+            <div class="app-label" data-key="label-cloud-machining">Cloud Machining</div>
+        </a>
+        <a href="/finance" class="app-icon">
+            <img src="{{ url_for('static', filename='finance.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-finance">Finance</div>
+        </a>
+        <a href="/update" class="app-icon">
+            <img src="{{ url_for('static', filename='update.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-update">Update</div>
+        </a>
+        <a href="/consumer_service" class="app-icon">
+            <img src="{{ url_for('static', filename='consumer_service.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-customer-support">Customer Support</div>
+        </a>
+        <a href="/shopping" class="app-icon">
+            <img src="{{ url_for('static', filename='shopping.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-shopping">Shopping</div>
+        </a>
+    </div>
+
+    <!-- Application icons will be displayed here when the Development category is clicked -->
+    <div id="category-development-apps-container" class="apps-container">
+        <a href="/connection" class="app-icon">
+            <img src="{{ url_for('static', filename='pc.jpg') }}" alt="仿真" />
+            <div class="app-label" data-key="label-sample">sample1</div>
+        </a>
+        <!-- Other applications... -->
+        <a href="/Tool manager" class="app-icon">
+            <img src="{{ url_for('static', filename='Tool-manager.jpg') }}" alt="连接" />
+            <div class="app-label" data-key="label-sample">sample2</div>
+        </a>
+        <a href="/Calendar" class="app-icon">
+            <img src="{{ url_for('static', filename='calendar.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-sample">sample3</div>
+        </a>
+        <a href="/File manager" class="app-icon">
+            <img src="{{ url_for('static', filename='file.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-sample">sample4</div>
+        </a>
+        </a>
+    </div>
+    
+
+    <!-- Application icons will be displayed here when the Utility category is clicked -->
+    <div id="category-utility-apps-container" class="apps-container">
+        <a href="/manual" class="app-icon">
+            <img src="{{ url_for('static', filename='manual.jpg') }}" alt="仿真" />
+            <div class="app-label" data-key="label-manual">manual</div>
+        </a>
+        <a href="/memo" class="app-icon">
+            <img src="{{ url_for('static', filename='memo.jpg') }}" alt="连接" />
+            <div class="app-label" data-key="label-memo">memo</div>
+        </a>
+        <a href="/camera" class="app-icon">
+            <img src="{{ url_for('static', filename='camera.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-camera">camera</div>
+        </a>
+        <a href="/calculator" class="app-icon">
+            <img src="{{ url_for('static', filename='calculator.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-calculator">calculator</div>
+        </a>
+        <a href="/browser" class="app-icon">
+            <img src="{{ url_for('static', filename='browser.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-browser">browser</div>
+        </a>
+        <a href="/setting1" class="app-icon">
+            <img src="{{ url_for('static', filename='setting.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-setting">setting</div>
+        </a>
+        <a href="/maintenance" class="app-icon">
+            <img src="{{ url_for('static', filename='maintenance.jpg') }}" alt="代码" />
+            <div class="app-label" data-key="label-maintenance">maintenance</div>
+        </a>
+    </div>
+    
+
+
+
+
+
+    <!--    &lt;!&ndash; 自定义右键菜单 &ndash;&gt;-->
+    <!--    <div id="customContextMenu" class="custom-context-menu">-->
+    <!--        <button id="addButton">Add</button>-->
+    <!--        <button id="deleteButton">Delete</button>-->
+    <!--        <button id="renameButton">Rename</button>-->
+    <!--    </div>-->
+
+    <!--    <div id="folderMenu" class="folder-menu">-->
+    <!--        <button id="add-folder-Button">Add new folder</button>-->
+    <!--        <button id="delete-folder-Button">Delete folder</button>-->
+    <!--        <button id="rename-folder-Button">Rename folder</button>-->
+    <!--    </div>-->
+
+    <!-- add 应用列表 -->
+    <div id="smallModal" class="small-modal">
+        <div class="small-modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Add List</h2>
+            <div id="current-category-name" class="current-category-name"></div>
+            <div class="app-category-list">
+                <div class="app-category-item" onclick="showApps('category1-apps')">Planning</div>
+                <div class="app-category-item" onclick="showApps('category2-apps')">Machining</div>
+                <div class="app-category-item" onclick="showApps('category3-apps')">Monitoring</div>
+                <div class="app-category-item" onclick="showApps('category4-apps')">Community</div>
+                <div class="app-category-item" onclick="showApps('category5-apps')">Utility</div>
+                <!-- 其他类别... -->
+            </div>
+
+            <div id="category1-apps" class="app-icons-container">
+                <!-- 类别1的应用图标 -->
+                <!-- 应用图标... -->
+                <a href="/PC operation" class="app-icon">
+                    <img src="{{ url_for('static', filename='pc.jpg') }}" alt="PC operation" />
+                    <div class="app-label">connection</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/Tool manager" class="app-icon">
+                    <img src="{{ url_for('static', filename='Tool-manager.jpg') }}" alt="Tool manager" />
+                    <div class="app-label">Tool manager</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/Calendar" class="app-icon">
+                    <img src="{{ url_for('static', filename='calendar.jpg') }}" alt="Calendar" />
+                    <div class="app-label">Calendar</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/File manager" class="app-icon">
+                    <img src="{{ url_for('static', filename='file.jpg') }}" alt="File manager" />
+                    <div class="app-label">File manager</div>
+                </a>
+                <a href="/Cycle time estimation" class="app-icon">
+                    <img src="{{ url_for('static', filename='cycle.jpg') }}" alt="Cycle time estimation" />
+                    <div class="app-label">Cycle time estimation</div>
+                </a>
+
+            </div>
+
+            <div id="category2-apps" class="app-icons-container">
+                <!-- 类别2的应用图标 -->
+                <a href="/report" class="app-icon">
+                    <img src="{{ url_for('static', filename='simulation.jpg') }}" alt="Simulation" />
+                    <div class="app-label">Simulation</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/Digital twin" class="app-icon">
+                    <img src="{{ url_for('static', filename='digital-twin.jpg') }}" alt="Digital twin" />
+                    <div class="app-label">Digital twin</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/3D viewer" class="app-icon">
+                    <img src="{{ url_for('static', filename='3d-viewer.jpg') }}" alt="2D/3D viewer" />
+                    <div class="app-label">2D/3D viewer</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/NC operation" class="app-icon">
+                    <img src="{{ url_for('static', filename='operations.jpg') }}" alt="NC operation" />
+                    <div class="app-label">NC operation</div>
+                </a>
+                <a href="/Collision advance" class="app-icon">
+                    <img src="{{ url_for('static', filename='collision.jpg') }}" alt="Collision advance" />
+                    <div class="app-label">Collision advance</div>
+                </a>
+
+            </div>
+            <!-- 其他类别对应的应用图标容器... -->
+
+            <div id="category3-apps" class="app-icons-container">
+                <!-- 类别1的应用图标 -->
+                <a href="/Data logger" class="app-icon">
+                    <img src="{{ url_for('static', filename='log.jpg') }}" alt="Data logger" />
+                    <div class="app-label">Data logger</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/Maintenance manager" class="app-icon">
+                    <img src="{{ url_for('static', filename='report.jpg') }}" alt="Maintenance manager" />
+                    <div class="app-label">Maintenance manager</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/Servo viewer" class="app-icon">
+                    <img src="{{ url_for('static', filename='Servo-viewer.jpg') }}" alt="Servo viewer" />
+                    <div class="app-label">Servo viewer</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/KPI" class="app-icon">
+                    <img src="{{ url_for('static', filename='kpi.jpg') }}" alt="KPI" />
+                    <div class="app-label">KPI</div>
+                </a>
+
+            </div>
+
+            <div id="category4-apps" class="app-icons-container">
+                <!-- 类别1的应用图标 -->
+                <!-- 应用图标... -->
+                <a href="/Team board" class="app-icon">
+                    <img src="{{ url_for('static', filename='team.jpg') }}" alt="Team board" />
+                    <div class="app-label">Team board</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/Cloud Machining" class="app-icon">
+                    <img src="{{ url_for('static', filename='cloud.jpg') }}" alt="Cloud Machining" />
+                    <div class="app-label">Cloud Machining</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/Finance" class="app-icon">
+                    <img src="{{ url_for('static', filename='finance.jpg') }}" alt="Finance" />
+                    <div class="app-label">Finance</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/Update" class="app-icon">
+                    <img src="{{ url_for('static', filename='update.jpg') }}" alt="Update" />
+                    <div class="app-label">Update</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/Customer Support" class="app-icon">
+                    <img src="{{ url_for('static', filename='consumer_service.jpg') }}" alt="Customer Support" />
+                    <div class="app-label">Customer Support</div>
+                </a>
+                <a href="/Shopping" class="app-icon">
+                    <img src="{{ url_for('static', filename='shopping.jpg') }}" alt="Shopping" />
+                    <div class="app-label">Shopping</div>
+                </a>
+
+            </div>
+
+            <div id="category5-apps" class="app-icons-container">
+                <!-- 类别1的应用图标 -->
+                <a href="/report" class="app-icon">
+                    <img src="{{ url_for('static', filename='manual.jpg') }}" alt="manual" />
+                    <div class="app-label">manual</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/log" class="app-icon">
+                    <img src="{{ url_for('static', filename='memo.jpg') }}" alt="memo" />
+                    <div class="app-label">memo</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/task" class="app-icon">
+                    <img src="{{ url_for('static', filename='camera.jpg') }}" alt="camera" />
+                    <div class="app-label">camera</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/task" class="app-icon">
+                    <img src="{{ url_for('static', filename='calculator.jpg') }}" alt="calculator" />
+                    <div class="app-label">calculator</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/task" class="app-icon">
+                    <img src="{{ url_for('static', filename='browser.jpg') }}" alt="browser" />
+                    <div class="app-label">browser</div>
+                </a>
+                <a href="/task" class="app-icon">
+                    <img src="{{ url_for('static', filename='setting.jpg') }}" alt="setting" />
+                    <div class="app-label">setting</div>
+                </a>
+                <!-- 更多应用图标... -->
+                <a href="/task" class="app-icon">
+                    <img src="{{ url_for('static', filename='maintenance.jpg') }}" alt="maintenance" />
+                    <div class="app-label">maintenance</div>
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Middle section for axis status -->
+    <div class="axis-status" id="axis-status">
+        <div class="container">
+            <!-- 上部：Connection -->
+            <div class="section" id="connection-section">
+                <h2 data-key="title-connection">Connection</h2>
+                <div class="form-group-inline">
+                    <label for="amsnetid" data-key="label-amsnetid">AmsNetID</label>
+                    <input type="text" id="amsnetid">
+                    <label for="port" data-key="label-port">Port</label>
+                    <input type="text" id="port">
+                    <button id="open-port-btn" data-key="button-open-port">Open Port</button>
+                </div>
+            </div>
+
+            <!-- 中部：Axis Status -->
+            <div class="section" id="axis-status-section">
+                <h2 data-key="title-axis-status">Axis Status</h2>
+                <div class="axis-container">
+                    <div class="axis" id="status-x-axis" onclick="selectAxis('x')">
+                        <h2 data-key="title-x-axis">X Axis</h2>
+                        <div data-key="label-current-position">Current Position: <span id="x-current">0.000</span></div>
+                        <div data-key="label-end-position">End Position: <span id="x-end">0.000</span></div>
+                        <div data-key="label-active-position">Active Position: <span id="x-active">0.000</span></div>
+                    </div>
+                    <div class="axis" id="status-y-axis" onclick="selectAxis('y')">
+                        <h2 data-key="title-y-axis">Y Axis</h2>
+                        <div data-key="label-current-position">Current Position: <span id="y-current">0.000</span></div>
+                        <div data-key="label-end-position">End Position: <span id="y-end">0.000</span></div>
+                        <div data-key="label-active-position">Active Position: <span id="y-active">0.000</span></div>
+                    </div>
+                    <div class="axis" id="status-z-axis" onclick="selectAxis('z')">
+                        <h2 data-key="title-z-axis">Z Axis</h2>
+                        <div data-key="label-current-position">Current Position: <span id="z-current">0.000</span></div>
+                        <div data-key="label-end-position">End Position: <span id="z-end">0.000</span></div>
+                        <div data-key="label-active-position">Active Position: <span id="z-active">0.000</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            
+                <div id="axis-controls" style="display:none;" class="form-group-inline">
+                    <button id="enable-axis" data-key="button-enable-axis">Enable Axis</button>
+                    <label for="speed" data-key="label-speed">Speed</label>
+                    <input type="number" id="speed" placeholder="Enter speed">
+                    <button id="set-speed" data-key="button-set-speed">Set Speed</button>
+                    <label for="position" data-key="label-position">Position</label>
+                    <input type="number" id="position" placeholder="Enter position">
+                    <button id="set-position" data-key="button-set-position">Set Position</button>
+                </div>
+            
+                <div class="slider-container">
+                    <label for="override-slider" data-key="label-override">Override:</label>
+                    <input type="range" id="override-slider" min="0" max="100" value="98">
+                    <span id="override-value">98%</span>
+                </div>
+                <div class="slider-container">
+                    <label for="spindle-slider" data-key="label-spindle">Spindle:</label>
+                    <input type="range" id="spindle-slider" min="0" max="100" value="0">
+                    <span id="spindle-value">0%</span>
+                </div>
+            </div>            
+
+            <!-- 下部：Terminal 输出台 -->
+            <div class="section" id="terminal-section">
+                <h2 data-key="terminal-output-title">Terminal Output</h2>
+                <div class="terminal-output" id="terminal-output">
+                    <!-- Terminal output will be appended here -->
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+
+    <!-- Existing bottom-bar and other sections -->
+    <div class="fixed-bottom-bar">
+        <!-- Bottom bar content -->
+        <!-- <button id="help-service-button" class="icon-button">
+            <img src="{{url_for('static', filename='ph_question.jpg')}}" alt="Help" style="width: 60px; height: auto;" >
+            <div class="icon-button">Help</div>
+        </button> -->
+        <!-- More buttons -->
+    </div>
+
+    <!-- Existing bottom-bar and other sections -->
+    <div class="fixed-bottom-bar">
+        <!-- Bottom bar content -->
+        <!-- <button id="help-service-button" class="icon-button">
+            <img src="{{url_for('static', filename='ph_question.jpg')}}" alt="Help">
+            <div class="icon-button">Help</div>
+        </button> -->
+        <!-- More buttons -->
+    </div>
+
+    <!-- 固定在底部的导航栏 -->
+    <div class="fixed-bottom-bar">
+        <!-- 常规帮助 -->
+        <button id="help-service-button" class="icon-button">
+            <img src="{{url_for('static', filename='help.svg')}}" alt="Help" style="width: 60px; height: auto;"  >
+            <div class="icon-button"> </div>
+        </button>
+        <div id="help-service-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>help</h2>
+
+                <!-- 可折叠的问题 1 -->
+                <div class="faq-section">
+                    <button class="faq-question">question 1</button>
+                    <div class="faq-answer" style="display: none;">
+                        <p>solution 1 ：......</p>
+                    </div>
+                </div>
+
+                <!-- 可折叠的问题 2 -->
+                <div class="faq-section">
+                    <button class="faq-question">question 2</button>
+                    <div class="faq-answer" style="display: none;">
+                        <p>solution 2 ：......</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 人工客服 -->
+        <button id="customer-service-button" class="icon-button">
+            <img src="{{ url_for('static', filename='customer-service-svgrepo-com.svg') }}" alt="consumer_service" style="width: 60px; height: auto;" />
+            <div class="icon-button"> </div>
+        </button>
+        <!--        <div id="customer-service-modal" class="modal">-->
+        <!--            &lt;!&ndash; 模态内容 &ndash;&gt;-->
+        <!--            <div class="modal-content">-->
+        <!--                <span class="close-button">&times;</span>-->
+        <!--                <h2>人工客服</h2>-->
+        <!--                &lt;!&ndash; 人工客服相关内容 &ndash;&gt;-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <div id="customer-service-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>customer service</h2>
+
+                <!-- 在这里添加人工客服相关内容 -->
+                <p class="welcome-message">Welcome to our customer service center! How can we help you?</p>
+
+                <!-- 联系表单（示例） -->
+                <form id="bruh">
+                    <input type="text" placeholder="username" required><br>
+                    <input type="email" placeholder="E-mail" required><br>
+                    <textarea placeholder="question"></textarea><br>
+                    <button type="submit">sdaasd</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- AIchat -->
+        <button id="AI-chat-button" class="icon-button">
+            <img src="{{ url_for('static', filename='UpdatedAIChat.svg') }}" alt="AI-chat"  style="width: 70px; height: auto;"/>
+            <div class="icon-button"> </div>
+        </button>
+        <div id="AI-chat-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>AI chat</h2>
+
+                <!-- 对话记录 -->
+                <div id="chat-history" class="chat-history">
+                    <!-- 在这里动态添加聊天内容 -->
+                </div>
+
+                <!-- 文字输入框 -->
+                <input type="text" id="chat-input" placeholder="Enter question ......">
+                <button id="send-message">send</button>
+            </div>
+        </div>
+        <!--        <div class="footer">-->
+        <!--            <div class="copyright">-->
+        <!--			    Copyright ©xixi19971206@gmail.com All rights reserved. &nbsp;&nbsp;&nbsp;&nbsp;-->
+        <!--		    </div>-->
+        <!--        </div>-->
+
+        <!-- 设置 -->
+        <button id="setting-button" class="icon-button">
+            <img src="{{ url_for('static', filename='Settings.svg') }}" alt="setting" style="width: 60px; height: auto;" />
+            <div class="icon-button"> </div>
+        </button>
+        <div id="setting-modal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Setting</h2>
+
+                <button class="add-button" onclick="addNewCategory()">
+                    <!--                    <img src="{{ url_for('static', filename='add.jpg') }}" alt="Add New Category"/>-->
+                    <span>Add New Category</span>
+                </button>
+
+                <button class="add-button" onclick="addNewApp()">
+                    <!--                    <img src="{{ url_for('static', filename='add.jpg') }}" alt="Add New Application"/>-->
+                    <span>Add New Application</span>
+                </button>
+
+            </div>
+        </div>
+
+
+
+        <!-- 监控 -->
+        <button id="monitoring-button" class="icon-button">
+            <img src="{{ url_for('static', filename='monitoring.svg') }}" alt="monitoring" style="width: 60px; height: auto;"/>
+            <div class="icon-button"> </div>
+        </button>
+        <div id="monitoring-modal" class="modal">
+            <!-- 模态内容 -->
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>monitoring</h2>
+                <!-- 人工客服相关内容 -->
+            </div>
+        </div>
+        <!-- 根据需要添加更多按钮 -->
+
+        <div id="customContextMenu" class="custom-context-menu" style="display:none;">
+            <ul>
+                <li id="deleteApp">Delete</li>
+                <li id="renameApp">Rename</li>
+            </ul>
+        </div>
+
+
+
+    </div>
+
+
+    <script>
+        // 为每个类别添加点击事件监听器并更新激活状态
+        document.querySelectorAll('.top-categories .category').forEach(category => {
+            category.addEventListener('click', function (event) {
+                // 移除其他所有类别的激活状态
+                document.querySelectorAll('.top-categories .category').forEach(cat => {
+                    cat.classList.remove('active');
+                });
+
+                // 添加激活状态到当前点击的类别
+                category.classList.add('active');
+                console.log("categorierId:", category.id)
+                // 切换应用容器的显示
+                var containerId = category.id + '-apps-container';
+                console.log("containerId:", containerId); // 输出containerId的值
+                toggleAppContainer(containerId);
+                hideCustomContextMenus(); // 点击类别时隐藏菜单
+                showApps(this.id + '-apps-container'); // 确保传递正确的ID格式
+            });
+        });
+
+        // 为Planning类别添加点击事件监听器
+        document.getElementById('category-planning').addEventListener('click', function () {
+            toggleAppContainer('category-planning-apps-container');
+        });
+
+        // 为Machining类别添加点击事件监听器
+        document.getElementById('category-machining').addEventListener('click', function () {
+            toggleAppContainer('category-machining-apps-container');
+        });
+
+        document.getElementById('category-monitoring').addEventListener('click', function () {
+            toggleAppContainer('category-monitoring-apps-container');
+        });
+
+        document.getElementById('category-community').addEventListener('click', function () {
+            toggleAppContainer('category-community-apps-container');
+        });
+
+        document.getElementById('category-utility').addEventListener('click', function () {
+            toggleAppContainer('category-utility-apps-container');
+        });
+
+
+
+        // 封装切换应用容器显示的函数
+        // 封装切换应用容器显示的函数
+        function toggleAppContainer(containerId) {
+            var container = document.getElementById(containerId);
+
+            // 隐藏所有其他应用容器
+            document.querySelectorAll('.apps-container').forEach(function (cont) {
+                cont.classList.remove('active');
+            });
+
+            // 切换当前容器的active类
+            container.classList.toggle('active');
+        }
+
+        // 全局变量定义
+        let currentCategoryId = null;
+
+        // 获取所有应用图标和子页面空白区域
+        // const appIcons = document.querySelectorAll('.app-icon');
+        // const categorySubpage = document.querySelector('.apps-container');
+
+        // 自定义右键菜单元素
+        const customContextMenuApp = document.createElement('div');
+        customContextMenuApp.id = 'customContextMenuApp'; // 设置元素的ID
+        const customContextMenuSubpage = document.createElement('div');
+        customContextMenuSubpage.id = 'customContextMenuSubpage'; // 设置元素的ID
+
+        // 将自定义右键菜单元素添加到页面中
+        document.body.appendChild(customContextMenuApp);
+        document.body.appendChild(customContextMenuSubpage);
+
+        // 为应用图标设置菜单项
+        customContextMenuApp.innerHTML = `
+          <button id="deleteButton">Delete</button>
+          <button id="renameButton">Rename</button>
+        `;
+
+        // 为子页面空白区域设置菜单项
+        customContextMenuSubpage.innerHTML = `
+          <button id="addButton">Add</button>
+        `;
+        document.body.appendChild(customContextMenuSubpage);
+
+        // 设置样式（可根据需要自定义）
+        customContextMenuApp.classList.add('custom-context-menu');
+        customContextMenuSubpage.classList.add('custom-context-menu');
+
+
+        // 为整个应用容器（apps-container）添加右键点击事件监听器
+        document.querySelectorAll('.apps-container').forEach(container => {
+            container.addEventListener('contextmenu', function (event) {
+                event.preventDefault(); // 阻止默认的上下文菜单
+
+                // 确保点击的不是app-icon
+                if (!event.target.closest('.app-icon')) {
+                    customContextMenuSubpage.style.left = `${event.pageX}px`;
+                    customContextMenuSubpage.style.top = `${event.pageY}px`;
+                    customContextMenuSubpage.classList.add('visible');
+                    // 存储当前类别ID在数据属性中
+                    customContextMenuSubpage.dataset.categoryId = this.id;
+                } else {
+                    // 如果是app-icon，执行相应的操作
+                    const currentApp = event.target.closest('.app-icon');
+                    const customContextMenu = document.getElementById('customContextMenuApp');
+
+                    if (customContextMenu) {
+                        customContextMenu.style.left = `${event.pageX}px`;
+                        customContextMenu.style.top = `${event.pageY}px`;
+                        customContextMenu.classList.add('visible');
+                    } else {
+                        console.error('customContextMenuApp element not found');
+                    }
+
+                    // 给删除按钮添加点击事件监听器
+                    const deleteButton = customContextMenu.querySelector('#deleteButton');
+                    deleteButton.onclick = function (event) {
+                        currentApp.parentNode.removeChild(currentApp);
+                        customContextMenu.classList.remove('visible');
+                    };
+
+                    // 给重命名按钮添加点击事件监听器
+                    const renameButton = customContextMenu.querySelector('#renameButton');
+                    renameButton.onclick = function (event) {
+                        const newName = prompt("Enter the new name for the app:", "");
+                        if (newName !== null && newName !== "") {
+                            // 假设应用名称是紧跟在图标之后的元素，这里需要根据实际情况调整
+                            const appNameElement = currentApp.querySelector('.app-label');
+                            if (appNameElement) {
+                                appNameElement.textContent = newName;
+                            }
+                        }
+                        customContextMenu.classList.remove('visible');
+                    };
+                }
+            });
+        });
+
+
+
+        // Click event for the "Add" button in the custom context menu
+        document.getElementById('addButton').addEventListener('click', function () {
+            hideCustomContextMenus(); // 添加这行代码来隐藏菜单
+            // Retrieve the stored category ID from the data attribute
+            const categoryId = customContextMenuSubpage.dataset.categoryId;
+            // Call the function to show the modal for adding an app
+            console.log("categoryId:", categoryId)
+            if (categoryId) {
+                showAddListModal(categoryId);
+            } else {
+                const smallModal = document.getElementById('smallModal');
+                smallModal.style.display = 'block';
+            }
+        });
+
+        // 显示应用图标的函数，这里需要根据实际情况实现
+        function showApps(appsContainerId, categoryName) {
+            // Hide all app icon containers before showing the selected one
+            document.querySelectorAll('.app-icons-container').forEach(container => {
+                container.classList.remove('active');
+            });
+
+            // Remove the 'selected-category' class from all category items
+            document.querySelectorAll('.app-category-item').forEach(item => {
+                item.classList.remove('selected-category');
+            });
+
+            // Add 'active' class to the selected app icon container
+            var appsContainer = document.getElementById(appsContainerId);
+            if (appsContainer) {
+                appsContainer.classList.add('active');
+            }
+
+            // Add 'selected-category' class to the clicked category item
+            var currentCategoryItem = document.querySelector(`[onclick*='${appsContainerId}']`);
+            if (currentCategoryItem) {
+                currentCategoryItem.classList.add('selected-category');
+            }
+
+            // Update the category name display
+            var currentCategoryNameElement = document.getElementById('current-category-name');
+            if (currentCategoryNameElement) {
+                currentCategoryNameElement.textContent = categoryName;
+            }
+        }
+
+        function addIconToCategory(iconSrc, iconName, iconHref) {
+
+            if (!currentCategoryId) {
+                targetContainer = document.querySelector('.fixed-bottom-bar');
+
+                // 创建新图标的元素
+                const newLink = document.createElement('a');
+                newLink.href = iconHref; // 设置新图标的链接地址
+                newLink.className = 'app-icon';
+
+                const newIcon = document.createElement('img');
+                newIcon.src = iconSrc;
+                newIcon.alt = iconName;
+                newLink.appendChild(newIcon);
+
+                const newLabel = document.createElement('div'); // 用span而不是div，保持一致性
+                newLabel.textContent = iconName;
+                newLink.appendChild(newLabel);
+
+                // 将新图标添加到目标容器中
+                targetContainer.appendChild(newLink);
+                // handleLayoutChange();
+            } else {
+                const fullCategoryId = currentCategoryId.endsWith('-apps-container') ?
+                    currentCategoryId :
+                    currentCategoryId + '-apps-container';
+
+                console.log("点击类别后的 currentCategoryId:", currentCategoryId);
+                const categoryAppsContainer = document.getElementById(fullCategoryId);
+                if (!categoryAppsContainer) {
+                    console.error('Category apps container not found:', fullCategoryId);
+                    return;
+                }
+
+                // 创建新图标的元素
+                const newLink = document.createElement('a');
+                newLink.href = iconHref; // 设置新图标的链接地址
+                newLink.className = 'app-icon';
+
+                const newIcon = document.createElement('img');
+                newIcon.src = iconSrc;
+                newIcon.alt = iconName;
+                newLink.appendChild(newIcon);
+
+                const newLabel = document.createElement('div');
+                newLabel.className = 'app-label';
+                newLabel.textContent = iconName;
+
+
+                newLink.appendChild(newLabel);
+
+                // 将新图标添加到当前类别的应用容器中
+                categoryAppsContainer.appendChild(newLink);
+                showModal('smallModal', false);
+                // handleLayoutChange();
+
+            }
+        }
+
+        console.log("点击类别后的 currentCategoryId:", currentCategoryId);
+
+        // add list 里图标的点击事件
+        document.querySelector('.small-modal-content').addEventListener('click', function (event) {
+            const icon = event.target.closest('.app-icon');
+            if (icon) {
+                event.preventDefault();
+                // 获取图标信息
+                const iconSrc = icon.querySelector('img').src;
+                const iconName = icon.querySelector('img').alt;
+                const iconHref = icon.getAttribute('href');
+
+                // 隐藏模态框
+                document.getElementById('smallModal').style.display = 'none';
+                hideCustomContextMenus(); // 添加图标后隐藏菜单
+                // handleLayoutChange();
+            }
+        });
+
+
+        // 为顶部的每个类别绑定点击事件，以便知道当前活跃的类别是什么
+        document.querySelectorAll('.top-categories .category').forEach(category => {
+            category.addEventListener('click', function (event) {
+                // 设置当前类别的ID
+                currentCategoryId = this.id + '-apps-container'; // 之前是 this.id + '-apps-container'
+                console.log("点击类别后的 currentCategoryId:", currentCategoryId);
+                hideCustomContextMenus(); // 点击类别时隐藏菜单
+                showApps(this.id + '-apps-container'); // 确保传递正确的ID格式
+            });
+        });
+
+        // 修改2: 统一上下文菜单的显示和隐藏逻辑
+        function hideCustomContextMenus() {
+            customContextMenuApp.classList.remove('visible');
+            customContextMenuSubpage.classList.remove('visible');
+        }
+
+
+        // // 绑定模态框中的每个应用图标的点击事件
+        // document.querySelectorAll('.small-modal-content .app-icon').forEach(appIconLink => {
+        //       appIconLink.addEventListener('click', function(event) {
+        //             event.preventDefault(); // 阻止<a>标签的默认点击行为
+        //
+        //             // 获取图标信息
+        //             const iconSrc = this.querySelector('img').src;
+        //             const iconName = this.querySelector('img').alt;
+        //             const iconHref = this.getAttribute('href'); // 获取当前点击的<a>标签的链接地址
+        //
+        //             // 添加图标到当前类别
+        //             addIconToCategory(iconSrc, iconName, iconHref);
+        //
+        //             // 隐藏模态框
+        //             document.getElementById('smallModal').style.display = 'none';
+        //             hideCustomContextMenus(); // 添加图标后隐藏菜单
+        //             // handleLayoutChange();
+        //       });
+        // });
+        //
+        // // 显示smallModal模态框的函数
+        // function showAddListModal(categoryId) {
+        //     const smallModal = document.getElementById('smallModal');
+        //     smallModal.style.display = 'block';
+        //     document.getElementById('current-category-name').textContent = categoryId;
+        //
+        //     // 给smallModal中的每个应用添加点击事件
+        //     const appIcons = smallModal.querySelectorAll('.app-icon');
+        //     appIcons.forEach(appIconLink => {
+        //         appIconLink.addEventListener('click', function(event) {
+        //             event.preventDefault(); // 阻止<a>标签的默认点击行为
+        //             const iconSrc = this.querySelector('img').src;
+        //             const iconName = this.querySelector('img').alt;
+        //             const iconHref = this.getAttribute('href'); // 获取当前点击的<a>标签的链接地址
+        //
+        //             // 将选中的应用添加到指定的类别中
+        //             addIconToCategory(fullCategoryId, iconSrc, iconName, iconHref);
+        //
+        //             // 关闭smallModal模态框
+        //             smallModal.style.display = 'none';
+        //         });
+        //     });
+        // }
+
+        // function addIconToBottomBar(iconSrc, iconName, iconHref) {
+        //     const bottomBar = document.querySelector('.fixed-bottom-bar');
+        //
+        //     // 创建新图标的元素
+        //     const newLink = document.createElement('a');
+        //     newLink.href = iconHref; // 设置新图标的链接地址
+        //     newLink.className = 'icon-button';
+        //
+        //     const newIcon = document.createElement('img');
+        //     newIcon.src = iconSrc;
+        //     newIcon.alt = iconName;
+        //     newLink.appendChild(newIcon);
+        //
+        //     const newLabel = document.createElement('span');
+        //     newLabel.textContent = iconName;
+        //     newLink.appendChild(newLabel);
+        //
+        //     // 将新图标添加到底部菜单栏中
+        //     bottomBar.appendChild(newLink);
+        // }
+
+        // // 为底部菜单栏添加右键点击事件监听
+        // document.querySelector('.fixed-bottom-bar').addEventListener('contextmenu', function(event) {
+        //     event.preventDefault(); // 阻止默认的上下文菜单
+        //
+        //     const target = event.target;
+        //
+        //     // 判断点击的是否为图标按钮
+        //     if (target.classList.contains('icon-button') || target.closest('.icon-button')) {
+        //         const clickedIcon = target.closest('.icon-button');
+        //         // 显示自定义菜单并调整位置到鼠标点击处
+        //         customContextMenuApp.style.left = `${event.pageX}px`;
+        //         customContextMenuApp.style.top = `${event.pageY}px`;
+        //         customContextMenuApp.classList.add('visible');
+        //
+        //         // 给删除按钮添加事件监听器
+        //         document.getElementById('deleteButton').onclick = function() {
+        //             clickedIcon.remove(); // 删除点击的图标
+        //             customContextMenuApp.classList.remove('visible'); // 隐藏菜单
+        //         };
+        //
+        //         // 给重命名按钮添加事件监听器
+        //         document.getElementById('renameButton').onclick = function() {
+        //             const newName = prompt('Enter the new name:');
+        //             if (newName) {
+        //                 clickedIcon.querySelector('img').alt = newName; // 假设你想修改图片的 alt 属性为新名称
+        //                 // 这里可能还需要更新显示名称的部分，这取决于你的HTML结构
+        //             }
+        //             customContextMenuApp.classList.remove('visible'); // 隐藏菜单
+        //             // handleLayoutChange();
+        //         };
+        //
+        //     } else {
+        //         // 如果点击的是空白区域，则显示添加菜单
+        //         customContextMenuSubpage.style.left = `${event.pageX}px`;
+        //         customContextMenuSubpage.style.top = `${event.pageY}px`;
+        //         customContextMenuSubpage.classList.add('visible');
+        //
+        //         // 给添加按钮添加事件监听器
+        //         document.getElementById('addButton').onclick = function() {
+        //             // 实现添加图标的逻辑
+        //             // 这可能包括弹出一个模态框让用户选择或输入新应用的信息
+        //             customContextMenuSubpage.classList.remove('visible'); // 隐藏菜单
+        //             // handleLayoutChange();
+        //         };
+        //     }
+        // });
+
+
+        // 全局点击事件，用于隐藏自定义菜单
+        document.addEventListener('click', function (event) {
+            if (!event.target.closest('.custom-context-menu')) {
+                customContextMenuApp.classList.remove('visible');
+                customContextMenuSubpage.classList.remove('visible');
+            }
+        });
+
+
+        function addNewCategory() {
+            var newCategoryDiv = document.createElement('div');
+            newCategoryDiv.className = 'category';
+            newCategoryDiv.textContent = 'New Category';
+            var uniqueId = 'category-' + Date.now(); // 确保ID是唯一的
+            console.log("uniqueId", uniqueId)
+            newCategoryDiv.id = uniqueId;
+
+            document.querySelector('.top-categories').appendChild(newCategoryDiv);
+
+            // 创建新类别的应用容器
+            var newAppsContainer = document.createElement('div');
+            newAppsContainer.id = uniqueId + '-apps-container';
+            newAppsContainer.className = 'apps-container';
+            document.body.appendChild(newAppsContainer); // 你可能需要将这个容器放在页面的适当位置
+        }
+
+        function addNewApp() {
+            // 获取当前选中的category
+            var activeCategory = document.querySelector('.top-categories .category.active');
+            console.log('activeCategory:', activeCategory);
+            if (activeCategory) {
+                // 显示modal窗口
+                var smallModal = document.getElementById('smallModal');
+                smallModal.style.display = 'block';
+
+                // 设置当前的category名称到modal窗口，以便知道我们将应用添加到哪个category
+                var currentCategoryName = document.getElementById('current-category-name');
+                console.log('currentCategoryName:', currentCategoryName)
+                currentCategoryName.textContent = activeCategory.textContent;
+
+                // 存储当前选中的category的id，供后续使用
+                console.log('activeCategory:', activeCategory.id);
+                smallModal.dataset.activeCategory = activeCategory.id;
+
+            } else {
+                alert('Please select a category first.');
+            }
+        }
+
+        // 绑定到父元素上的事件委托，以处理所有当前和未来的 .category 的点击事件
+        document.querySelector('.top-categories').addEventListener('click', function (event) {
+            // 从点击的元素向上查找最近的 .category 元素
+            var category = event.target.closest('.category');
+            if (category) {
+                // 移除其他所有类别的激活状态
+                document.querySelectorAll('.top-categories .category').forEach(cat => {
+                    cat.classList.remove('active');
+                });
+
+                // 为当前点击的类别添加激活状态
+                category.classList.add('active');
+
+                // ...（这里可以加入其他逻辑，比如显示对应的应用容器）...
+            }
+        });
+
+
+        // 绑定模态框中的每个应用图标的点击事件
+        document.querySelectorAll('.small-modal-content .app-icon').forEach(appIconLink => {
+            appIconLink.addEventListener('click', function (event) {
+                event.preventDefault(); // 阻止<a>标签的默认点击行为
+
+                // 获取图标信息和链接地址
+                const iconImg = this.querySelector('img');
+                const iconSrc = iconImg ? iconImg.src : '';
+                const iconName = iconImg ? iconImg.alt : '';
+                const iconHref = this.getAttribute('href'); // 确保这个是正确的链接地址
+
+                // 从模态框中获取当前活跃类别的ID
+                const smallModal = document.getElementById('smallModal');
+                const activeCategoryId = smallModal.dataset.activeCategory;
+                const activeCategoryContainerId = activeCategoryId + '-apps-container';
+
+                // 添加图标和链接到当前类别
+                addAppToCategory(activeCategoryContainerId, iconSrc, iconName, iconHref);
+
+                // 隐藏模态框
+                smallModal.style.display = 'none';
+
+                // hideCustomContextMenus(); // 如果需要隐藏自定义上下文菜单，请取消注释
+                // handleLayoutChange(); // 如果需要处理布局变化，请取消注释
+            });
+        });
+
+        function addAppToCategory(containerId, iconSrc, iconName, iconHref) {
+            // 获取类别的容器元素
+            var categoryContainer = document.getElementById(containerId);
+            if (categoryContainer) {
+                // 创建一个新的<a>元素，用于包含应用图标和名称
+                var newAppLink = document.createElement('a');
+                newAppLink.className = 'app-icon';
+                newAppLink.href = iconHref; // 设置链接地址
+                newAppLink.innerHTML = `<img src="${iconSrc}" alt="${iconName}"><div>${iconName}</div>`;
+
+                // 添加到类别容器中
+                categoryContainer.appendChild(newAppLink);
+
+                // 确保类别容器是可见的
+                categoryContainer.style.display = 'flex'; // 或者其他适合你布局的display值
+            } else {
+                console.error('No category container found with ID:', containerId);
+            }
+        }
+
+
+        // 监听右键点击事件以显示自定义上下文菜单
+        // document.addEventListener('contextmenu', function(event) {
+        //   event.preventDefault();
+        //   const clickedElement = event.target.closest('.app-icon');
+        //   if (clickedElement) {
+        //     // 显示自定义上下文菜单
+        //     const customContextMenu = document.getElementById('customContextMenu');
+        //     customContextMenu.style.left = `${event.pageX}px`;
+        //     customContextMenu.style.top = `${event.pageY}px`;
+        //     customContextMenu.style.display = 'block';
+        //
+        //     // 为delete按钮添加事件监听器
+        //     document.getElementById('deleteApp').onclick = function() {
+        //       // 删除对应的图标元素
+        //       clickedElement.remove();
+        //       // 隐藏自定义上下文菜单
+        //       customContextMenu.style.display = 'none';
+        //     };
+        //
+        //     // 为rename按钮添加事件监听器
+        //     document.getElementById('renameApp').onclick = function() {
+        //       // 请求新的应用名称
+        //       const newName = prompt('Enter the new name for the app:');
+        //       if (newName) {
+        //         // 找到图标名称元素并更新它的文本
+        //         const nameElement = clickedElement.querySelector('div');
+        //         if (nameElement) {
+        //           nameElement.textContent = newName;
+        //         }
+        //       }
+        //       // 隐藏自定义上下文菜单
+        //       customContextMenu.style.display = 'none';
+        //     };
+        //   }
+        // });
+        // 状态框
+        // 当前选择的轴
+        let selectedAxis = null;
+
+        // 更新选择的轴并显示控制按钮
+        function selectAxis(axis) {
+            selectedAxis = axis;
+            document.getElementById('axis-controls').style.display = 'block';
+
+            // 更新选择的轴的样式
+            document.querySelectorAll('.axis').forEach(el => el.classList.remove('selected'));
+            document.getElementById(`status-${axis}-axis`).classList.add('selected');
+
+            logMessage(`Selected ${axis.toUpperCase()} Axis`);
+        }
+
+        // JavaScript for terminal output
+        function logMessage(message) {
+            const terminalOutput = document.getElementById('terminal-output');
+            const newMessage = document.createElement('div');
+            newMessage.textContent = message;
+            terminalOutput.appendChild(newMessage);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight; // Scroll to bottom
+        }
+
+        // JavaScript for connection and axis functions
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('open-port-btn').addEventListener('click', function () {
+                const amsNetID = document.getElementById('amsnetid').value;
+                const port = document.getElementById('port').value;
+                logMessage(`Opening port with AmsNetID: ${amsNetID} and Port: ${port}`);
+            });
+
+            document.getElementById('enable-axis').addEventListener('click', function () {
+                if (selectedAxis) {
+                    logMessage(`${selectedAxis.toUpperCase()} Axis enabled`);
+                } else {
+                    logMessage('No axis selected');
+                }
+            });
+
+            document.getElementById('set-speed').addEventListener('click', function () {
+                if (selectedAxis) {
+                    const speed = document.getElementById('speed').value;
+                    logMessage(`Setting ${selectedAxis.toUpperCase()} Axis speed to ${speed}`);
+                } else {
+                    logMessage('No axis selected');
+                }
+            });
+
+            document.getElementById('set-position').addEventListener('click', function () {
+                if (selectedAxis) {
+                    const position = document.getElementById('position').value;
+                    logMessage(`Setting ${selectedAxis.toUpperCase()} Axis position to ${position}`);
+                } else {
+                    logMessage('No axis selected');
+                }
+            });
+
+            document.getElementById('override-slider').addEventListener('input', function () {
+                document.getElementById('override-value').textContent = this.value + '%';
+            });
+
+            document.getElementById('spindle-slider').addEventListener('input', function () {
+                document.getElementById('spindle-value').textContent = this.value + '%';
+            });
+        });
+
+        //============================================================
+        // 获取模态框元素
+        var customerServiceModal = document.getElementById("customer-service-modal");
+        var aiChatModal = document.getElementById("AI-chat-modal");
+        var helpServiceModal = document.getElementById("help-service-modal")
+        var settingModal = document.getElementById("setting-modal")
+        var monitoringModal = document.getElementById("monitoring-modal")
+        var searchModal = document.getElementById("search-modal")
+
+        // 获取打开模态框的按钮元素
+        var customerServiceBtn = document.getElementById("customer-service-button");
+        var aiChatBtn = document.getElementById("AI-chat-button");
+        var helpServiceBtn = document.getElementById("help-service-button")
+        var settingBtn = document.getElementById("setting-button")
+        var monitoringBtn = document.getElementById("monitoring-button")
+        var searchBtn = document.getElementById("search-button")
+
+        // 获取模态框内的所有关闭按钮元素
+        var closeButtons = document.getElementsByClassName("close-button");
+
+        // 点击按钮时打开对应的模态框
+        customerServiceBtn.onclick = function () {
+            customerServiceModal.style.display = "block";
+        }
+
+        aiChatBtn.onclick = function () {
+            aiChatModal.style.display = "block";
+        }
+
+        settingBtn.onclick = function () {
+            settingModal.style.display = "block";
+        }
+
+        monitoringBtn.onclick = function () {
+            monitoringModal.style.display = "block";
+        }
+
+        helpServiceBtn.onclick = function () {
+            helpServiceModal.style.display = "block";
+        }
+
+        searchBtn.onclick = function () {
+            searchModal.style.display = "block";
+        }
+
+        // 为每个关闭按钮添加点击事件监听器
+        for (var i = 0; i < closeButtons.length; i++) {
+            closeButtons[i].onclick = function () {
+                // 这里我们可以关闭这个按钮所在的模态框
+                this.closest('.modal').style.display = 'none';
+            }
+        }
+
+        // 点击模态框外任何地方关闭模态框
+        window.onclick = function (event) {
+            if (event.target == customerServiceModal) {
+                customerServiceModal.style.display = "none";
+            }
+            if (event.target == aiChatModal) {
+                aiChatModal.style.display = "none";
+            }
+            if (event.target == helpServiceModal) {
+                helpServiceModal.style.display = "none";
+            }
+            if (event.target == settingModal) {
+                settingModal.style.display = "none";
+            }
+            if (event.target == monitoringModal) {
+                monitoringModal.style.display = "none";
+            }
+            if (event.target == searchModal) {
+                searchModal.style.display = "none";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const aiChatModal = document.getElementById("AI-chat-modal");
+            const closeButtons = document.getElementsByClassName("close-button");
+            const aiChatBtn = document.getElementById("AI-chat-button");
+            const sendButton = document.getElementById("send-message");
+            const chatInput = document.getElementById("chat-input");
+            const chatHistory = document.getElementById("chat-history");
+
+            // 点击按钮打开 AI chat 模态框
+            aiChatBtn.addEventListener('click', function () {
+                aiChatModal.style.display = "block";
+            });
+
+            // 为每个关闭按钮添加点击事件监听器
+            for (let i = 0; i < closeButtons.length; i++) {
+                closeButtons[i].addEventListener('click', function () {
+                    aiChatModal.style.display = "none";
+                });
+            }
+
+            // 点击模态框外任何地方关闭模态框
+            window.addEventListener('click', function (event) {
+                if (event.target == aiChatModal) {
+                    aiChatModal.style.display = "none";
+                }
+            });
+
+            // 发送消息
+            sendButton.addEventListener('click', function () {
+                const question = chatInput.value;
+                if (question.trim() !== '') {
+                    // 将用户消息添加到聊天记录中
+                    chatHistory.innerHTML += '<div><strong>You:</strong> ' + question + '</div>';
+                    // 发送 AJAX 请求到后端
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        url: '/ask',
+                        data: JSON.stringify({ 'question': question }),
+                        success: function (data) {
+                            // 将 ChatGPT 的回复添加到聊天记录中
+                            chatHistory.innerHTML += '<div><strong>ChatGPT:</strong> ' + data.answer + '</div>'; // 确保这里使用 'data.answer'
+                            // 清空输入框
+                            chatInput.value = '';
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('An error occurred:', error);
+                            // 将错误消息添加到聊天记录中
+                            chatHistory.innerHTML += '<div><strong>Error:</strong> An error occurred while processing your request.</div>';
+                        }
+                    });
+                }
+            });
+        });
+
+        // 搜索
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('search-input');
+            const searchResults = document.getElementById('search-results');
+
+            document.getElementById('search-form').addEventListener('submit', function (event) {
+                event.preventDefault();
+                const query = searchInput.value.trim();
+
+                if (query) {
+                    fetch(`/search?query=${query}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            displaySearchResults(data);
+                        });
+                }
+            });
+
+            function displaySearchResults(results) {
+                searchResults.innerHTML = '';
+                if (results.length === 0) {
+                    searchResults.innerHTML = '<p>No results found</p>';
+                } else {
+                    results.forEach(result => {
+                        const resultItem = document.createElement('div');
+                        resultItem.classList.add('search-result-item');
+                        resultItem.innerHTML = `
+                    <img src="${result.icon}" alt="${result.name}">
+                    <span>${result.name}</span>
+                `;
+                        resultItem.addEventListener('click', function () {
+                            window.location.href = result.url;
+                        });
+                        searchResults.appendChild(resultItem);
+                    });
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>

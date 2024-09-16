@@ -52,10 +52,13 @@
             <label for="password" data-key="label-password">Password</label>
             <input type="password" id="password" name="password" required>
             <br>
-            <label for="remember-me" data-key="label-remember-me">
-                <input type="checkbox" id="remember-me" name="remember-me"> Remember Me
-            </label>
             <br>
+            <div class="form-options">
+                <label for="remember-me" data-key="label-remember-me">
+                    <input type="checkbox" id="remember-me" name="remember-me"> Remember Me
+                </label>
+                <a href="/forgotpassword" data-key="link-forgot-password">Forgot Password?</a>
+            </div>
             <input type="submit" value="Sign In" data-key="button-sign-in">
         </form>
         
@@ -66,7 +69,7 @@
         {% endif %}
         <div class="form-help" data-key="form-help">
             <p data-key="help-no-account">Don't have an account? <a href="/register" data-key="link-register">Register here</a>.</p>
-            <p data-key="help-continue">Or continue as a <a href="/index" data-key="link-visitor">visitor</a></p>
+            <p data-key="help-continue">Or continue as a <a href="/visitor" data-key="link-visitor">Visitor</a></p>
         </div>
     </div>
     
@@ -95,7 +98,7 @@
                     "button-sign-in": "Sign In",
                     "error-message": "An error occurred. Please try again.",
                     "help-no-account": "Don't have an account? <a href='/register' data-key='link-register'>Register here</a>.",
-                    "help-continue": "Or continue as a <a href='/index' data-key='link-visitor'>visitor</a>"
+                    "help-continue": "Or continue as a <a href='/visitor' data-key='link-visitor'>Visitor</a>"
                 },
                 german: {
                     "title-sign-in": "Anmelden",

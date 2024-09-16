@@ -1,10 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail, Message
 from extensions import db  # 从extensions.py导入db实例
 from models import Code, Icon, Layout, AppIcon  # 现在这里不会有循环导入问题
 from werkzeug.utils import secure_filename
 import mysql.connector
 import hashlib
+import time
+import secrets
 from mysql.connector import Error
 import openai
 import logging 
@@ -16,6 +19,13 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://username:password@localhost/db_name'
 db = SQLAlchemy()
 app.secret_key = '123456'  # Ensure to replace with your actual secret key
+
+# Mail server configuration
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'riskerasad@gmail.com'
+app.config['MAIL_PASSWORD'] = 'iqmzuxopchoogpdu'
 
 db_config = {
     'user': 'xixi',
@@ -38,6 +48,14 @@ PLCTYPE_MAP = {
     'WORD': pyads.PLCTYPE_WORD,
     # 根据需要添加更多映射
 }
+
+# Function to generate a unique reset token
+def generate_reset_token(email):
+    # Create a unique token using a combination of random bytes and the current timestamp
+    random_string = secrets.token_hex(16)  # Generates a secure random string
+    timestamp = str(int(time.time()))  # Get the current time as a string
+    token = hashlib.sha256((email + random_string + timestamp).encode()).hexdigest()
+    return token, timestamp
 
 applications = [
     {"name": "3d-viewer", "icon": "/static/3d-viewer.jpg", "url": "/3d-viewer"},
@@ -107,6 +125,45 @@ def handle_exception(e):
     # 可以根据不同的错误类型进行更详细的处理
     return jsonify({'status': 'error', 'message': str(e)}), 500
 
+@app.route('/profilelogin', methods=['GET', 'POST'])
+def profile_login():
+    # message = ''
+    # if request.method == 'POST':
+    #     username = request.form['username']
+    #     conn = mysql.connector.connect(**db_config)
+    #     cursor = conn.cursor(dictionary=True)
+    #     cursor.execute('SELECT * FROM users WHERE username = %s', (username,))
+    #     account = cursor.fetchone()
+    #     cursor.close()
+    #     conn.close()
+    #     if account:
+    #         session['loggedin'] = True
+    #         session['id'] = account['id']
+    #         session['username'] = account['username']
+    #         return redirect(url_for('index'))
+    #     else:
+    #         message = 'An error occurred. Please try again.'
+    # return render_template('profilelogin.html', message=message)
+    message = ''
+    if request.method == 'POST':
+        username = request.form['username']
+        password = hashlib.sha256(request.form['password'].encode()).hexdigest()
+
+        conn = mysql.connector.connect(**db_config)  # Replace with your actual database config
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute('SELECT * FROM users WHERE username = %s AND password = %s', (username, password))
+        account = cursor.fetchone()  # Fetch the account from the database
+        cursor.close()
+        conn.close()
+        if account:
+            session['loggedin'] = True
+            session['id'] = account['id']
+            session['username'] = account['username']
+            return redirect(url_for('index'))
+        else:
+            message = 'Incorrect password. Please try again.'
+    return render_template('profilelogin.html', message=message)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     message = ''
@@ -120,15 +177,24 @@ def login():
         account = cursor.fetchone()  # Fetch the account from the database
         cursor.close()
         conn.close()
-
         if account:
             session['loggedin'] = True
             session['id'] = account['id']
             session['username'] = account['username']
-            return redirect(url_for('index'))
+            
+            # Handle "Remember Me" functionality
+            if 'remember-me' in request.form:
+                response = make_response(redirect(url_for('index')))
+                response.set_cookie('rememberMe', 'true', max_age=30*24*60*60)  # 30 days
+                response.set_cookie('rememberedUser', username, max_age=30*24*60*60)  # 30 days
+                return response
+            else:
+                response = make_response(redirect(url_for('index')))
+                response.delete_cookie('rememberMe')
+                response.delete_cookie('rememberedUser')
+                return response
         else:
-            message = 'Incorrect username/password!'
-
+            message = 'Incorrect username or password. Please try again.'
     return render_template('login.html', message=message)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -137,22 +203,92 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = hashlib.sha256(request.form['password'].encode()).hexdigest()
+        email = request.form['email']
+        try:
+            with mysql.connector.connect(**db_config) as conn:
+                with conn.cursor() as cursor:
+                    cursor.execute('SELECT * FROM users WHERE username = %s OR email = %s', (username, email))
+                    account = cursor.fetchone()
+                    if account:
+                        message = 'Username or email already exists'
+                    else:
+                        cursor.execute('INSERT INTO users (username, password, email) VALUES (%s, %s, %s)', (username, password, email))
+                        conn.commit()
+                        message = 'You have successfully registered! You can now log in.'
+        except mysql.connector.Error as e:
+            message = f"Error connecting to the database: {e}"
+
+    return render_template('register.html', message=message)
+
+@app.route('/forgotpassword', methods=['GET', 'POST'])
+def forgotpassword():
+    message = ''
+    if request.method == 'POST':
+        email = request.form['email']
 
         try:
             with mysql.connector.connect(**db_config) as conn:
                 with conn.cursor() as cursor:
-                    cursor.execute('SELECT * FROM users WHERE username = %s', (username,))
+                    cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
                     account = cursor.fetchone()
                     if account:
-                        message = 'The username already exists.'
-                    else:
-                        cursor.execute('INSERT INTO users (username, password) VALUES (%s, %s)', (username, password))
+                        # Generate a reset token and a timestamp
+                        token, timestamp = generate_reset_token(email)
+
+                        # Set an expiration time (e.g., 1 hour from now)
+                        expiration_time = int(timestamp) + 3600
+
+                        # Store the token and expiration time in the database
+                        cursor.execute('UPDATE users SET reset_token = %s, token_expiry = %s WHERE email = %s', 
+                                       (token, expiration_time, email))
                         conn.commit()
-                        message = 'You have successfully registered! You can now log in.'
-        except Error as e:
+
+                        # Generate the reset link
+                        reset_link = url_for('resetpassword', token=token, _external=True)
+
+                        # Send the reset email
+                        msg = Message('Password Reset Request', sender='your-email@example.com', recipients=[email])
+                        msg.body = f'To Reset your Password, click the following link: {reset_link}'
+                        data = {
+                            'app_name': 'Kompaki',
+                            'title': 'Password Reset Request',
+                            'body' : msg.body,
+                            'link': reset_link,
+                        }
+                        msg.html = render_template('email_template.html', data=data)
+                        mail.send(msg)
+
+                        message = 'A password reset link has been sent to your email.'
+                    else:
+                        message = 'Email address not found.'
+        except mysql.connector.Error as e:
             message = f"Error connecting to the database: {e}"
 
-    return render_template('register.html', message=message)
+    return render_template('forgotpassword.html', message=message)
+
+@app.route('/resetpassword/<token>', methods=['GET', 'POST'])
+def resetpassword(token):
+    try:
+        with mysql.connector.connect(**db_config) as conn:
+            with conn.cursor(dictionary=True) as cursor:
+                # Verify the token and check if it has expired
+                cursor.execute('SELECT * FROM users WHERE reset_token = %s', (token,))
+                user = cursor.fetchone()
+                if not user or user['token_expiry'] < int(time.time()):
+                    flash('Invalid or expired token.', 'error')
+                    return redirect(url_for('index'))
+
+                if request.method == 'POST':
+                    password = request.form['password']
+                    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+                    cursor.execute('UPDATE users SET password = %s, reset_token = NULL, token_expiry = NULL WHERE reset_token = %s', (hashed_password, token))
+                    conn.commit()
+                    flash('Your password has been reset.', 'success')
+                    return redirect(url_for('login'))
+    except mysql.connector.Error as e:
+        flash(f"Error connecting to the database: {e}", 'error')
+
+    return render_template('resetpassword.html', token=token)
 
 
 @app.route('/choose_settings')
@@ -165,6 +301,16 @@ def choose_settings():
             # 更多的头像
         ]
         return render_template('choose_settings.html', username=session['username'], profiles=profiles)
+    return redirect(url_for('login'))
+
+@app.route('/layouts')
+def layouts():
+    if 'loggedin' in session:
+        profiles = [
+            {'id': 1, 'name': 'Profile 1', 'avatar_url': 'url_to_avatar_1'},
+            {'id': 2, 'name': 'Profile 2', 'avatar_url': 'url_to_avatar_2'},
+        ]
+        return render_template('layouts.html', username=session['username'], profiles=profiles)
     return redirect(url_for('login'))
 
 @app.route('/set_profile', methods=['POST'])
@@ -256,6 +402,10 @@ def index():
         return render_template('index.html')
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
+
+@app.route('/visitor')
+def visitor():
+    return render_template('visitorIndex.html')
 
 class Folder(db.Model):
     id = db.Column(db.Integer, primary_key=True)

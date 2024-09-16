@@ -17,6 +17,12 @@ html {
   background-color: #141414;
 }
 
+body {
+  background-color: #141414;
+  overflow-y: auto; /* Ensure the page is scrollable */
+
+}
+
 .logo-section {
   width: 95vw;
   margin: auto;
@@ -37,13 +43,14 @@ html {
 
 .main-div {
   width: 100vw;
-  height: 80vh;
-  /* background-color: rosybrown; */
+  min-height: 80vh; /* Changed from height to min-height */
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   color: #fff;
+  padding-top: 3%;
+  overflow: auto; /* Ensure the content is scrollable if it overflows */
 }
 
 .main-div h1 {
@@ -52,15 +59,14 @@ html {
   font-size: 600;
 }
 
-.memberDiv {
+.visitorDiv {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
 }
 
-.memberDiv .btn,
-.addIcon {
+.visitorDiv .btn {
   height: 10vw;
   min-height: 8.4rem;
   max-height: 20rem;
@@ -71,34 +77,81 @@ html {
   border: none;
   outline: none;
   margin-top: 4rem;
-  margin-right: 3.5rem;
   position: relative;
   cursor: pointer;
   background-repeat: no-repeat;
   background-size: cover;
+  background-image: url("../visitorpicture.jpg");
 }
 
+.visitorDiv .btn span {
+  width: inherit;
+  position: absolute;
+  bottom: -3.5rem;
+  left: 0;
+  color: rgb(153, 153, 153);
+  font-size: 2rem;
+}
+
+.memberDiv {
+  margin-top: 8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3.5rem;
+  justify-content: center; /* Center items horizontally */
+  align-items: center;
+}
+
+.memberDiv .btn,
+.addIcon {
+  height: 18rem;
+  min-height: 8.4rem;
+  max-height: 18rem;
+  width: 18rem;
+  min-width: 8.4rem;
+  max-width: 18rem;
+  border-radius: 0.4rem;
+  border: none;
+  outline: none;
+  margin-top: 1rem;
+  position: relative;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex: 1 1 calc(20%);
+  box-sizing: border-box;
+}
+
+
 .memberDiv .btn:nth-child(1) {
-  background-image: url("../user1.jpg");
+  background-image: url("../defaultPicture.jpg");
 }
 
 .memberDiv .btn:nth-child(2) {
-  background-image: url("../user2.jpg");
+  background-image: url("../defaultPicture.jpg");
 }
 
 .memberDiv .btn:nth-child(3) {
-  background-image: url("../user3.jpg");
+  background-image: url("../defaultPicture.jpg");
 }
 
 .memberDiv .btn:nth-child(4) {
-  background-image: url("../user4.jpg");
+  background-image: url("../defaultPicture.jpg");
 }
 
-.memberDiv .btn:nth-child(5) {
-  background-image: url("../user5.jpg");
+.memberDiv .btn:nth-child(5),
+.memberDiv .btn:nth-child(6),
+.memberDiv .btn:nth-child(7),
+.memberDiv .btn:nth-child(8) {
+  background-image: url("../defaultPicture.jpg");
 }
 
 .memberDiv .btn:hover {
+  box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.9);
+  transition: box-shadow 0.3s ease;
+}
+
+.visitorDiv .btn:hover {
   box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.9);
   transition: box-shadow 0.3s ease;
 }
@@ -145,6 +198,7 @@ html {
   background-color: transparent;
   cursor: pointer;
   
+  
 }
 .manageProfile:hover {
   border: 1px solid #fff;
@@ -162,7 +216,12 @@ nav a img {
   filter: brightness(50%);
 }
 
+.spacer {
+  font-size: 5rem; /* Adjust as needed */
+}
+
 @media (max-width: 740px) {
+  
   body::before {
       display: none;
   }
@@ -210,4 +269,96 @@ nav a img {
 
 .remove-icon:hover {
   background-color: rgb(0, 140, 215);
+}
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 3px solid black;
+  z-index: 9;
+}
+
+
+/* Add styles to the form container */
+.form-container {
+  width: 300px;
+  max-width: 300px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 20px;
+  margin: 8px 0;
+  display: inline-block;
+  background: #333;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1.5rem;
+  outline: none;
+  border: none;
+  height: 50px;
+  color: #ddd;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 0px;
+  font-size: 1.5rem;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: 0.1s ease;
+}
+
+.form-container .btn:hover {
+  background-color: #388e3c; /* Lighter shade of green */
+  transition: background-color 0.3s ease; /* Added transition time */
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add hover effect to the cancel button */
+.form-container .cancel:hover {
+  background-color: darkred; /* Darker shade of red */
+  transition: background-color 0.3s ease; /* Added transition time */
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+/* Ensure the font applies to the popup form */
+.form-popup, .form-container, .form-container input, .form-container .btn {
+  font-family: "Roboto", sans-serif; /* Use Roboto font */
 }

@@ -48,12 +48,16 @@
         </div>
         <h2 id="title-register">Register</h2>
         <form action="/register" method="post">
-            <label for="username" id="label-username">Choose a username</label>
+            <label for="email" id="label-email">Enter Your Email</label>
+            <input type="email" id="email" name="email" required>
+            <br>
+            <label for="username" id="label-username">Create Username</label>
             <input type="text" id="username" name="username" required>
             <br>
-            <label for="password" id="label-password">Choose a password</label>
+            <label for="password" id="label-password">Create Password</label>
             <input type="password" id="password" name="password" required>
             <br>
+
             <input type="submit" id="button-register" value="Register">
         </form>
         {% if message %}
@@ -71,8 +75,8 @@
         const data = {
             english: {
                 "title-register": "Register",
-                "label-username": "Choose a username",
-                "label-password": "Choose a password",
+                "label-username": "Create Username",
+                "label-password": "Create Password",
                 "button-register": "Register",
                 "form-help": "Already have an account? ",
                 "link-login": "Login here"

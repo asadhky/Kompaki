@@ -10,70 +10,118 @@
 <body>
 
     <div class="whoIsWatching">
-        <nav>
+        <!-- <nav>
             <a href="#"><img src="../static/TEC-Logo.svg" alt="logo" style="width: 309px;"></a>
-        </nav>
+        </nav> -->
 
         <div class="main-div">
             <h1>Accounts</h1>
+            <div class="visitorDiv"></div>
             <div class="memberDiv">
                 <button class="addIcon"><img src="../static/addusericon.svg"><i class="fas fa-plus-circle"></i> <span>Add Profile</span></button>
             </div>
-            <button class="manageProfile">manage Profiles</button>
+            <button class="manageProfile">manage Accounts</button>
+            <div class="spacer">&nbsp;</div>
         </div>
     </div>
 
     <!-- Hidden form -->
-    <form id="hiddenForm" method="POST" action="/profilelogin" class="hidden">
+    <!-- <form id="hiddenForm" method="POST" action="/profilelogin" class="hidden">
         <input type="text" name="username" id="hiddenUsername">
-    </form>
+        <label for="password" data-key="label-password">Password</label>
+        <input type="password" id="password" name="password" required>
+        <input type="submit" value="Sign In" data-key="button-sign-in">
+    </form> -->
+
+    <div class="form-popup" id="myForm">
+        <form action="/profilelogin" method="POST" class="form-container">
+        <br>
+        <label for="username" data-key="label-username" style="color: #ddd; font-size: 1.3rem;">Username</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password" data-key="label-password" style="color: #ddd; font-size: 1.3rem;">Password</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <br>
+        <button type="submit" class="btn">Login</button>
+          <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+      </div>
 
     <script>
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-    
+        function openForm() {
+        document.getElementById("myForm").style.display = "block";
+        }
+
+        function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+        }
+
+
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        if (users[0] !== 'Visitor') {
+            users = ['Visitor', ...users.filter(user => user !== 'Visitor')];
+        }
+        localStorage.setItem('users', JSON.stringify(users));
+
+        const visitorDiv = document.querySelector('.visitorDiv');
+
         const memberDiv = document.querySelector('.memberDiv');
         const addIcon = document.querySelector('.addIcon');
         const manageProfile = document.querySelector('.manageProfile');
         const mainDiv = document.querySelector('.main-div');
         const hiddenForm = document.getElementById('hiddenForm');
         const hiddenUsername = document.getElementById('hiddenUsername');
+        const testusername = document.getElementById('username');
     
         const userIcons = () => {
             users.reverse();
             users.map((curElem) => {
-            memberDiv.insertAdjacentHTML('afterbegin', `
-                <button class="btn">
-                <span>${curElem}</span>
-                <div class="remove-icon">
-                    <img src="../static/trash.png" style="width: 25px; padding-top: 7px;">
-                </div>
-                </button>
-            `);
+                if (curElem === 'Visitor') {
+                    visitorDiv.insertAdjacentHTML('afterbegin', `
+                        <button class="btn">
+                            <span>${curElem}</span>
+                        </button>
+                    `);
+                } else {
+                    memberDiv.insertAdjacentHTML('afterbegin', `
+                        <button class="btn">
+                            <span>${curElem}</span>
+                            <div class="remove-icon">
+                                <img src="../static/trash.png" style="width: 25px; padding-top: 7px;">
+                            </div>
+                        </button>
+                    `);
+                }
             });
 
 
             // Add event listener to the buttons
             document.querySelectorAll('.btn').forEach(button => {
-                button.addEventListener('click', (event) => {
+            button.addEventListener('click', (event) => {
+                const username = event.target.closest('.btn').querySelector('span').innerText;
+                if (username === 'Visitor') {
+                    window.location.href = '/visitor';
+                } else {
                     if (mainDiv.classList.contains('manage-mode')) {
-                        const username = event.target.closest('.btn').querySelector('span').innerText;
                         users.splice(users.indexOf(username), 1);
                         button.remove();
 
-
-                    // Remove from cookies if it matches the remembered user
-                    if (getCookie('rememberedUser') === username) {
-                        deleteCookie('rememberMe');
-                        deleteCookie('rememberedUser');
-                    }
-                    localStorage.setItem('users', JSON.stringify(users));
+                        // Remove from cookies if it matches the remembered user
+                        if (getCookie('rememberedUser') === username) {
+                            deleteCookie('rememberMe');
+                            deleteCookie('rememberedUser');
+                        }
+                        localStorage.setItem('users', JSON.stringify(users));
                     } else {
-                        const username = event.target.innerText;
-                        hiddenUsername.value = username;
-                        hiddenForm.submit();
+                        //hiddenUsername.value = username;
+                        testusername.value = username;
+                        openForm();
                     }
-                });
+                }
             });
+        });
+
 
             // Add event listener to the remove icons
             document.querySelectorAll('.remove-icon').forEach(icon => {
@@ -94,8 +142,8 @@
         };
     
         addIcon.addEventListener('click', () => {
-            if (users.length >= 5) {
-                alert('You cannot add more than 5 users.');
+            if (users.length >= 25) {
+                alert('You cannot add more than 25 users.');
                 return;
             }
             window.location.href = '/login';

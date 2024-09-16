@@ -1,0 +1,485 @@
+<head><style></style></head>
+<div class="top-nav-bar">
+    <a href="/index">
+        <button class="nav-button" id="back-button">
+            <img src="{{ url_for('static', filename='TEC-Logo.svg') }}" alt="返回" style="width: 170px;">
+        </button>
+    </a>
+    <a href="/index">
+        <button class="nav-button" id="choose-button">
+            <img src="{{ url_for('static', filename='home.png') }}" alt="选择" style="width: 50px; height: auto;">
+        </button>
+    </a>
+
+    <h1 class="page-title" style="font-family: 'Roboto', sans-serif; text-align: center; color: #0b0c10; padding-left: 7%;"></h1>
+
+    <a>
+        <button class="nav-button" id="search-button">
+            <img src="{{ url_for('static', filename='search.png') }}" alt="搜索" style="width: 40px; height: auto;">
+        </button>
+    </a>
+
+    
+
+    <!-- Language change buttons -->
+    <div class="nav-button">
+        <a href="#" class="langBtn" language="english">
+            <img src="../static/EnglishFlag.png" alt="EN" class="langIcon">
+        </a>
+        <a href="#" class="langBtn" language="german">
+            <img src="../static/GermanFlag.png" alt="DE" class="langIcon">
+        </a>
+    </div>
+
+    <!-- <a href="/layouts">
+        <button class="nav-button" id="choose-button">
+            <img src="{{ url_for('static', filename='layout.png') }}" alt="选择" style="width: 50px; height: auto;">
+        </button>
+    </a> -->
+
+    <div class="nav-button">
+        <button id="layout-button" class="icon-button">
+            <img src="{{ url_for('static', filename='newlayout.png') }}" alt="Layout" style="width: 50px; height: auto;"/>
+            <div class="icon-button"></div>
+        </button>
+    </div>
+    
+    <dialog id="layout-dialog" class="layout-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+        <style>
+            /*=============== GOOGLE FONTS ===============*/
+            @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+    
+            /*=============== VARIABLES CSS ===============*/
+            .layout-dialog {
+                /*========== Colors ==========*/
+                /*Color mode HSL(hue, saturation, lightness)*/
+                --first-color: hsl(82, 60%, 28%);
+                --title-color: hsl(0, 0%, 15%);
+                --text-color: hsl(0, 0%, 35%);
+                --container-color: hsl(0, 0%, 100%);
+    
+                /*========== Font and typography ==========*/
+                /*.5rem = 8px | 1rem = 16px ...*/
+                --body-font: "Poppins", sans-serif;
+                --h2-font-size: 1.25rem;
+                --small-font-size: .813rem;
+                background: linear-gradient(#444444, #222);
+            }
+    
+            /*========== Responsive typography ==========*/
+            @media screen and (min-width: 1120px) {
+                .layout-dialog {
+                    --h2-font-size: 1.5rem;
+                    --small-font-size: .875rem;
+                }
+            }
+    
+            /*=============== BASE ===============*/
+            .layout-dialog * {
+                box-sizing: border-box;
+                padding: 0;
+                margin: 0;
+            }
+    
+            .layout-dialog body {
+                font-family: var(--body-font);
+                background: linear-gradient(#444444, #222);
+                background: #0b0c10;
+                color: var(--text-color);
+            }
+    
+            .layout-dialog img {
+                display: block;
+                max-width: 100%;
+                height: auto;
+            }
+    
+            /*=============== CARD ===============*/
+            .layout-dialog .container {
+                display: grid;
+                place-items: center;
+                margin-inline: 1.5rem;
+                padding-block: 5rem;
+            }
+    
+            .layout-dialog .card__container {
+                display: grid;
+                row-gap: 3.5rem;
+            }
+    
+            .layout-dialog .card__article {
+                position: relative;
+                overflow: hidden;
+            }
+    
+            .layout-dialog .card__img {
+                width: 328px;
+                border-radius: 1.5rem;
+            }
+    
+            .layout-dialog .card__data {
+                width: 280px;
+                background-color: var(--container-color);
+                padding: 1.5rem 2rem;
+                box-shadow: 0 8px 24px hsla(0, 0%, 0%, .15);
+                border-radius: 1rem;
+                position: absolute;
+                bottom: -9rem;
+                left: 0;
+                right: 0;
+                margin-inline: auto;
+                opacity: 0;
+                transition: opacity 1s 1s;
+            }
+    
+            .layout-dialog .card__description {
+                display: block;
+                font-size: var(--small-font-size);
+                margin-bottom: .25rem;
+            }
+    
+            .layout-dialog .card__title {
+                font-size: var(--h2-font-size);
+                font-weight: 500;
+                color: var(--title-color);
+                margin-bottom: .75rem;
+            }
+    
+            .layout-dialog .card__button {
+                text-decoration: none;
+                font-size: var(--small-font-size);
+                font-weight: 500;
+                color: var(--first-color);
+            }
+    
+            .layout-dialog .card__button:hover {
+                text-decoration: underline;
+            }
+    
+            /* Naming animations in hover */
+            .layout-dialog .card__article:hover .card__data {
+                animation: show-data 1s forwards;
+                opacity: 1;
+                transition: opacity .3s;
+            }
+    
+            .layout-dialog .card__article:hover {
+                animation: remove-overflow 2s forwards;
+            }
+    
+            .layout-dialog .card__article:not(:hover) {
+                animation: show-overflow 2s forwards;
+            }
+    
+            .layout-dialog .card__article:not(:hover) .card__data {
+                animation: remove-data 1s forwards;
+            }
+    
+            /* Card animation */
+            @keyframes show-data {
+                50% {
+                    transform: translateY(-10rem);
+                }
+                100% {
+                    transform: translateY(-7rem);
+                }
+            }
+    
+            @keyframes remove-overflow {
+                to {
+                    overflow: initial;
+                }
+            }
+    
+            @keyframes remove-data {
+                0% {
+                    transform: translateY(-7rem);
+                }
+                50% {
+                    transform: translateY(-10rem);
+                }
+                100% {
+                    transform: translateY(.5rem);
+                }
+            }
+    
+            @keyframes show-overflow {
+                0% {
+                    overflow: initial;
+                    pointer-events: none;
+                }
+                50% {
+                    overflow: hidden;
+                }
+            }
+    
+            /*=============== BREAKPOINTS ===============*/
+            /* For small devices */
+            @media screen and (max-width: 340px) {
+                .container {
+                    margin-inline: 1rem;
+                }
+    
+                .card__data {
+                    width: 250px;
+                    padding: 1rem;
+                }
+            }
+    
+            /* For medium devices */
+            @media screen and (min-width: 768px) {
+                .card__container {
+                    grid-template-columns: 1fr;
+                    column-gap: 1.5rem;
+                }
+            }
+    
+            /* For large devices */
+            @media screen and (min-width: 1120px) {
+                .card__container {
+                    grid-template-columns: 1fr;
+                }
+                .card__img {
+                    width: 348px;
+                }
+                .card__data {
+                    width: 316px;
+                    padding-inline: 2.5rem;
+                }
+            }
+        </style>
+        <div class="dialog-content">
+            <button class="close-button" id="close-dialog" style="background: transparent; border: none; color: gray;">×</button>
+            <div id="dialog-description" class="container">
+                <div class="card__container">
+                    <article class="card__article">
+                        <img src="{{ url_for('static', filename='visitorpicture.jpg') }}" alt="image" class="card__img">
+                        <div class="card__data">
+                            <span class="card__description" style="color: gray;">You are a visitor</span>
+                            <h2 class="card__title">Sign In Required</h2>
+                            <a href="/login" class="card__button">Click Here</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </dialog>
+    
+    
+    
+    
+
+<!-- 
+    <a href="/choose_settings">
+        <button class="nav-button" id="choose-button">
+            <img src="{{ url_for('static', filename='ModeSelection.png') }}" alt="选择" style="width: 50px; height: auto;">
+        </button>
+    </a> -->
+
+
+
+    <a href="#">
+        <button class="nav-button" id="user-info-button">
+            <img src="{{ url_for('static', filename='user.png') }}" alt="用户" style="width: 50px; height: auto;">
+        </button>
+    </a>
+</div>
+
+<script>
+    // Dialogs to get the Visitor to sign in
+        const layoutButton = document.getElementById('layout-button');
+        const searchButton = document.getElementById('search-button');
+        const userInfoButton = document.getElementById('user-info-button');
+        
+
+        const layoutDialog = document.getElementById('layout-dialog');
+        const closeDialogButton = document.getElementById('close-dialog');
+
+        layoutButton.addEventListener('click', () => {
+            layoutDialog.showModal();
+        });
+
+        searchButton.addEventListener('click', () => {
+            layoutDialog.showModal();
+        });
+
+        userInfoButton.addEventListener('click', () => {
+            layoutDialog.showModal();
+        });
+
+
+        closeDialogButton.addEventListener('click', () => {
+            layoutDialog.close();
+     });
+
+
+    // Language switcher
+        document.addEventListener('DOMContentLoaded', () => {
+            const langEl = document.querySelector('.langWrap');
+            const link = document.querySelectorAll('a.langBtn');
+            const textElements = document.querySelectorAll('.category');
+            const axisStatusElements = document.querySelectorAll('[data-key]');
+
+            // Retrieve the saved language from localStorage
+            const savedLanguage = localStorage.getItem('preferredLanguage') || 'english';
+
+        // Function to update the text content based on selected language
+        function updateLanguage(language) {
+            const data = {
+            "english": {
+                "category-planning": "Planning",
+                "category-machining": "Machining",
+                "category-monitoring": "Monitoring",
+                "category-community": "Community",
+                "category-utility": "Utility",
+                "label-connection": "Connection",
+                "label-tool-manager": "Tool Manager",
+                "label-calendar": "Calendar",
+                "label-file-manager": "File Manager",
+                "label-cycle-time-estimation": "Cycle Time Estimation",
+                "label-code": "Code",
+                "label-simulation": "Simulation",
+                "label-digital-twin": "Digital twin",
+                "label-2d-3d-viewer": "2D/3D viewer",
+                "label-nc-operation": "NC operation",
+                "label-collision-advance": "Collision advance",
+                "label-data-logger": "Data logger",
+                "label-maintenance-manager": "Maintenance manager",
+                "label-servo-viewer": "Servo viewer",
+                "label-kpi": "KPI",
+                "label-team-board": "Team board",
+                "label-cloud-machining": "Cloud Machining",
+                "label-finance": "Finance",
+                "label-update": "Update",
+                "label-customer-support": "Customer Support",
+                "label-shopping": "Shopping",
+                "label-manual": "manual",
+                "label-memo": "memo",
+                "label-camera": "camera",
+                "label-calculator": "calculator",
+                "label-browser": "browser",
+                "label-setting": "setting",
+                "label-maintenance": "maintenance",
+                "title-connection": "Connection",
+                "label-amsnetid": "AmsNetID",
+                "label-port": "Port",
+                "button-open-port": "Open Port",
+                "title-axis-status": "Axis Status",
+                "title-x-axis": "X Axis",
+                "title-y-axis": "Y Axis",
+                "title-z-axis": "Z Axis",
+                "label-current-position": "Current Position: ",
+                "label-end-position": "End Position: ",
+                "label-active-position": "Active Position: ",
+                "button-enable-axis": "Enable Axis",
+                "label-speed": "Speed",
+                "button-set-speed": "Set Speed",
+                "label-position": "Position",
+                "button-set-position": "Set Position",
+                "label-override": "Override:",
+                "label-spindle": "Spindle:",
+                "terminal-output-title": "Terminal Output"
+            },
+            "german": {
+                "category-planning": "Planung",
+                "category-machining": "Bearbeitung",
+                "category-monitoring": "Überwachung",
+                "category-community": "Gemeinschaft",
+                "category-utility": "Dienstprogramm",
+                "label-connection": "Verbindung",
+                "label-tool-manager": "Werkzeugmanager",
+                "label-calendar": "Kalender",
+                "label-file-manager": "Dateimanager",
+                "label-cycle-time-estimation": "Zykluszeit Schätzung",
+                "label-code": "Code",
+                "label-simulation": "Simulation",
+                "label-digital-twin": "Digitaler Zwilling",
+                "label-2d-3d-viewer": "2D/3D-Viewer",
+                "label-nc-operation": "NC-Betrieb",
+                "label-collision-advance": "Kollisionsvorschau",
+                "label-data-logger": "Datenlogger",
+                "label-maintenance-manager": "Wartungsmanager",
+                "label-servo-viewer": "Servobetrachter",
+                "label-kpi": "KPI",
+                "label-team-board": "Teamboard",
+                "label-cloud-machining": "Cloud-Bearbeitung",
+                "label-finance": "Finanzen",
+                "label-update": "Aktualisierung",
+                "label-customer-support": "Kundendienst",
+                "label-shopping": "Einkaufen",
+                "label-manual": "Handbuch",
+                "label-memo": "Notiz",
+                "label-camera": "Kamera",
+                "label-calculator": "Rechner",
+                "label-browser": "Browser",
+                "label-setting": "Einstellung",
+                "label-maintenance": "Wartung",
+                "title-connection": "Verbindung",
+                "label-amsnetid": "AmsNetID",
+                "label-port": "Port",
+                "button-open-port": "Port öffnen",
+                "title-axis-status": "Achsenstatus",
+                "title-x-axis": "X-Achse",
+                "title-y-axis": "Y-Achse",
+                "title-z-axis": "Z-Achse",
+                "label-current-position": "Aktuelle Position: ",
+                "label-end-position": "Endposition: ",
+                "label-active-position": "Aktive Position: ",
+                "button-enable-axis": "Achse aktivieren",
+                "label-speed": "Geschwindigkeit",
+                "button-set-speed": "Geschwindigkeit einstellen",
+                "label-position": "Position",
+                "button-set-position": "Position einstellen",
+                "label-override": "Überschreibung:",
+                "label-spindle": "Spindel:",
+                "terminal-output-title": "Terminalausgabe"
+            }
+        };
+
+            // Update category text elements
+        textElements.forEach(element => {
+            const id = element.getAttribute('id');
+            if (data[language][id]) {
+                element.textContent = data[language][id];
+            }
+        });
+
+        // Update app-label text elements
+        const appLabels = document.querySelectorAll('.app-label');
+        appLabels.forEach(element => {
+            const labelKey = element.getAttribute('data-key');
+            if (data[language][labelKey]) {
+                element.textContent = data[language][labelKey];
+            }
+        });
+
+        // Update axis status text elements
+        axisStatusElements.forEach(element => {
+            const key = element.getAttribute('data-key');
+            if (data[language][key]) {
+                const span = element.querySelector('span');
+                if (span) {
+                    element.innerHTML = data[language][key] + span.outerHTML;
+                } else {
+                    element.textContent = data[language][key];
+                }
+            }
+        });
+    }
+
+    // Update the language on page load
+    updateLanguage(savedLanguage);
+
+    // Language switch event listener
+    link.forEach(el => {
+        el.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default link behavior
+            const attr = el.getAttribute('language');
+            localStorage.setItem('preferredLanguage', attr); // Save language to localStorage
+            updateLanguage(attr);
+            window.location.href = el.href; // Navigate to the link's href
+        });
+    });
+});
+
+</script>

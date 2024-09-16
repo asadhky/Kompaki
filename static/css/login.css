@@ -85,6 +85,21 @@ input[type=text], input[type=password], select {
     color: #fff;
 }
 
+input[type=text], input[type=email], select {
+    width: 100%;
+    padding: 20px;
+    margin: 8px 0;
+    display: inline-block;
+    background: #333;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    outline: none;
+    border: none;
+    height: 50px;
+    color: #fff;
+}
+
 
 input[type=submit] {
     width: 100%;
@@ -166,4 +181,22 @@ label {
         top: 43%;
         width: 100%;
     }
+}
+
+.form-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
+.form-options a {
+    margin-left: 10px;
+    text-decoration: none;
+    color: #8c8c8c;
+}
+
+.form-options a:hover {
+    text-decoration: underline;
 }
