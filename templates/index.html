@@ -39,6 +39,7 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /* background-color: #222831; */
         }
 
         h2 {
@@ -90,6 +91,16 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 30%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .rangetitles {
+            background-color: #31363f;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 48%;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
@@ -154,6 +165,19 @@
         <div class="category" id="category-community">Community</div>
         <div class="category" id="category-development">Development</div>
         <div class="category" id="category-utility">Utility</div>
+        <!-- Add Category Button -->
+        <div class="app-category-item add-category" onclick="addCategory()">
+            <span class="add-category-icon">+</span>
+        </div>
+        <style>
+            .add-category {border-radius: 5px;}
+            .add-category:hover {
+            background-color: #e0e0e0;
+            transition: background-color 0.3s ease;
+            
+            }
+        </style>
+        </style>
     </div>
 
     <!-- Application icons will be displayed here when the Individual Workflow category is clicked -->
@@ -578,16 +602,48 @@
                     <button id="set-position" data-key="button-set-position">Set Position</button>
                 </div>
             
-                <div class="slider-container">
-                    <label for="override-slider" data-key="label-override">Override:</label>
+                <!-- <div class="slider-container">
+                    <label for="override-slider" data-key="label-override">Forward Speed:</label>
                     <input type="range" id="override-slider" min="0" max="100" value="98">
                     <span id="override-value">98%</span>
                 </div>
                 <div class="slider-container">
-                    <label for="spindle-slider" data-key="label-spindle">Spindle:</label>
+                    <label for="spindle-slider" data-key="label-spindle">Spindle Speed:</label>
                     <input type="range" id="spindle-slider" min="0" max="100" value="0">
                     <span id="spindle-value">0%</span>
+                </div> -->
+                <div class="section">
+                    <div class="axis-container">
+                        <div class="rangetitles" id="terminal-section">
+                            <h2 data-key="label-override">Forward Speed</h2>
+                            <div class="slider-ui color1">
+                                <input type="range" id="override-slider" min="0" max="100" step="1">
+                                <div class="bar">
+                                    <span class="min"></span>
+                                    <span class="max"></span>
+                                </div>
+                                <div class="track">
+                                    <div class="value"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rangetitles id="terminal-section">
+                            <h2 data-key="label-spindle">Spindle Speed</h2>
+                            <div class="slider-ui color1">
+                                <input type="range" id="spindle-slider" min="0" max="100" step="1">
+                                <div class="bar">
+                                    <span class="min"></span>
+                                    <span class="max"></span>
+                                </div>
+                                <div class="track">
+                                    <div class="value"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+
             </div>            
 
             <!-- 下部：Terminal 输出台 -->
@@ -762,6 +818,115 @@
     </div>
 
     <script>
+
+const sliders = document.querySelectorAll(".slider-ui");
+
+sliders.forEach(slider => {
+	let input = slider.querySelector("input[type=range]");
+	let min = input.getAttribute("min");
+	let max = input.getAttribute("max");
+	let valueElem = slider.querySelector(".value");
+
+	slider.querySelector(".min").innerText = min;
+	slider.querySelector(".max").innerText = max;
+
+	function setValueElem() {
+		valueElem.innerText = input.value;
+		let percent = (input.value - min) / (max - min) * 100;
+		valueElem.style.left = percent + "%";
+	}
+	setValueElem();
+
+	input.addEventListener("input", setValueElem);
+	input.addEventListener("mousedown", () => {
+		valueElem.classList.add("up");
+	});
+	input.addEventListener("mouseup", () => {
+		valueElem.classList.remove("up");
+	});
+});
+
+const username = "{{ username }}"; // Pass the username from Flask to JavaScript
+
+document.addEventListener("DOMContentLoaded", function() {
+    loadCategories();
+});
+
+function addCategory() {
+    const categoryName = prompt("Enter new category name:");
+    if (categoryName) {
+        // Create new category item
+        const newCategory = document.createElement("div");
+        newCategory.className = "category";
+        newCategory.id = `category-${categoryName.toLowerCase().replace(/\s+/g, '-')}`;
+        newCategory.innerText = categoryName;
+        newCategory.setAttribute("onclick", `showApps('category-${categoryName.toLowerCase().replace(/\s+/g, '-')}-apps-container')`);
+
+        // Get the Add Category button
+        const addCategoryButton = document.querySelector(".add-category");
+
+        // Insert new category item before the Add Category button
+        document.getElementById("categories").insertBefore(newCategory, addCategoryButton);
+
+        // Create new category apps container
+        const newCategoryApps = document.createElement("div");
+        newCategoryApps.id = `category-${categoryName.toLowerCase().replace(/\s+/g, '-')}-apps-container`;
+        newCategoryApps.className = "apps-container";
+
+        // Append new category apps container to the body or a specific container
+        document.body.appendChild(newCategoryApps);
+
+        // Save the new category to localStorage
+        saveCategory(categoryName);
+    }
+}
+
+function saveCategory(categoryName) {
+    let categories = JSON.parse(localStorage.getItem(`categories-${username}`)) || [];
+    categories.push(categoryName);
+    localStorage.setItem(`categories-${username}`, JSON.stringify(categories));
+}
+
+function loadCategories() {
+    let categories = JSON.parse(localStorage.getItem(`categories-${username}`)) || [];
+    categories.forEach(categoryName => {
+        // Create new category item
+        const newCategory = document.createElement("div");
+        newCategory.className = "category";
+        newCategory.id = `category-${categoryName.toLowerCase().replace(/\s+/g, '-')}`;
+        newCategory.innerText = categoryName;
+        newCategory.setAttribute("onclick", `showApps('category-${categoryName.toLowerCase().replace(/\s+/g, '-')}-apps-container')`);
+
+        // Get the Add Category button
+        const addCategoryButton = document.querySelector(".add-category");
+
+        // Insert new category item before the Add Category button
+        document.getElementById("categories").insertBefore(newCategory, addCategoryButton);
+
+        // Create new category apps container
+        const newCategoryApps = document.createElement("div");
+        newCategoryApps.id = `category-${categoryName.toLowerCase().replace(/\s+/g, '-')}-apps-container`;
+        newCategoryApps.className = "apps-container";
+
+        // Append new category apps container to the body or a specific container
+        document.body.appendChild(newCategoryApps);
+    });
+}
+
+function showApps(categoryId) {
+    // Hide all app icons containers
+    const appContainers = document.querySelectorAll(".apps-container");
+    appContainers.forEach(container => container.style.display = "none");
+
+    // Show the selected app icons container
+    const selectedContainer = document.getElementById(categoryId);
+    if (selectedContainer) {
+        selectedContainer.style.display = "block";
+    }
+}
+
+
+
         // 为每个类别添加点击事件监听器并更新激活状态
         document.querySelectorAll('.top-categories .category').forEach(category => {
             category.addEventListener('click', function (event) {
@@ -1378,6 +1543,8 @@
                 document.getElementById('spindle-value').textContent = this.value + '%';
             });
         });
+
+
 
         //============================================================
         // 获取模态框元素
