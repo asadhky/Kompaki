@@ -1,0 +1,21 @@
+{
+    "forward_speed": "54",
+    "spindle_speed": "31",
+    "is_override_running": false,
+    "is_spindle_running": false,
+    "y": {
+        "current_position": 0.0,
+        "end_position": "12.000",
+        "active_position": "23.000"
+    },
+    "x": {
+        "current_position": 1.0,
+        "end_position": "2334.000",
+        "active_position": "12.000"
+    },
+    "z": {
+        "current_position": 0.0,
+        "end_position": "21.000",
+        "active_position": "23.000"
+    }
+}

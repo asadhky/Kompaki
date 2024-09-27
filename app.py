@@ -20,6 +20,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://username:password@local
 db = SQLAlchemy()
 app.secret_key = '123456'  # Ensure to replace with your actual secret key
 
+# Assume data.json exists and stores slider values
+DATA_FILE = 'data.json'
+
+def read_json():
+    with open(DATA_FILE, 'r') as f:
+        return json.load(f)
+
 # Mail server configuration
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
@@ -34,6 +41,7 @@ db_config = {
     'port': 3308,
     'database': 'userdb'
 }
+
 
 # 用您的OpenAI API密钥替换此处
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -392,15 +400,211 @@ def get_layout():
 
     return jsonify({'layout_config': layout_config_dict})
 
+@app.route('/get-override-state', methods=['GET'])
+def get_override_state():
+    try:
+        current_data = read_json()  # Read current data from data.json
+    except FileNotFoundError:
+        current_data = {}
+
+    is_override_running = current_data.get('is_override_running', False)  # Default to False if not found
+
+    return jsonify({"is_override_running": is_override_running})
+
+@app.route('/update-override', methods=['POST'])
+def update_override():
+    data = request.json
+    is_override_running = data.get('is_override_running')
+
+    try:
+        current_data = read_json()  # Read current data from JSON file
+    except FileNotFoundError:
+        current_data = {}
+
+    # Update override running state in data.json
+    current_data['is_override_running'] = is_override_running
+
+    # Write updated data to the file
+    with open(DATA_FILE, 'w') as f:
+        json.dump(current_data, f, indent=4)
+
+    return jsonify({"message": "Override state updated successfully!"})
+
+
+
+
+@app.route('/get-spindle-state', methods=['GET'])
+def get_spindle_state():
+    try:
+        current_data = read_json()  # Read current data from data.json
+    except FileNotFoundError:
+        current_data = {}
+
+    is_spindle_running = current_data.get('is_spindle_running', False)  # Default to False if not found
+
+    return jsonify({"is_spindle_running": is_spindle_running})
+
+
+@app.route('/update-spindle', methods=['POST'])
+def update_spindle():
+    data = request.json
+    is_spindle_running = data.get('is_spindle_running')
+
+    try:
+        current_data = read_json()  # Read current data from JSON file
+    except FileNotFoundError:
+        current_data = {}
+
+    # Update spindle running state in data.json
+    current_data['is_spindle_running'] = is_spindle_running
+
+    # Write updated data to the file
+    with open(DATA_FILE, 'w') as f:
+        json.dump(current_data, f, indent=4)
+
+    return jsonify({"message": "Spindle state updated successfully!"})
+
+
+@app.route('/update-sliders', methods=['POST'])
+def update_sliders():
+    data = request.json
+    forward_speed = data.get('forward_speed')
+    spindle_speed = data.get('spindle_speed')
+
+    try:
+        current_data = read_json()
+    except FileNotFoundError:
+        current_data = {}
+
+    current_data['forward_speed'] = forward_speed
+    current_data['spindle_speed'] = spindle_speed
+
+    with open(DATA_FILE, 'w') as f:
+        json.dump(current_data, f, indent=4)
+
+    return jsonify({"message": "Sliders updated successfully!"})
+
+@app.route('/get-slider-values', methods=['GET'])
+def get_slider_values():
+    try:
+        current_data = read_json()  # Read current data from data.json
+    except FileNotFoundError:
+        current_data = {}
+
+    forward_speed = current_data.get('forward_speed', 50)  # Default to 50 if not found
+    spindle_speed = current_data.get('spindle_speed', 50)  # Default to 50 if not found
+
+    return jsonify({
+        "forward_speed": forward_speed,
+        "spindle_speed": spindle_speed
+    })
+
+# Function to read JSON data from file
+def read_json():
+    if not os.path.exists(DATA_FILE):
+        return {}
+    with open(DATA_FILE, 'r') as f:
+        return json.load(f)
+    
+@app.route('/update-axis-speed', methods=['POST'])
+def update_axis_speed():
+    data = request.json
+    axis = data.get('axis')
+    active_position = data.get('active_position')
+
+    # Read the current data
+    current_data = read_json()
+
+    # Ensure the axis exists in the current data
+    if axis not in current_data:
+        current_data[axis] = {
+            'current_position': 0.0,
+            'end_position': 0.0,
+            'active_position': 0.0
+        }
+
+    # Update the active position for the selected axis
+    current_data[axis]['active_position'] = active_position
+
+    # Write the updated data back to the JSON file
+    with open(DATA_FILE, 'w') as f:
+        json.dump(current_data, f, indent=4)
+
+    return jsonify({"message": "Axis speed updated successfully!"})
+
+# Route to update axis position
+@app.route('/update-axis-position', methods=['POST'])
+def update_axis_position():
+    data = request.json
+    axis = data.get('axis')
+    end_position = data.get('end_position')
+
+    # Read the current data
+    current_data = read_json()
+
+    # Ensure the axis exists in the current data
+    if axis not in current_data:
+        current_data[axis] = {
+            'current_position': 0.0,
+            'end_position': 0.0,
+            'active_position': 0.0
+        }
+
+    # Update the end position for the selected axis
+    current_data[axis]['end_position'] = end_position
+
+    # Write the updated data back to the JSON file
+    with open(DATA_FILE, 'w') as f:
+        json.dump(current_data, f, indent=4)
+
+    return jsonify({"message": "Axis position updated successfully!"})
+
+@app.route('/get_axis_status', methods=['GET'])
+def get_axis_status():
+    # Read data.json directly within the endpoint
+    with open('data.json', 'r') as file:
+        data = json.load(file)
+    
+    axis_status = {
+        'x': {
+            'current': data['x']['current_position'],
+            'end': data['x']['end_position'],
+            'active': data['x']['active_position']
+        },
+        'y': {
+            'current': data['y']['current_position'],
+            'end': data['y']['end_position'],
+            'active': data['y']['active_position']
+        },
+        'z': {
+            'current': data['z']['current_position'],
+            'end': data['z']['end_position'],
+            'active': data['z']['active_position']
+        }
+    }
+
+    return jsonify(axis_status)
+
 
 
 @app.route('/index')
 def index():
-    # Check if user is loggedin
+    # Check if user is logged in
     if 'loggedin' in session:
-        # User is loggedin show them the home page
-        return render_template('index.html')
-    # User is not loggedin redirect to login page
+        try:
+            current_data = read_json()
+            forward_speed = current_data.get('forward_speed', 0)  # Default to 50 if not found
+            spindle_speed = current_data.get('spindle_speed', 0)  # Default to 50 if not found
+        except FileNotFoundError:
+            forward_speed = 50
+            spindle_speed = 50
+
+        # Pass slider values to the template
+        return render_template('index.html', 
+                               username=session['username'], 
+                               forward_speed=forward_speed, 
+                               spindle_speed=spindle_speed)
+    # User is not logged in, redirect to login page
     return redirect(url_for('login'))
 
 @app.route('/visitor')

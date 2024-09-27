@@ -8,11 +8,11 @@
 }
 
 .nav-button {
-    background: none; /* 按钮无背景色 */
-    border: none; /* 按钮无边框 */
-    padding: 10px 10px; /* 按钮内边距 */
-    cursor: pointer; /* 鼠标悬停时显示指针形状 */
-    margin-right: 20px; /* 右边距20px */
+    background: none; 
+    border: none; 
+    padding: 10px 10px;
+    cursor: pointer; 
+    margin-right: 20px; 
 }
 
 .nav-button:first-child {
@@ -116,8 +116,8 @@
     width: 80%; /* 调整输入框的宽度 */
     padding: 10px; /* 增加内边距 */
     font-size: 32px; /* 字体大小 */
-    border: 1px solid #ccc; /* 边框样式 */
-    border-radius: 4px; /* 轻微的圆角 */
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
     margin-bottom: 10px; /* 底部外边距 */
 }
 
@@ -557,9 +557,10 @@
 
 .slider-ui {
 	position: relative;
-	max-width: 800px;
+	max-width: 1800px;
 	height: 50px;
-	margin: 70px 0;
+	margin-top: 35px;
+    margin-bottom: 20px;
 }
 .slider-ui input {
 	position: absolute;
@@ -608,7 +609,7 @@
 .slider-ui .value {
     position: absolute;
     left: 50%;
-    top: 0; /* Keep the value on the track */
+    top: 0; 
     width: 50px;
     height: 50px;
     display: flex;
@@ -616,8 +617,8 @@
     align-items: center;
     font-size: 14px;
     font-weight: 800;
-    color: #000; /* Change this to any color you want */
-    background-color: #fff; /* Keep the background color or adjust as needed */
+    color: #000;
+    background-color: #fff; 
     border: 4px solid #000;
     border-radius: 100%;
     box-sizing: border-box;
@@ -635,4 +636,47 @@
 .slider-ui.color1 .value {
 	border-color: #50727b;
 }
+
+.spindlestartbutton {
+    float: right;
+    width: 60px;
+    height: 60px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    background-image: url('../spindlestart.jpg');
+    border-radius: 4px;
+    transition: filter 0.3s ease, transform 0.3s ease; /* Smooth effect for both filter and transform */
+}
+
+.spindlestartbutton:hover {
+    filter: brightness(1.2);
+    border: 2px solid white; /* Add white border on hover */
+    transform: scale(0.9); /* Zoom out effect on hover */
+}
+
+
+.overridestartbutton {
+    float: right;
+    width: 60px;
+    height: 60px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    background-image: url('../overridestart.jpg');
+    border-radius: 4px;
+    transition: filter 0.3s ease, transform 0.3s ease; /* Smooth effect for both filter and transform */
+}
+
+.overridestartbutton:hover {
+    filter: brightness(1.2);
+    border: 2px solid white; /* Add white border on hover */
+    transform: scale(0.9); /* Zoom out effect on hover */
+}
+
+
 
