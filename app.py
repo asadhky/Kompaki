@@ -228,6 +228,7 @@ def register():
 
     return render_template('register.html', message=message)
 
+
 @app.route('/forgotpassword', methods=['GET', 'POST'])
 def forgotpassword():
     message = ''
@@ -297,6 +298,8 @@ def resetpassword(token):
         flash(f"Error connecting to the database: {e}", 'error')
 
     return render_template('resetpassword.html', token=token)
+
+
 
 
 @app.route('/choose_settings')
@@ -431,6 +434,15 @@ def update_override():
     return jsonify({"message": "Override state updated successfully!"})
 
 
+@app.route('/get-highlight-line', methods=['GET'])
+def get_highlight_line():
+    try:
+        current_data = read_json()
+    except FileNotFoundError:
+        current_data = {}
+
+    highlight_line = current_data.get('highlight_line', 1)  # Default to 1 if not found
+    return jsonify({"highlight_line": highlight_line})
 
 
 @app.route('/get-spindle-state', methods=['GET'])

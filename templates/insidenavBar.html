@@ -1,0 +1,292 @@
+<head><style>
+    .langBtn {
+        cursor: pointer;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+    .langBtn img {
+        width: 20px;
+        height: 20px;
+    }
+    .icon-container {
+        text-align: center; /* Centers the icon */
+    }
+
+    .top-nav-bar {
+        display: flex; /* 使用弹性盒子布局 */
+        justify-content: space-between;
+        align-items: center; /* 子元素垂直居中 */
+        /* padding: 30px 20px; 上下30px，左右20px的内边距 */
+        background: #535c5f;
+    }
+
+
+    .nav-button {
+        background: none; 
+        border: none; 
+        /* padding: 10px 10px; */
+        cursor: pointer; 
+        margin-right: 20px; 
+    }
+
+    .nav-button:first-child {
+        margin-right: 40px;
+    }
+
+    .page-title {
+        flex-grow: 1;
+        text-align: center;
+        margin: 0; /* Remove default margin */
+    }
+
+    .page-title {
+        flex-grow: 1;
+        text-align: center;
+        margin: 0; /* Remove default margin */
+    }
+
+    /* body {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 800;
+    } */
+     
+</style></head>
+
+<div class="top-nav-bar">
+<a href="/index">
+    <button class="nav-button" id="back-button">
+        <img src="{{ url_for('static', filename='TEC-Logo.svg') }}" alt="返回" style="width: 170px;">
+    </button>
+</a>
+<a href="/index">
+    <button class="nav-button" id="choose-button">
+        <img src="{{ url_for('static', filename='home.png') }}" alt="选择" style="width: 50px; height: auto;">
+    </button>
+</a>
+
+<h1 class="page-title" style="font-family: 'Roboto', sans-serif; text-align: center; color: #0b0c10; padding-left: 7%;"></h1>
+
+<a>
+    <button class="nav-button" id="search-button">
+        <img src="{{ url_for('static', filename='search.png') }}" alt="搜索" style="width: 40px; height: auto;">
+    </button>
+    <div id="search-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+
+            <h2>搜索</h2>
+
+            <form id="search-form">
+                <input type="text" id="search-input" placeholder="Enter search content">
+                <button type="submit">搜索</button>
+            </form>
+        </div>
+    </div>
+</a>
+
+
+
+<!-- Language change buttons -->
+<div class="nav-button">
+    <a href="#" class="langBtn" language="english">
+        <img src="../static/EnglishFlag.png" alt="EN" class="langIcon">
+    </a>
+    <a href="#" class="langBtn" language="german">
+        <img src="../static/GermanFlag.png" alt="DE" class="langIcon">
+    </a>
+</div>
+
+
+<a href="/userinfo">
+    <button class="nav-button" id="user-info-button">
+        <img src="{{ url_for('static', filename='user.png') }}" alt="用户" style="width: 50px; height: auto;">
+    </button>
+</a>
+</div>
+
+
+<script>
+// Layout window dialog
+    const layoutButton = document.getElementById('layout-button');
+    const layoutDialog = document.getElementById('layout-dialog');
+    const closeDialogButton = document.getElementById('close-dialog');
+
+    layoutButton.addEventListener('click', () => {
+        layoutDialog.showModal();
+    });
+
+    closeDialogButton.addEventListener('click', () => {
+        layoutDialog.close();
+ });
+
+
+// Language switcher
+    document.addEventListener('DOMContentLoaded', () => {
+        const langEl = document.querySelector('.langWrap');
+        const link = document.querySelectorAll('a.langBtn');
+        const textElements = document.querySelectorAll('.category');
+        const axisStatusElements = document.querySelectorAll('[data-key]');
+
+        // Retrieve the saved language from localStorage
+        const savedLanguage = localStorage.getItem('preferredLanguage') || 'english';
+
+    // Function to update the text content based on selected language
+    function updateLanguage(language) {
+        const data = {
+        "english": {
+            "category-planning": "Planning",
+            "category-machining": "Machining",
+            "category-monitoring": "Monitoring",
+            "category-community": "Community",
+            "category-utility": "Utility",
+            "label-connection": "Connection",
+            "label-tool-manager": "Tool Manager",
+            "label-calendar": "Calendar",
+            "label-file-manager": "File Manager",
+            "label-cycle-time-estimation": "Cycle Time Estimation",
+            "label-code": "Code",
+            "label-simulation": "Simulation",
+            "label-digital-twin": "Digital twin",
+            "label-2d-3d-viewer": "2D/3D viewer",
+            "label-nc-operation": "NC operation",
+            "label-collision-advance": "Collision advance",
+            "label-data-logger": "Data logger",
+            "label-maintenance-manager": "Maintenance manager",
+            "label-servo-viewer": "Servo viewer",
+            "label-kpi": "KPI",
+            "label-team-board": "Team board",
+            "label-cloud-machining": "Cloud Machining",
+            "label-finance": "Finance",
+            "label-update": "Update",
+            "label-customer-support": "Customer Support",
+            "label-shopping": "Shopping",
+            "label-manual": "manual",
+            "label-memo": "memo",
+            "label-camera": "camera",
+            "label-calculator": "calculator",
+            "label-browser": "browser",
+            "label-setting": "setting",
+            "label-maintenance": "maintenance",
+            "title-connection": "Connection",
+            "label-amsnetid": "AmsNetID",
+            "label-port": "Port",
+            "button-open-port": "Open Port",
+            "title-axis-status": "Axis Status",
+            "title-x-axis": "X Axis",
+            "title-y-axis": "Y Axis",
+            "title-z-axis": "Z Axis",
+            "label-current-position": "Current Position: ",
+            "label-end-position": "End Position: ",
+            "label-active-position": "Active Position: ",
+            "button-enable-axis": "Enable Axis",
+            "label-speed": "Speed",
+            "button-set-speed": "Set Speed",
+            "label-position": "Position",
+            "button-set-position": "Set Position",
+            "label-override": "Select Forward Speed",
+            "label-spindle": "Select Spindle Speed",
+            "terminal-output-title": "Terminal Output"
+        },
+        "german": {
+            "category-planning": "Planung",
+            "category-machining": "Bearbeitung",
+            "category-monitoring": "Überwachung",
+            "category-community": "Gemeinschaft",
+            "category-utility": "Dienstprogramm",
+            "label-connection": "Verbindung",
+            "label-tool-manager": "Werkzeugmanager",
+            "label-calendar": "Kalender",
+            "label-file-manager": "Dateimanager",
+            "label-cycle-time-estimation": "Zykluszeit Schätzung",
+            "label-code": "Code",
+            "label-simulation": "Simulation",
+            "label-digital-twin": "Digitaler Zwilling",
+            "label-2d-3d-viewer": "2D/3D-Viewer",
+            "label-nc-operation": "NC-Betrieb",
+            "label-collision-advance": "Kollisionsvorschau",
+            "label-data-logger": "Datenlogger",
+            "label-maintenance-manager": "Wartungsmanager",
+            "label-servo-viewer": "Servobetrachter",
+            "label-kpi": "KPI",
+            "label-team-board": "Teamboard",
+            "label-cloud-machining": "Cloud-Bearbeitung",
+            "label-finance": "Finanzen",
+            "label-update": "Aktualisierung",
+            "label-customer-support": "Kundendienst",
+            "label-shopping": "Einkaufen",
+            "label-manual": "Handbuch",
+            "label-memo": "Notiz",
+            "label-camera": "Kamera",
+            "label-calculator": "Rechner",
+            "label-browser": "Browser",
+            "label-setting": "Einstellung",
+            "label-maintenance": "Wartung",
+            "title-connection": "Verbindung",
+            "label-amsnetid": "AmsNetID",
+            "label-port": "Port",
+            "button-open-port": "Port öffnen",
+            "title-axis-status": "Achsenstatus",
+            "title-x-axis": "X-Achse",
+            "title-y-axis": "Y-Achse",
+            "title-z-axis": "Z-Achse",
+            "label-current-position": "Aktuelle Position: ",
+            "label-end-position": "Endposition: ",
+            "label-active-position": "Aktive Position: ",
+            "button-enable-axis": "Achse aktivieren",
+            "label-speed": "Geschwindigkeit",
+            "button-set-speed": "Geschwindigkeit einstellen",
+            "label-position": "Position",
+            "button-set-position": "Position einstellen",
+            "label-override": "Vorwärtsgeschwindigkeit",
+            "label-spindle": "Spindeldrehzahl",
+            "terminal-output-title": "Terminalausgabe"
+        }
+    };
+
+        // Update category text elements
+    textElements.forEach(element => {
+        const id = element.getAttribute('id');
+        if (data[language][id]) {
+            element.textContent = data[language][id];
+        }
+    });
+
+    // Update app-label text elements
+    const appLabels = document.querySelectorAll('.app-label');
+    appLabels.forEach(element => {
+        const labelKey = element.getAttribute('data-key');
+        if (data[language][labelKey]) {
+            element.textContent = data[language][labelKey];
+        }
+    });
+
+    // Update axis status text elements
+    axisStatusElements.forEach(element => {
+        const key = element.getAttribute('data-key');
+        if (data[language][key]) {
+            const span = element.querySelector('span');
+            if (span) {
+                element.innerHTML = data[language][key] + span.outerHTML;
+            } else {
+                element.textContent = data[language][key];
+            }
+        }
+    });
+}
+
+// Update the language on page load
+updateLanguage(savedLanguage);
+
+// Language switch event listener
+link.forEach(el => {
+    el.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent default link behavior
+        const attr = el.getAttribute('language');
+        localStorage.setItem('preferredLanguage', attr); // Save language to localStorage
+        updateLanguage(attr);
+        window.location.href = el.href; // Navigate to the link's href
+    });
+});
+});
+
+</script>

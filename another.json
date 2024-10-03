@@ -1,0 +1,13 @@
+{
+    "gcode": [
+        "G21 ; Set units to millimeters",
+        "G90 ; Use absolute positioning",
+        "G0 Z5 ; Raise the Z-axis to 5mm",
+        "G0 X0 Y0 ; Move to the origin",
+        "G1 Z-1 F300 ; Lower Z-axis to -1mm at a feed rate of 300 mm/min",
+        "G1 X10 Y10 F600 ; Move to (10, 10) at a feed rate of 600 mm/min",
+        "G0 Z5 ; Raise the Z-axis back to 5mm",
+        "M30 ; End of program"
+    ],
+    "currentLine": 1
+}

@@ -1,5 +1,6 @@
 {
-    "forward_speed": "54",
+    "highlight_line": "7",
+    "forward_speed": "60",
     "spindle_speed": "31",
     "is_override_running": false,
     "is_spindle_running": false,
@@ -10,7 +11,7 @@
     },
     "x": {
         "current_position": 1.0,
-        "end_position": "2334.000",
+        "end_position": "24.000",
         "active_position": "12.000"
     },
     "z": {

@@ -1,4 +1,57 @@
-<head><style></style></head>
+<head><style>
+        .langBtn {
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .langBtn img {
+            width: 20px;
+            height: 20px;
+        }
+        .icon-container {
+            text-align: center; /* Centers the icon */
+        }
+
+        .top-nav-bar {
+            display: flex; /* 使用弹性盒子布局 */
+            justify-content: space-between;
+            align-items: center; /* 子元素垂直居中 */
+            /* padding: 30px 20px; 上下30px，左右20px的内边距 */
+            background: #535c5f;
+        }
+
+
+        .nav-button {
+            background: none; 
+            border: none; 
+            /* padding: 10px 10px; */
+            cursor: pointer; 
+            margin-right: 20px; 
+        }
+
+        .nav-button:first-child {
+            /* margin-right: 40px; */
+        }
+
+        .page-title {
+            flex-grow: 1;
+            text-align: center;
+            margin: 0; /* Remove default margin */
+        }
+
+        .page-title {
+            flex-grow: 1;
+            text-align: center;
+            margin: 0; /* Remove default margin */
+        }
+
+        /* body {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 800;
+        } */
+         
+</style></head>
+
 <div class="top-nav-bar">
     <a href="/index">
         <button class="nav-button" id="back-button">
@@ -317,6 +370,7 @@
         </button>
     </a>
 </div>
+
 
 <script>
     // Layout window dialog
