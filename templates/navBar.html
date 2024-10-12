@@ -1,4 +1,16 @@
 <head><style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: inherit;
+    }
+
         .langBtn {
             cursor: pointer;
             border-radius: 5px;
@@ -30,7 +42,7 @@
         }
 
         .nav-button:first-child {
-            /* margin-right: 40px; */
+            margin-right: 40px;
         }
 
         .page-title {
@@ -104,7 +116,7 @@
 
     <div class="nav-button">
         <button id="layout-button" class="icon-button">
-            <img src="{{ url_for('static', filename='layout.png') }}" alt="Layout" style="width: 50px; height: auto;"/>
+            <img src="{{ url_for('static', filename='dashboard.png') }}" alt="Layout" style="width: 50px; height: auto;"/>
             <div class="icon-button"></div>
         </button>
     </div>
@@ -129,7 +141,8 @@
               --h2-font-size: 1.25rem;
               --small-font-size: .813rem;
               background: linear-gradient(#444444, #222);
-              
+              border-radius: 14px;
+
             }
 
             /*========== Responsive typography ==========*/
@@ -315,6 +328,7 @@
                     padding-inline: 2.5rem;
                 }
             } 
+
         </style>
         <div class="dialog-content">
             <button class="close-button" id="close-dialog" style="background: transparent; border: none; color: gray;">&times;</button>

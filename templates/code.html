@@ -3,9 +3,15 @@
 
 <head>
     <title>Kompaki</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         .highlighted-line {
-            background-color: yellow;
+            background-color: #45a049;
         }
 
         .fixed-bottom-bar {
@@ -199,49 +205,49 @@
 
         .container {
             display: flex;
-            height: calc(100vh - 200px);
             position: fixed;
-            top: 200px;
+            /* top: 200px; */
             width: 100%;
+            height: 100%;
         }
 
         .code-display {
-            width: 40%;
-            background-color: #f9f9f9;
+            width: 79%;
+            background-color: #424242;
             padding: 10px;
             box-sizing: border-box;
             overflow-y: auto;
-            border-left: 1px solid #ccc;
         }
 
         .code-list {
             width: 20%;
-            background-color: #f0f0f0;
-            border-right: 1px solid #ccc;
+            background-color: #5f6368;
             padding: 10px;
             box-sizing: border-box;
             overflow-y: auto;
         }
 
         .code-item {
-            background-color: #fff;
+            background-color: #3c3c3c;
             padding: 15px;
             margin-bottom: 10px;
             cursor: pointer;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s, box-shadow 0.3s;
+            transition: background-color 0.5s, box-shadow 0.5s;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 500;
+            font-family: 'Roboto', sans-serif; /* Roboto font applied */
             position: relative;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            color: #b3b3b3;
         }
 
         .code-item.selected {
             background-color: #4CAF50;
-            color: white;
+            color: #fff;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
@@ -252,14 +258,15 @@
             font-size: 24px;
             padding: 5px;
             margin-left: 10px;
+            color: #fff;
+            font-weight: bold;
         }
 
         .dropdown-menu {
             position: absolute;
             right: 0;
             top: 100%;
-            background-color: white;
-            border: 1px solid #ccc;
+            background-color: #333;
             border-radius: 4px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             z-index: 1000;
@@ -272,18 +279,21 @@
 
         .rename-button,
         .delete-button {
-            background-color: white;
+            background-color: #333;
             border: none;
             padding: 10px;
             width: 100%;
             text-align: left;
             cursor: pointer;
             font-size: 14px;
+            font-weight: 600;
             box-sizing: border-box;
+            color: #b3b3b3;
         }
 
         .rename-button:hover {
             background-color: #f5f5f5;
+            color: #333;
         }
 
         .delete-button {
@@ -313,11 +323,11 @@
             border-color: #4CAF50;
         }
 
-        #save-code,
+        /* #save-code,
         #view-3d-button,
         #download-gcode {
             margin-top: 10px;
-        }
+        } */
 
 
         #current-code-name {
@@ -343,20 +353,54 @@
             cursor: not-allowed;
         }
 
-
-        #upload-button,
-        #save-code,
-        #view-3d-button,
-        #download-gcode {
-            background-color: #4CAF50;
+        #upload-button {
+            width: 100%;
+            background-color: #388e3c;
             color: white;
+            padding: 16px 0px;
+            font-size: 1.1rem;
+            border: none;
+            outline: none;
+            border-radius: 8px;
+            font-weight: 599;
+            cursor: pointer;
+            margin: 10px 0 10px;
+            transition: 0.5s ease;
         }
 
-        #upload-button,
+        #upload-button:hover {
+            background-color: #2e7d32;
+            outline: 2px solid white;
+            transform: scale(0.95);
+        }
+
+
+        #save-code,
+        #view-3d-button,
+        #clear-code-button,
+        #download-gcode {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px 0px;
+            font-size: 1.1rem;
+            border: none;
+            outline: none;
+            border-radius: 6px;
+            font-weight: 599;
+            cursor: pointer;
+            margin: 7px 0 10px;
+            transition: 0.5s ease;
+            flex: 1;                    /* Ensures all buttons take equal space */
+        }
+
         #save-code:hover,
         #view-3d-button:hover,
+        #clear-code-button:hover,
         #download-gcode:hover {
-            background-color: #45a049;
+            background-color: #388e3c;
+            outline: 2px solid white;
+            transform: scale(0.95);
         }
 
         /* 可视化模块的基本样式 */
@@ -410,6 +454,12 @@
             /* 确保z-index值高于模态框内容 */
             cursor: pointer;
         }
+            /* Container to align buttons in one line */
+        .button-container {
+            display: flex;                /* Flexbox layout */
+            justify-content: space-between; /* Space between the buttons */
+            gap: 10px;                    /* Optional spacing between buttons */
+        }
     </style>
     <!-- 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -421,6 +471,7 @@
     <script src="https://cdn.jsdelivr.net/gh/kerdirks/JSCut/gcodeviewer/gcodeviewer.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/theme/dracula.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/gcode/gcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -434,24 +485,38 @@
     <!-- Top navigation bar -->
     {% include 'insidenavBar.html' %}
 
-    <!-- code storage-->
-    <form id="upload-form" style="display: none;">
-        <input type="file" name="codeFile" id="codeFile">
-    </form>
-    <button id="upload-button">Upload Code</button>
-
     <div class="container">
         <div id="code-list" class="code-list">
             <!-- 已上传的代码文件名将会被添加到这里 -->
+
+        <!-- code storage-->
+        <form id="upload-form" style="display: none;">
+            <input type="file" name="codeFile" id="codeFile">
+        </form>
+        <button id="upload-button">
+            Upload Code
+            <img src="{{ url_for('static', filename='upload.png') }}" alt="Upload Icon" style="width: 16px; margin-left: 8px; position: relative; bottom: -1px;">
+        </button>
+        
+        
 
         </div>
 
         <div id="code-display" class="code-display">
             <div id="current-code-name"></div>
             <textarea id="code-editor" name="codeEditor" spellcheck="false"></textarea>
-            <button id="save-code" style="display: block;">Save Changes</button>
-            <button id="view-3d-button" style="display: block;">View 3D</button>
-            <button id="download-gcode" style="display: block;">download</button>
+            
+            <!-- Wrap the buttons in a container for alignment -->
+            <div class="button-container">
+                <button id="save-code">Save
+                    <img src="{{ url_for('static', filename='save.png') }}" alt="Upload Icon" style="width: 14px; margin-left: 8px; position: relative; bottom: -0.5px;">
+                </button>
+                <button id="view-3d-button">View 3D</button>
+                <button id="clear-code-button">Clear Code</button>
+                <button id="download-gcode">Download
+                    <img src="{{ url_for('static', filename='downloads.png') }}" alt="Upload Icon" style="width: 14px; margin-left: 8px; position: relative; bottom: -0.5px;">
+                </button>
+            </div>
         </div>
  
         
@@ -475,123 +540,7 @@
 
 
     <!-- 固定在底部的导航栏 -->
-    <div class="fixed-bottom-bar">
-        <!-- 常规帮助 -->
-        <button id="help-service-button" class="icon-button">
-            <img src="{{url_for('static', filename='ph_question.jpg')}}" alt="帮助">
-        </button>
-        <div id="help-service-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-button">&times;</span>
-                <h2>help</h2>
-
-                <!-- 可折叠的问题 1 -->
-                <div class="faq-section">
-                    <button class="faq-question">question 1</button>
-                    <div class="faq-answer" style="display: none;">
-                        <p>solution 1 ：......</p>
-                    </div>
-                </div>
-
-                <!-- 可折叠的问题 2 -->
-                <div class="faq-section">
-                    <button class="faq-question">question 2</button>
-                    <div class="faq-answer" style="display: none;">
-                        <p>solution 2 ：......</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 人工客服 -->
-        <button id="customer-service-button" class="icon-button">
-            <img src="{{ url_for('static', filename='consumer_service.jpg') }}" alt="服务" />
-        </button>
-        <div id="customer-service-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-button">&times;</span>
-                <h2>customer service</h2>
-
-                <!-- 在这里添加人工客服相关内容 -->
-                <p class="welcome-message">Welcome to our customer service center! How can we help you?</p>
-
-                <!-- 联系表单（示例） -->
-                <form id="contact-form">
-                    <input type="text" placeholder="username" required><br>
-                    <input type="email" placeholder="E-mail" required><br>
-                    <textarea placeholder="question"></textarea><br>
-                    <button type="submit">submit</button>
-                </form>
-            </div>
-        </div>
-
-
-        <!-- AIchat -->
-        <button id="AI-chat-button" class="icon-button">
-            <img src="{{ url_for('static', filename='AIchat.jpg') }}" alt="服务" />
-        </button>
-        <div id="AI-chat-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-button">&times;</span>
-                <h2>AI chat</h2>
-
-                <!-- 对话记录 -->
-                <div id="chat-history" class="chat-history">
-                    <!-- 在这里动态添加聊天内容 -->
-                </div>
-
-                <!-- 文字输入框 -->
-                <input type="text" id="chat-input" placeholder="Enter question ......">
-                <button id="send-message">send</button>
-            </div>
-        </div>
-
-
-        <!-- 设置 -->
-        <button id="setting-button" class="icon-button">
-            <img src="{{ url_for('static', filename='setting.jpg') }}" alt="服务" />
-        </button>
-        <div id="setting-modal" class="modal">
-            <!-- 模态内容 -->
-            <div class="modal-content">
-                <span class="close-button">&times;</span>
-                <h2>setting</h2>
-
-                <!-- 设置按钮 1 -->
-                <button class="setting-option-button">
-                    <img src="{{ url_for('static', filename='copy.jpg') }}" alt="选项1" />
-                </button>
-
-
-                <!-- 设置按钮 2 -->
-                <button class="setting-option-button">
-                    <img src="{{ url_for('static', filename='delete.jpg') }}" alt="选项2" />
-                </button>
-
-                <!-- 触发按钮 -->
-                <button id="create-folder-button">
-                    <img src="{{ url_for('static', filename='add.jpg') }}" alt="选项2" />
-                </button>
-
-
-            </div>
-        </div>
-
-
-        <!-- 监控 -->
-        <button id="monitoring-button" class="icon-button">
-            <img src="{{ url_for('static', filename='monitoring.jpg') }}" alt="服务" />
-        </button>
-        <div id="monitoring-modal" class="modal">
-            <!-- 模态内容 -->
-            <div class="modal-content">
-                <span class="close-button">&times;</span>
-                <h2>monitoring</h2>
-                <!-- 人工客服相关内容 -->
-            </div>
-        </div>
-        <!-- 根据需要添加更多按钮 -->
-    </div>
+    {% include 'footer.html' %}
 
     <script>
 
@@ -608,8 +557,10 @@
             codeEditor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
                 lineNumbers: true,
                 mode: 'gcode',
-                theme: 'default'
+                theme: 'dracula'
             });
+
+            codeEditor.setSize('100%', '500px');  // 设置编辑器的大小
 
             // Function to fetch and highlight line
             function fetchAndHighlightLine() {
@@ -879,6 +830,11 @@
             }
 
             loadAndDisplayAllCodes();  // 调用函数加载并显示所有代码
+        });
+
+
+        document.getElementById('clear-code-button').addEventListener('click', function () {
+            codeEditor.setValue('');
         });
 
         document.getElementById('download-gcode').addEventListener('click', function () {

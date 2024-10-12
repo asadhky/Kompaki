@@ -42,7 +42,6 @@ db_config = {
     'database': 'userdb'
 }
 
-
 # 用您的OpenAI API密钥替换此处
 openai.api_key = os.getenv('OPENAI_API_KEY')
 # Initialize a global variable for the PLC connection
@@ -920,6 +919,43 @@ def save_code():
         cursor.close()
         conn.close()
         return jsonify({'success': True, 'message': 'Code updated successfully'})
+    except mysql.connector.Error as e:
+        app.logger.error(f'Database error: {e}')
+        return jsonify({'error': 'Internal Server Error'}), 500
+    
+@app.route('/download-gcode', methods=['POST'])
+def download_gcode():
+    try:
+        # Get the G-code file name from the request
+        data = request.get_json()
+        gcode_name = data.get('name')
+
+        if not gcode_name:
+            return jsonify({'error': 'No GCode file name provided.'}), 400
+
+        # Connect to the database
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+
+        # Fetch the G-code content from the database based on the code_name
+        cursor.execute('SELECT code_content FROM code WHERE code_name = %s', (gcode_name,))
+        result = cursor.fetchone()
+
+        if result is None:
+            return jsonify({'error': 'GCode file not found.'}), 404
+
+        gcode_content = result[0]  # Fetch the code_content column
+
+        # Close the database connection
+        cursor.close()
+        conn.close()
+
+        # Prepare the G-code content for download as a .gcode file
+        response = make_response(gcode_content)
+        response.headers.set('Content-Disposition', 'attachment', filename=f"{gcode_name}.gcode")
+        response.headers.set('Content-Type', 'text/plain')  # Set appropriate content type
+
+        return response
     except mysql.connector.Error as e:
         app.logger.error(f'Database error: {e}')
         return jsonify({'error': 'Internal Server Error'}), 500

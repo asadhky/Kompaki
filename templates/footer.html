@@ -1,0 +1,128 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+.footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    background-color: #535c5f;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 1000;
+}
+
+.footer-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+}
+
+.footer-button img {
+    width: auto;
+    height: 45px;
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="footer">
+        <a href="#">
+            <button class="footer-button">
+                <img src="{{ url_for('static', filename='calendar.png') }}" alt="Icon 1" style="width: 45px; height: auto;">
+            </button>
+        </a>
+        <a href="#">
+            <button class="footer-button">
+                <img src="{{ url_for('static', filename='email.png') }}" alt="搜索" style="width: 55px; height: auto;">
+            </button>
+        </a>
+        <button id="AI-chat-button" class="icon-button">
+            <img src="{{ url_for('static', filename='ai.png') }}" alt="AI-chat"  style="width: 50px; height: auto;"/>
+            <div class="icon-button"> </div>
+        </button>
+        <div id="AI-chat-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>AI chat</h2>
+
+                <!-- 对话记录 -->
+                <div id="chat-history" class="chat-history">
+                    <!-- 在这里动态添加聊天内容 -->
+                </div>
+
+                <!-- 文字输入框 -->
+                <input type="text" id="chat-input" placeholder="Enter question ......">
+                <button id="send-message">send</button>
+            </div>
+        </div>
+        <a href="#">
+            <button class="footer-button">
+                <img src="{{ url_for('static', filename='more.png') }}" alt="Icon 4">
+            </button>
+        </a>
+    </div>
+    
+
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const aiChatModal = document.getElementById("AI-chat-modal");
+        const aiChatBtn = document.getElementById("AI-chat-button");
+        const sendButton = document.getElementById("send-message");
+        const chatInput = document.getElementById("chat-input");
+        const chatHistory = document.getElementById("chat-history");
+
+        const closeButtons = document.getElementsByClassName("close-button");
+
+        // Open the AI chat modal
+        aiChatBtn.onclick = function () {
+            aiChatModal.style.display = "block";
+        };
+
+        // Add close functionality to all close buttons
+        for (let i = 0; i < closeButtons.length; i++) {
+            closeButtons[i].onclick = function () {
+                this.closest('.modal').style.display = 'none';
+            };
+        }
+
+        // Close modal when clicking outside the modal
+        window.onclick = function (event) {
+            if (event.target === aiChatModal) {
+                aiChatModal.style.display = "none";
+            }
+        };
+
+        // Send message functionality
+        sendButton.onclick = function () {
+            const question = chatInput.value;
+            if (question.trim()) {
+                chatHistory.innerHTML += `<div><strong>You:</strong> ${question}</div>`;
+                // AJAX request to the server
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    url: '/ask',
+                    data: JSON.stringify({ 'question': question }),
+                    success: function (data) {
+                        chatHistory.innerHTML += `<div><strong>ChatGPT:</strong> ${data.answer}</div>`;
+                        chatInput.value = ''; // Clear the input field
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                        chatHistory.innerHTML += `<div><strong>Error:</strong> An error occurred.</div>`;
+                    }
+                });
+            }
+        };
+    });
+</script>
+
+</html>

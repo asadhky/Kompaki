@@ -1,0 +1,117 @@
+<div class="fixed-bottom-bar">
+    <!-- 常规帮助 -->
+    <button id="help-service-button" class="icon-button">
+        <img src="{{url_for('static', filename='ph_question.jpg')}}" alt="帮助">
+    </button>
+    <div id="help-service-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>help</h2>
+
+            <!-- 可折叠的问题 1 -->
+            <div class="faq-section">
+                <button class="faq-question">question 1</button>
+                <div class="faq-answer" style="display: none;">
+                    <p>solution 1 ：......</p>
+                </div>
+            </div>
+
+            <!-- 可折叠的问题 2 -->
+            <div class="faq-section">
+                <button class="faq-question">question 2</button>
+                <div class="faq-answer" style="display: none;">
+                    <p>solution 2 ：......</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 人工客服 -->
+    <button id="customer-service-button" class="icon-button">
+        <img src="{{ url_for('static', filename='consumer_service.jpg') }}" alt="服务" />
+    </button>
+    <div id="customer-service-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>customer service</h2>
+
+            <!-- 在这里添加人工客服相关内容 -->
+            <p class="welcome-message">Welcome to our customer service center! How can we help you?</p>
+
+            <!-- 联系表单（示例） -->
+            <form id="contact-form">
+                <input type="text" placeholder="username" required><br>
+                <input type="email" placeholder="E-mail" required><br>
+                <textarea placeholder="question"></textarea><br>
+                <button type="submit">submit</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- AIchat -->
+    <button id="AI-chat-button" class="icon-button">
+        <img src="{{ url_for('static', filename='AIchat.jpg') }}" alt="服务" />
+    </button>
+    <div id="AI-chat-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>AI chat</h2>
+
+            <!-- 对话记录 -->
+            <div id="chat-history" class="chat-history">
+                <!-- 在这里动态添加聊天内容 -->
+            </div>
+
+            <!-- 文字输入框 -->
+            <input type="text" id="chat-input" placeholder="Enter question ......">
+            <button id="send-message">send</button>
+        </div>
+    </div>
+
+
+    <!-- 设置 -->
+    <button id="setting-button" class="icon-button">
+        <img src="{{ url_for('static', filename='setting.jpg') }}" alt="服务" />
+    </button>
+    <div id="setting-modal" class="modal">
+        <!-- 模态内容 -->
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>setting</h2>
+
+            <!-- 设置按钮 1 -->
+            <button class="setting-option-button">
+                <img src="{{ url_for('static', filename='copy.jpg') }}" alt="选项1" />
+            </button>
+
+
+            <!-- 设置按钮 2 -->
+            <button class="setting-option-button">
+                <img src="{{ url_for('static', filename='delete.jpg') }}" alt="选项2" />
+            </button>
+
+            <!-- 触发按钮 -->
+            <button id="create-folder-button">
+                <img src="{{ url_for('static', filename='add.jpg') }}" alt="选项2" />
+            </button>
+
+
+        </div>
+    </div>
+
+
+    <!-- 监控 -->
+    <button id="monitoring-button" class="icon-button">
+        <img src="{{ url_for('static', filename='monitoring.jpg') }}" alt="服务" />
+    </button>
+    <div id="monitoring-modal" class="modal">
+        <!-- 模态内容 -->
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>monitoring</h2>
+            <!-- 人工客服相关内容 -->
+        </div>
+    </div>
+    <!-- 根据需要添加更多按钮 -->
+</div>

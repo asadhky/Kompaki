@@ -1,6 +1,6 @@
 {
-    "highlight_line": "7",
-    "forward_speed": "60",
+    "highlight_line": "8",
+    "forward_speed": "50",
     "spindle_speed": "31",
     "is_override_running": false,
     "is_spindle_running": false,
