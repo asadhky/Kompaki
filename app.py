@@ -479,8 +479,17 @@ def update_spindle():
 @app.route('/update-sliders', methods=['POST'])
 def update_sliders():
     data = request.json
-    override_value = data.get('override', {}).get('value')
-    feed_rate_value = data.get('spindle', {}).get('input_value') # Map spindle to feed_rate
+    
+    # Cast override_value and feed_rate_value to integers if they are valid numbers
+    try:
+        override_value = int(data.get('override', {}).get('value', 50))  # Default to 50 if not provided
+    except ValueError:
+        override_value = 50  # Handle non-integer input gracefully
+    
+    try:
+        feed_rate_value = int(data.get('spindle', {}).get('input_value', 50))  # Default to 50 if not provided
+    except ValueError:
+        feed_rate_value = 50  # Handle non-integer input gracefully
 
     try:
         current_data = read_json()
@@ -488,12 +497,13 @@ def update_sliders():
         current_data = {}
 
     current_data['override'] = {"variable": "sample", "value": override_value}
-    current_data['feed_rate'] = {"variable": "sample", "input_value": feed_rate_value} # Update feed_rate
+    current_data['feed_rate'] = {"variable": "sample", "input_value": feed_rate_value}
 
     with open(DATA_FILE, 'w') as f:
         json.dump(current_data, f, indent=4)
 
     return jsonify({"message": "Sliders updated successfully!"})
+
 
 @app.route('/get-slider-values', methods=['GET'])
 def get_slider_values():
@@ -515,6 +525,7 @@ def get_slider_values():
             "input_value": feed_rate_value
         }
     })
+
 
 
 
