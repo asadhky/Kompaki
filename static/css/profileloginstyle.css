@@ -84,6 +84,7 @@ body {
   background-image: url("../visitorpicture.jpg");
 }
 
+
 .visitorDiv .btn span {
   width: inherit;
   position: absolute;
@@ -179,9 +180,9 @@ body {
   background-color: transparent;
 }
 
-.addIcon:hover {
+/* .addIcon:hover {
   background-color: #fff;
-}
+} */
 
 .addicon:hover > .fa-plus-circle {
   opacity: 1;

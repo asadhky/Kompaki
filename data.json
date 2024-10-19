@@ -1,22 +1,28 @@
 {
-    "highlight_line": "8",
-    "forward_speed": "50",
-    "spindle_speed": "31",
+    "highlight_line": "9",
+    "override": {
+        "variable": "sample",
+        "value": "74"
+    },
+    "feed_rate": {
+        "variable": "sample",
+        "input_value": "29"
+    },
     "is_override_running": false,
     "is_spindle_running": false,
     "y": {
         "current_position": 0.0,
-        "end_position": "12.000",
-        "active_position": "23.000"
+        "end_position": "2.000",
+        "active_position": "12.000"
     },
     "x": {
         "current_position": 1.0,
-        "end_position": "24.000",
-        "active_position": "12.000"
+        "end_position": "33.000",
+        "active_position": "3.000"
     },
     "z": {
         "current_position": 0.0,
-        "end_position": "21.000",
-        "active_position": "23.000"
+        "end_position": "23.000",
+        "active_position": "2.000"
     }
 }

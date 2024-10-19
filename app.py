@@ -125,7 +125,7 @@ applications = [
 # 将原来的根路由重定向到登录页面
 @app.route('/')
 def root():
-    return redirect(url_for('login'))
+    return redirect(url_for('profile_login'))
 
 @app.errorhandler(Exception)
 def handle_exception(e):
@@ -479,16 +479,16 @@ def update_spindle():
 @app.route('/update-sliders', methods=['POST'])
 def update_sliders():
     data = request.json
-    forward_speed = data.get('forward_speed')
-    spindle_speed = data.get('spindle_speed')
+    override_value = data.get('override', {}).get('value')
+    feed_rate_value = data.get('spindle', {}).get('input_value') # Map spindle to feed_rate
 
     try:
         current_data = read_json()
     except FileNotFoundError:
         current_data = {}
 
-    current_data['forward_speed'] = forward_speed
-    current_data['spindle_speed'] = spindle_speed
+    current_data['override'] = {"variable": "sample", "value": override_value}
+    current_data['feed_rate'] = {"variable": "sample", "input_value": feed_rate_value} # Update feed_rate
 
     with open(DATA_FILE, 'w') as f:
         json.dump(current_data, f, indent=4)
@@ -502,13 +502,21 @@ def get_slider_values():
     except FileNotFoundError:
         current_data = {}
 
-    forward_speed = current_data.get('forward_speed', 50)  # Default to 50 if not found
-    spindle_speed = current_data.get('spindle_speed', 50)  # Default to 50 if not found
+    override_value = current_data.get('override', {}).get('value', 50)  # Default to 50 if not found
+    feed_rate_value = current_data.get('feed_rate', {}).get('input_value', 50)  # Default to 50 if not found
 
     return jsonify({
-        "forward_speed": forward_speed,
-        "spindle_speed": spindle_speed
+        "override": {
+            "variable": "sample",
+            "value": override_value
+        },
+        "feed_rate": {
+            "variable": "sample",
+            "input_value": feed_rate_value
+        }
     })
+
+
 
 # Function to read JSON data from file
 def read_json():

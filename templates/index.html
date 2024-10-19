@@ -88,11 +88,11 @@
         .axis-container {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
 
         .axis {
-            background-color: #fff;
+            background-color: #424242;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -111,13 +111,25 @@
             transition: background-color 0.3s ease;
         }
 
+        .axis {
+            transition: background-color 0.8s ease, color 0.8s ease; 
+        }
+
         .axis h2 {
             margin-top: 0;
+
         }
 
         .axis.selected {
-            background-color: #FFD700 !important;
+            background-color: #50727b !important; /* Keeps the background color when selected */
+            color: #fff !important; /* Changes text color to white */
         }
+
+        .axis.selected h2, 
+        .axis.selected div {
+            color: #fff !important; /* Ensures all text inside the selected axis is white */
+        }
+
 
         .slider-container {
             display: flex;
@@ -138,7 +150,7 @@
             margin-top: 20px;
             padding: 10px;
             background-color: #333;
-            color: #fff;
+            color: #d3d3d3;
             height: 200px;
             overflow-y: auto;
             border-radius: 5px;
@@ -566,38 +578,38 @@
     <div class="axis-status" id="axis-status">
         <div class="container">
             <!-- 上部：Connection -->
-            <div class="section" id="connection-section">
+            <!-- <div class="section" id="connection-section">
                 <h2 data-key="title-connection" style="color: #b3b3b3;">Connection</h2>
                 <div class="form-group-inline">
-                    <label for="amsnetid" data-key="label-amsnetid">AmsNetID</label>
+                    <label for="amsnetid" data-key="label-amsnetid" style="color: #d3d3d3;">AmsNetID</label>
                     <input type="text" id="amsnetid">
-                    <label for="port" data-key="label-port">Port</label>
+                    <label for="port" data-key="label-port" style="color: #d3d3d3;">Port</label>
                     <input type="text" id="port">
                     <button id="open-port-btn" data-key="button-open-port">Open Port</button>
                 </div>
-            </div>
+            </div> -->
 
             <!-- 中部：Axis Status -->
             <div class="section" id="axis-status-section">
                 <h2 data-key="title-axis-status" style="color: #b3b3b3;">Axis Status</h2>
                 <div class="axis-container">
                     <div class="axis" id="status-x-axis" onclick="selectAxis('x')">
-                        <h2 data-key="title-x-axis">X Axis</h2>
-                        <div data-key="label-current-position">Current Position: <span id="x-current">0.000</span></div>
-                        <div data-key="label-end-position">End Position: <span id="x-end">0.000</span></div>
-                        <div data-key="label-active-position">Active Position: <span id="x-active">0.000</span></div>
+                        <h2 data-key="title-x-axis" style="color: #b3b3b3;">X Axis</h2>
+                        <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="x-current">0.000</span></div>
+                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="x-end">0.000</span></div>
+                        <div data-key="label-active-position" style="color: #d3d3d3;">Active Position: <span id="x-active">0.000</span></div>
                     </div>
                     <div class="axis" id="status-y-axis" onclick="selectAxis('y')">
-                        <h2 data-key="title-y-axis">Y Axis</h2>
-                        <div data-key="label-current-position">Current Position: <span id="y-current">0.000</span></div>
-                        <div data-key="label-end-position">End Position: <span id="y-end">0.000</span></div>
-                        <div data-key="label-active-position">Active Position: <span id="y-active">0.000</span></div>
+                        <h2 data-key="title-y-axis" style="color: #b3b3b3;">Y Axis</h2>
+                        <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="y-current">0.000</span></div>
+                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="y-end">0.000</span></div>
+                        <div data-key="label-active-position" style="color: #d3d3d3;">Active Position: <span id="y-active">0.000</span></div>
                     </div>
                     <div class="axis" id="status-z-axis" onclick="selectAxis('z')">
-                        <h2 data-key="title-z-axis">Z Axis</h2>
-                        <div data-key="label-current-position">Current Position: <span id="z-current">0.000</span></div>
-                        <div data-key="label-end-position">End Position: <span id="z-end">0.000</span></div>
-                        <div data-key="label-active-position">Active Position: <span id="z-active">0.000</span></div>
+                        <h2 data-key="title-z-axis" style="color: #b3b3b3;">Z Axis</h2>
+                        <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="z-current">0.000</span></div>
+                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="z-end">0.000</span></div>
+                        <div data-key="label-active-position" style="color: #d3d3d3;">Active Position: <span id="z-active">0.000</span></div>
                     </div>
                 </div>
             </div>
@@ -613,21 +625,12 @@
                     <button id="set-position" data-key="button-set-position">Set Position</button>
                 </div>
             
-                <!-- <div class="slider-container">
-                    <label for="override-slider" data-key="label-override">Forward Speed:</label>
-                    <input type="range" id="override-slider" min="0" max="100" value="98">
-                    <span id="override-value">98%</span>
-                </div>
-                <div class="slider-container">
-                    <label for="spindle-slider" data-key="label-spindle">Spindle Speed:</label>
-                    <input type="range" id="spindle-slider" min="0" max="100" value="0">
-                    <span id="spindle-value">0%</span>
-                </div> -->
                 <div class="section">
                     <div class="axis-container">
                         <div class="rangetitles" id="terminal-section">
                             <h2 data-key="label-override" style="color: #b3b3b3; display: inline-block;">Select Forward Speed</h2>                            
-                            <button id="override-button" class="overridestartbutton"></button> <!-- New button for override -->
+                            <button id="override-stop-button" class="overridestartbutton" style="background-image: url('../static/overridestop.jpg');"></button>
+                            <button id="override-start-button" class="overridestartbutton" style="background-image: url('../static/overridestart.jpg'); margin-right: 10px;"></button>
                             <div class="slider-ui color1">
                                 <input type="range" id="override-slider" min="0" max="100" step="1" value="{{ forward_speed }}">
                                 <div class="bar">
@@ -642,10 +645,13 @@
                                 <img src="{{ url_for('static', filename='spindlespeed.png') }}" alt="image" style="width: 80px;">
                             </div>
                             
+                            
                         </div>
                         <div class="rangetitles" id="terminal-section">
                             <h2 data-key="label-spindle" style="color: #b3b3b3;  display: inline-block;">Select Spindle Speed</h2>
-                            <button id="spindle-button" class="spindlestartbutton"></button>
+                            <!-- <button id="spindle-button" class="spindlestartbutton"></button> -->
+                            <button id="spindle-stop-button" class="spindlestartbutton" style="background-image: url('../static/spindlestop.jpg');"></button>
+                            <button id="spindle-start-button" class="spindlestartbutton" style="background-image: url('../static/spindlestart.jpg'); margin-right: 10px;"></button>
                             <div class="slider-ui color1">
                                 <input type="range" id="spindle-slider" min="0" max="100" step="1" value="{{ spindle_speed }}">
                                 <div class="bar">
@@ -663,16 +669,17 @@
                     </div>
                 </div>
 
-
+                <!-- 下部：Terminal 输出台 -->
+                <div class="section" id="terminal-section">
+                    <h2 data-key="terminal-output-title" style="color: #b3b3b3;">Terminal Output</h2>
+                    <div class="terminal-output" id="terminal-output">
+                        <!-- Terminal output will be appended here -->
+                    </div>
+                </div>
+                
             </div>            
 
-            <!-- 下部：Terminal 输出台 -->
-            <div class="section" id="terminal-section">
-                <h2 data-key="terminal-output-title" style="color: #b3b3b3;">Terminal Output</h2>
-                <div class="terminal-output" id="terminal-output">
-                    <!-- Terminal output will be appended here -->
-                </div>
-            </div>
+
             
         </div>
     </div>
@@ -681,157 +688,181 @@
     {% include 'footer.html' %}
 
     <script>
-        const overrideButton = document.getElementById('override-button');
-let isOverrideRunning = false; // Flag for override button state
+        const overrideStartButton = document.getElementById('override-stop-button');
+        const overrideStopButton = document.getElementById('override-start-button');
+        let isOverrideRunning = false; // Initial state
 
-overrideButton.addEventListener('click', () => {
-    if (isOverrideRunning) {
-        // Change to start image
-        overrideButton.style.backgroundImage = "url('../static/overridestart.jpg')";
-    } else {
-        // Change to stop image
-        overrideButton.style.backgroundImage = "url('../static/overridestop.jpg')";
-    }
-    
-    isOverrideRunning = !isOverrideRunning; // Toggle the flag
-
-    // Create the AJAX request
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/update-override', true);
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    
-    // Prepare the data to send (override state)
-    const data = JSON.stringify({ is_override_running: isOverrideRunning });
-
-    // Handle the server's response
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-                console.log(response.message);  // Log success message from the server
-            } else {
-                console.error('Error updating override state');  // Handle errors
+        // Event listener for "Start Override" button
+        overrideStartButton.addEventListener('click', () => {
+            if (!isOverrideRunning) {
+                isOverrideRunning = true;  // Set to true
+                updateOverrideState(isOverrideRunning);
             }
-        }
-    };
 
-    // Send the AJAX request
-    xhr.send(data);
-});
+            overrideStartButton.classList.add('active');
+            overrideStopButton.classList.remove('active');
+        });
 
-function checkOverrideState() {
-    // Create the AJAX request
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', '/get-override-state', true); // Get the override state from the server
-    
-    // Handle the server's response
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-                isOverrideRunning = response.is_override_running; // Update the global variable
+        // Event listener for "Stop Override" button
+        overrideStopButton.addEventListener('click', () => {
+            if (isOverrideRunning) {
+                isOverrideRunning = false;
+                updateOverrideState(isOverrideRunning);
+            }
 
-                // Update the button based on the override state
-                if (isOverrideRunning) {
-                    overrideButton.style.backgroundImage = "url('../static/overridestop.jpg')";
-                } else {
-                    overrideButton.style.backgroundImage = "url('../static/overridestart.jpg')";
+            overrideStopButton.classList.add('active');
+            overrideStartButton.classList.remove('active');
+        });
+
+        // Function to update override state
+        function updateOverrideState(isOverrideRunning) {
+            // Create the AJAX request
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/update-override', true);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            
+            // Prepare the data to send
+            const data = JSON.stringify({ is_override_running: isOverrideRunning });
+            
+            // Handle the server's response
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        console.log(response.message);  // Log success message from the server
+                    } else {
+                        console.error('Error updating override state');
+                    }
                 }
-            } else {
-                console.error('Error fetching override state');
-            }
+            };
+
+            // Send the AJAX request
+            xhr.send(data);
         }
-    };
 
-    // Send the AJAX request
-    xhr.send();
-}
+        function checkOverrideState() {
+            // Create the AJAX request
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/get-override-state', true); // Get the override state from the server
+            
+            // Handle the server's response
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        isOverrideRunning = response.is_override_running; // Update the global variable
 
-
-// Poll every 5 seconds (5000 ms) for override state
-setInterval(checkOverrideState, 5000);
-
-
-const spindleButton = document.getElementById('spindle-button');
-let isSpindleRunning = false; // Flag to toggle button state
-
-spindleButton.addEventListener('click', () => {
-    if (isSpindleRunning) {
-        // Change back to the original background image
-        spindleButton.style.backgroundImage = "url('../static/spindlestart.jpg')";
-    } else {
-        // Change to a new background image
-        spindleButton.style.backgroundImage = "url('../static/spindlestop.jpg')";
-    }
-    
-    isSpindleRunning = !isSpindleRunning; // Toggle the flag
-
-    // Create the AJAX request
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/update-spindle', true);
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    
-    // Prepare the data to send (spindle state)
-    const data = JSON.stringify({ is_spindle_running: isSpindleRunning });
-
-    // Handle the server's response
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-                console.log(response.message);  // Log success message from the server
-            } else {
-                console.error('Error updating spindle state');  // Handle errors
-            }
-        }
-    };
-
-    // Send the AJAX request
-    xhr.send(data);
-});
-
-
-function checkSpindleState() {
-    // Create the AJAX request
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', '/get-spindle-state', true); // Get the spindle state from the server
-    
-    // Handle the server's response
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-                const isSpindleRunning = response.is_spindle_running;
-
-                // Update the button based on the spindle state
-                if (isSpindleRunning) {
-                    spindleButton.style.backgroundImage = "url('../static/spindlestop.jpg')";
-                } else {
-                    spindleButton.style.backgroundImage = "url('../static/spindlestart.jpg')";
+                        // Set button classes based on override state
+                        if (isOverrideRunning) {
+                            overrideStartButton.classList.add('active');
+                            overrideStopButton.classList.remove('active');
+                        } else {
+                            overrideStartButton.classList.remove('active');
+                            overrideStopButton.classList.add('active');
+                        }
+                    } else {
+                        console.error('Error fetching override state');
+                    }
                 }
-            } else {
-                console.error('Error fetching spindle state');
-            }
+            };
+
+            // Send the AJAX request
+            xhr.send();
         }
-    };
 
-    // Send the AJAX request
-    xhr.send();
-}
+        // Poll every 5 seconds for override state
+        setInterval(checkOverrideState, 5000);
 
-// Poll every 5 seconds (5000 ms)
-setInterval(checkSpindleState, 5000);
+        
+        const spindleStartButton = document.getElementById('spindle-stop-button');
+        const spindleStopButton = document.getElementById('spindle-start-button');
+        let isSpindleRunning = false; // Initial state
+
+        // Event listener for "Start Spindle" button
+        spindleStartButton.addEventListener('click', () => {
+            if (!isSpindleRunning) {
+                isSpindleRunning = true;  // Set to true
+                updateSpindleState(isSpindleRunning);
+            }
+
+            spindleStartButton.classList.add('active');
+            spindleStopButton.classList.remove('active');
+        });
+
+        // Event listener for "Stop Spindle" button
+        spindleStopButton.addEventListener('click', () => {
+            if (isSpindleRunning) {
+                isSpindleRunning = false;
+                updateSpindleState(isSpindleRunning);
+            }
+
+            spindleStopButton.classList.add('active');
+            spindleStartButton.classList.remove('active');
+        });
+
+        // Function to update spindle state
+        function updateSpindleState(isSpindleRunning) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/update-spindle', true);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            
+            const data = JSON.stringify({ is_spindle_running: isSpindleRunning });
+            
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        console.log(response.message);
+                    } else {
+                        console.error('Error updating spindle state');
+                    }
+                }
+            };
+
+            xhr.send(data);
+        }
+
+        function checkSpindleState() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/get-spindle-state', true);
+            
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        isSpindleRunning = response.is_spindle_running; // Update the global variable
+
+                        // Set button classes based on spindle state
+                        if (isSpindleRunning) {
+                            spindleStartButton.classList.add('active');
+                            spindleStopButton.classList.remove('active');
+                        } else {
+                            spindleStartButton.classList.remove('active');
+                            spindleStopButton.classList.add('active');
+                        }
+                    } else {
+                        console.error('Error fetching spindle state');
+                    }
+                }
+            };
+
+            xhr.send();
+        }
+
+
+        // Poll every 5 seconds for spindle state
+        setInterval(checkSpindleState, 5000);
 
 
 
 
-document.addEventListener('DOMContentLoaded', function () {
+
+        document.addEventListener('DOMContentLoaded', function () {
     const overrideSlider = document.getElementById('override-slider');
     const spindleSlider = document.getElementById('spindle-slider');
     const overrideValue = document.getElementById('override-value');
     const spindleValue = document.getElementById('spindle-value');
 
-    // Update the displayed value as the slider moves
     overrideSlider.addEventListener('input', function () {
         overrideValue.textContent = overrideSlider.value;
     });
@@ -840,13 +871,17 @@ document.addEventListener('DOMContentLoaded', function () {
         spindleValue.textContent = spindleSlider.value;
     });
 
-    // Send updated slider values to the server using fetch
     function updateSliders() {
         const data = {
-            forward_speed: overrideSlider.value,
-            spindle_speed: spindleSlider.value
+            override: {
+                variable: "sample",
+                value: overrideSlider.value
+            },
+            spindle: {
+                variable: "sample",
+                input_value: spindleSlider.value
+            }
         };
-
         fetch('/update-sliders', {
             method: 'POST',
             headers: {
@@ -863,67 +898,63 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Send the updated slider values when the user stops moving the slider
     overrideSlider.addEventListener('change', updateSliders);
     spindleSlider.addEventListener('change', updateSliders);
 });
 
+
+
+
 const sliders = document.querySelectorAll(".slider-ui");
-
 sliders.forEach(slider => {
-	let input = slider.querySelector("input[type=range]");
-	let min = input.getAttribute("min");
-	let max = input.getAttribute("max");
-	let valueElem = slider.querySelector(".value");
+    let input = slider.querySelector("input[type=range]");
+    let min = input.getAttribute("min");
+    let max = input.getAttribute("max");
+    let valueElem = slider.querySelector(".value");
+    slider.querySelector(".min").innerText = min;
+    slider.querySelector(".max").innerText = max;
 
-	slider.querySelector(".min").innerText = min;
-	slider.querySelector(".max").innerText = max;
+    function setValueElem() {
+        valueElem.innerText = input.value;
+        let percent = (input.value - min) / (max - min) * 100;
+        valueElem.style.left = percent + "%";
+    }
 
-	function setValueElem() {
-		valueElem.innerText = input.value;
-		let percent = (input.value - min) / (max - min) * 100;
-		valueElem.style.left = percent + "%";
-	}
-	setValueElem();
-
-	input.addEventListener("input", setValueElem);
-	input.addEventListener("mousedown", () => {
-		valueElem.classList.add("up");
-	});
-	input.addEventListener("mouseup", () => {
-		valueElem.classList.remove("up");
-	});
+    setValueElem();
+    input.addEventListener("input", setValueElem);
+    input.addEventListener("mousedown", () => {
+        valueElem.classList.add("up");
+    });
+    input.addEventListener("mouseup", () => {
+        valueElem.classList.remove("up");
+    });
 });
 
 function updateSliders() {
-    // Create the AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', '/get-slider-values', true); // Get the slider values from the server
-    
-    // Handle the server's response
+    xhr.open('GET', '/get-slider-values', true);
+
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
-                const forwardSpeed = response.forward_speed;
-                const spindleSpeed = response.spindle_speed;
+                const overrideValue = response.override.value;
+                const spindleValue = response.feed_rate.input_value;
 
-                // Update the Forward Speed slider and value
-                const forwardSlider = document.getElementById('override-slider');
-                const forwardValue = document.getElementById('override-value');
-                if (forwardSlider.value != forwardSpeed) {
-                    forwardSlider.value = forwardSpeed;
-                    forwardValue.textContent = forwardSpeed;
-                    updateSliderPosition(forwardSlider, forwardValue);
+                const overrideSlider = document.getElementById('override-slider');
+                const overrideValueElem = document.getElementById('override-value');
+                if (overrideSlider.value != overrideValue) {
+                    overrideSlider.value = overrideValue;
+                    overrideValueElem.textContent = overrideValue;
+                    updateSliderPosition(overrideSlider, overrideValueElem);
                 }
 
-                // Update the Spindle Speed slider and value
                 const spindleSlider = document.getElementById('spindle-slider');
-                const spindleValue = document.getElementById('spindle-value');
-                if (spindleSlider.value != spindleSpeed) {
-                    spindleSlider.value = spindleSpeed;
-                    spindleValue.textContent = spindleSpeed;
-                    updateSliderPosition(spindleSlider, spindleValue);
+                const spindleValueElem = document.getElementById('spindle-value');
+                if (spindleSlider.value != spindleValue) {
+                    spindleSlider.value = spindleValue;
+                    spindleValueElem.textContent = spindleValue;
+                    updateSliderPosition(spindleSlider, spindleValueElem);
                 }
             } else {
                 console.error('Error fetching slider values');
@@ -931,25 +962,19 @@ function updateSliders() {
         }
     };
 
-    // Send the AJAX request
     xhr.send();
 }
 
-// Function to update the position of the slider's thumb ('.value')
 function updateSliderPosition(slider, valueElement) {
     const sliderMin = slider.min;
     const sliderMax = slider.max;
     const sliderValue = slider.value;
-
-    // Calculate the percentage of the slider filled based on the value
     const percentage = (sliderValue - sliderMin) / (sliderMax - sliderMin) * 100;
-
-    // Move the '.value' element according to the slider percentage
-    valueElement.style.left = `calc(${percentage}% - 25px)`; // Offset by half the width of the value element (25px)
+    valueElement.style.left = `calc(${percentage}% - 25px)`;
 }
 
-// Poll every 5 seconds (5000 ms)
-setInterval(updateSliders, 5000);
+setInterval(updateSliders, 500);
+
 
 
 
@@ -1668,46 +1693,71 @@ setInterval(updateAxisStatus, 5000);
 
         // JavaScript for connection and axis functions
         document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('open-port-btn').addEventListener('click', function () {
-                const amsNetID = document.getElementById('amsnetid').value;
-                const port = document.getElementById('port').value;
-                logMessage(`Opening port with AmsNetID: ${amsNetID} and Port: ${port}`);
-            });
-
-            document.getElementById('enable-axis').addEventListener('click', function () {
-                if (selectedAxis) {
-                    logMessage(`${selectedAxis.toUpperCase()} Axis enabled`);
-                } else {
-                    logMessage('No axis selected');
-                }
-            });
-
-            document.getElementById('set-speed').addEventListener('click', function () {
-                if (selectedAxis) {
-                    const speed = document.getElementById('speed').value;
-                    logMessage(`Setting ${selectedAxis.toUpperCase()} Axis speed to ${speed}`);
-                } else {
-                    logMessage('No axis selected');
-                }
-            });
-
-            document.getElementById('set-position').addEventListener('click', function () {
-                if (selectedAxis) {
-                    const position = document.getElementById('position').value;
-                    logMessage(`Setting ${selectedAxis.toUpperCase()} Axis position to ${position}`);
-                } else {
-                    logMessage('No axis selected');
-                }
-            });
-
-            document.getElementById('override-slider').addEventListener('input', function () {
-                document.getElementById('override-value').textContent = this.value;
-            });
-
-            document.getElementById('spindle-slider').addEventListener('input', function () {
-                document.getElementById('spindle-value').textContent = this.value;
-            });
+    // Check if the open-port button exists
+    const openPortBtn = document.getElementById('open-port-btn');
+    if (openPortBtn) {
+        openPortBtn.addEventListener('click', function () {
+            const amsNetID = document.getElementById('amsnetid').value;
+            const port = document.getElementById('port').value;
+            logMessage(`Opening port with AmsNetID: ${amsNetID} and Port: ${port}`);
         });
+    }
+
+    // Enable-axis button
+    const enableAxisBtn = document.getElementById('enable-axis');
+    if (enableAxisBtn) {
+        enableAxisBtn.addEventListener('click', function () {
+            if (selectedAxis) {
+                logMessage(`${selectedAxis.toUpperCase()} Axis enabled`);
+            } else {
+                logMessage('No axis selected');
+            }
+        });
+    }
+
+    // Set-speed button
+    const setSpeedBtn = document.getElementById('set-speed');
+    if (setSpeedBtn) {
+        setSpeedBtn.addEventListener('click', function () {
+            if (selectedAxis) {
+                const speed = document.getElementById('speed').value;
+                logMessage(`Setting ${selectedAxis.toUpperCase()} Axis speed to ${speed}`);
+            } else {
+                logMessage('No axis selected');
+            }
+        });
+    }
+
+    // Set-position button
+    const setPositionBtn = document.getElementById('set-position');
+    if (setPositionBtn) {
+        setPositionBtn.addEventListener('click', function () {
+            if (selectedAxis) {
+                const position = document.getElementById('position').value;
+                logMessage(`Setting ${selectedAxis.toUpperCase()} Axis position to ${position}`);
+            } else {
+                logMessage('No axis selected');
+            }
+        });
+    }
+
+    // Override slider
+    const overrideSlider = document.getElementById('override-slider');
+    if (overrideSlider) {
+        overrideSlider.addEventListener('input', function () {
+            document.getElementById('override-value').textContent = this.value;
+        });
+    }
+
+    // Spindle slider
+    const spindleSlider = document.getElementById('spindle-slider');
+    if (spindleSlider) {
+        spindleSlider.addEventListener('input', function () {
+            document.getElementById('spindle-value').textContent = this.value;
+        });
+    }
+});
+
 
 
 

@@ -559,7 +559,7 @@
 	position: relative;
 	max-width: 1800px;
 	height: 50px;
-	margin-top: 35px;
+	margin-top: 15px;
     margin-bottom: 20px;
 }
 .slider-ui input {
@@ -626,10 +626,10 @@
     transition: top .3s ease-in-out, color .3s ease-in-out;
 }
 
-.slider-ui .value.up {
+/* .slider-ui .value.up {
 	top: -110%;
 	color: #000;
-}
+} */
 .slider-ui.color1 .bar {
 	background-color: #50727b;
 }
@@ -639,8 +639,8 @@
 
 .spindlestartbutton {
     float: right;
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -649,6 +649,7 @@
     background-image: url('../spindlestart.jpg');
     border-radius: 4px;
     transition: filter 0.3s ease, transform 0.3s ease; /* Smooth effect for both filter and transform */
+    box-shadow: 0 5px 0 rgba(0,0,0,.1);
 }
 
 .spindlestartbutton:hover {
@@ -657,11 +658,18 @@
     transform: scale(0.9); /* Zoom out effect on hover */
 }
 
+/* New CSS for active state with white border */
+.spindlestartbutton.active {
+    border: 2px solid white; /* White border when button is active */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.5); /* Stronger shadow on hover */
+
+}
+
 
 .overridestartbutton {
     float: right;
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -670,6 +678,7 @@
     background-image: url('../overridestart.jpg');
     border-radius: 4px;
     transition: filter 0.3s ease, transform 0.3s ease; /* Smooth effect for both filter and transform */
+    box-shadow: 0 5px 0 rgba(0,0,0,.1);
 }
 
 .overridestartbutton:hover {
@@ -678,5 +687,68 @@
     transform: scale(0.9); /* Zoom out effect on hover */
 }
 
+/* New CSS for active state with white border */
+.overridestartbutton.active {
+    border: 2px solid white; /* White border when button is active */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.5); /* Stronger shadow on hover */
 
+}
+
+#terminal-output {
+    background-color: black; /* Pitch black background */
+    color: #d3d3d3; /* Bright green text to mimic a terminal look */
+    padding: 10px; /* Padding inside the terminal section */
+    height: 300px; /* Adjust height as needed */
+    overflow-y: auto; /* Allows scrolling when the content exceeds the height */
+}
+
+/* Styling for the axis-controls container */
+#axis-controls {
+    display: none; /* Initially hidden */
+    margin: 0 auto; /* Center horizontally */
+    max-width: 90%; /* Set a max width for the container */
+    width: 90%; /* Allow it to take up to 90% of the width */
+    display: flex; /* Use flexbox to align items in a single row */
+    flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
+    align-items: center; /* Align items vertically centered */
+}
+
+/* General styling for all buttons inside axis-controls */
+#axis-controls button {
+    background-color: #50727b; /* Button background color */
+    color: #fff; /* Button text color */
+    border: 2px solid transparent; /* Transparent border initially */
+    padding: 10px 15px; /* Padding for button size */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Adjust font size */
+    cursor: pointer; /* Pointer cursor for hover effect */
+    transition: transform 0.2s ease, border 0.2s ease; /* Transition for hover effects */
+    outline: none; /* Remove outline on focus */
+}
+
+#axis-controls button:hover {
+    transform: scale(0.95); /* Shrink effect on hover */
+    border: 2px solid #fff; /* White border on hover */
+}
+
+/* Add margin for spacing between buttons */
+#axis-controls button:not(:last-child) {
+    margin-right: 10px;
+}
+
+/* Style for the input fields */
+#axis-controls input {
+    padding: 8px 10px; /* Add padding inside input fields */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners for inputs */
+    font-size: 16px; /* Adjust font size */
+    width: 150px; /* Width for the input fields */
+    margin-right: 10px; /* Spacing between inputs and buttons */
+}
+
+#axis-controls label {
+    margin-right: 10px; /* Spacing between label and input */
+    color: #d3d3d3; /* Label text color */
+    font-size: 16px; /* Adjust label font size */
+}
 
