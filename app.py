@@ -591,9 +591,8 @@ def update_axis_position():
 
 @app.route('/get_axis_status', methods=['GET'])
 def get_axis_status():
-    # Read data.json directly within the endpoint
-    with open('data.json', 'r') as file:
-        data = json.load(file)
+    # Use the read_json() function to load the data from the file
+    data = read_json()
     
     axis_status = {
         'x': {
@@ -614,6 +613,7 @@ def get_axis_status():
     }
 
     return jsonify(axis_status)
+
 
 
 

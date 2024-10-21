@@ -6,7 +6,7 @@
     },
     "feed_rate": {
         "variable": "sample",
-        "input_value": 70
+        "input_value": 45
     },
     "is_override_running": false,
     "is_spindle_running": false,
