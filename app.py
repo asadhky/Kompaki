@@ -42,8 +42,8 @@ app.config['MAIL_USERNAME'] = 'riskerasad@gmail.com'
 app.config['MAIL_PASSWORD'] = 'iqmzuxopchoogpdu'
 
 db_config = {
-    'user': 'xixi',
-    'password': 'Chenxi1213!',
+    'user': 'root',
+    'password': 'buttsahib',
     'host': 'localhost',
     'port': 3308,
     'database': 'userdb'
@@ -785,6 +785,11 @@ def reset_axis_values():
     
     for key in keys_to_update:
         data[key]["value"] = True
+    
+    try:
+        s3_client.upload_file(DATA_FILE, BUCKET_NAME, S3_FILE_KEY)
+    except Exception as e:
+        print("message Failed to upload to S3")
 
     # Save the changes
     write_json(data)
