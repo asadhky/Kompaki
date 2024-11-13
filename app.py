@@ -789,8 +789,8 @@ def reset_axis_values():
     # Save the changes
     write_json(data)
 
-    # Wait for 1 second before setting them back to false
-    time.sleep(1)
+    # Wait for 5 second before setting them back to false
+    time.sleep(5)
 
     for key in keys_to_update:
         data[key]["value"] = False
