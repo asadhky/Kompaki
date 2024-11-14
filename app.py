@@ -42,8 +42,8 @@ app.config['MAIL_USERNAME'] = 'riskerasad@gmail.com'
 app.config['MAIL_PASSWORD'] = 'iqmzuxopchoogpdu'
 
 db_config = {
-    'user': 'root',
-    'password': 'buttsahib',
+    'user': 'xixi',
+    'password': 'Chenxi1213!',
     'host': 'localhost',
     'port': 3308,
     'database': 'userdb'
@@ -775,33 +775,36 @@ def reset_axis_values():
     # Load the current JSON data
     data = read_json()
     
-    # Set all reset values to true
+    # Define the keys to update
     keys_to_update = [
         "GVL_Motion_Control_single_axis.bsA_ResetExe",
         "GVL_Motion_Control_single_axis_1.bsA_ResetExe",
         "GVL_Motion_Control_single_axis_2.bsA_ResetExe",
         "GVL_Motion_Control_single_axis_3.bsA_ResetExe"
     ]
-    
-    for key in keys_to_update:
-        data[key]["value"] = True
-    
-    try:
-        s3_client.upload_file(DATA_FILE, BUCKET_NAME, S3_FILE_KEY)
-    except Exception as e:
-        print("message Failed to upload to S3")
 
-    # Save the changes
-    write_json(data)
+    # Toggle the values true/false multiple times
+    for _ in range(5):
+        # Set all values to true
+        for key in keys_to_update:
+            data[key]["value"] = True
+        write_json(data)  # Write the data with values set to true
 
-    # Wait for 5 second before setting them back to false
-    time.sleep(5)
+        # Wait briefly before setting to false
+        time.sleep(2)  # Short delay for AWS sync to pick up changes
+        try:
+            s3_client.upload_file(DATA_FILE, BUCKET_NAME, S3_FILE_KEY)
+        except Exception as e:
+            return jsonify({"message": "Failed to upload to S3", "error": str(e)}), 500
 
-    for key in keys_to_update:
-        data[key]["value"] = False
+        # Set all values to false
+        for key in keys_to_update:
+            data[key]["value"] = False
+        write_json(data)  # Write the data with values set to false
 
-    # Save the changes again
-    write_json(data)
+        # Another short delay
+        time.sleep(2)
+
     try:
         s3_client.upload_file(DATA_FILE, BUCKET_NAME, S3_FILE_KEY)
     except Exception as e:
