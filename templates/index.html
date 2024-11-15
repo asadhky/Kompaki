@@ -877,7 +877,7 @@
         }
 
         // Poll every 5 seconds for override state
-        setInterval(checkOverrideState, 5000);
+        setInterval(checkOverrideState, 50000);
 
         
         const spindleStartButton = document.getElementById('spindle-start-button');
@@ -1016,7 +1016,7 @@
 
 
         // Poll every 5 seconds for spindle state
-        setInterval(checkSpindleState, 5000);
+        setInterval(checkSpindleState, 50000);
 
 
 
@@ -1138,7 +1138,7 @@ function updateSliderPosition(slider, valueElement) {
     valueElement.style.left = `calc(${percentage}% - 25px)`;
 }
 
-setInterval(updateSliders, 3000);
+setInterval(updateSliders, 30000);
 
 
 
