@@ -42,8 +42,8 @@ app.config['MAIL_USERNAME'] = 'riskerasad@gmail.com'
 app.config['MAIL_PASSWORD'] = 'iqmzuxopchoogpdu'
 
 db_config = {
-    'user': 'xixi',
-    'password': 'Chenxi1213!',
+    'user': 'root',
+    'password': 'buttsahib',
     'host': 'localhost',
     'port': 3308,
     'database': 'userdb'
@@ -784,14 +784,14 @@ def reset_axis_values():
     ]
 
     # Toggle the values true/false multiple times
-    for _ in range(5):
+    for _ in range(4):
         # Set all values to true
         for key in keys_to_update:
             data[key]["value"] = True
         write_json(data)  # Write the data with values set to true
 
         # Wait briefly before setting to false
-        time.sleep(2)  # Short delay for AWS sync to pick up changes
+        time.sleep(1)  # Short delay for AWS sync to pick up changes
         try:
             s3_client.upload_file(DATA_FILE, BUCKET_NAME, S3_FILE_KEY)
         except Exception as e:
@@ -803,7 +803,7 @@ def reset_axis_values():
         write_json(data)  # Write the data with values set to false
 
         # Another short delay
-        time.sleep(2)
+        time.sleep(0.5)
 
     try:
         s3_client.upload_file(DATA_FILE, BUCKET_NAME, S3_FILE_KEY)
