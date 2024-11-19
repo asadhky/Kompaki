@@ -817,6 +817,11 @@ def reset_individual_axis():
     threading.Thread(target=reset_axis_values).start()
     return jsonify({"message": "Individual axis reset initiated"}), 200
 
+@app.route('/auto-cycle', methods=['POST'])
+def auto_cycle():
+    print("Auto cycle initiated")
+
+    return jsonify({"message": "Button click registered"}), 200
 
 # Function to read JSON data from file
 def read_json():

@@ -378,6 +378,7 @@
         #save-code,
         #view-3d-button,
         #clear-code-button,
+        #auto-cycle-button,
         #download-gcode {
             width: 100%;
             background-color: #4CAF50;
@@ -397,6 +398,7 @@
         #save-code:hover,
         #view-3d-button:hover,
         #clear-code-button:hover,
+        #auto-cycle-button:hover,
         #download-gcode:hover {
             background-color: #388e3c;
             outline: 2px solid white;
@@ -510,6 +512,7 @@
                     <img src="{{ url_for('static', filename='save.png') }}" alt="Upload Icon" style="width: 14px; margin-left: 8px; position: relative; bottom: -0.5px;">
                 </button>
                 <button id="view-3d-button">View 3D</button>
+                <button id="auto-cycle-button">Auto Cycle</button>
                 <button id="clear-code-button">Clear Code</button>
                 <button id="download-gcode">Download
                     <img src="{{ url_for('static', filename='downloads.png') }}" alt="Upload Icon" style="width: 14px; margin-left: 8px; position: relative; bottom: -0.5px;">
@@ -582,7 +585,7 @@
             fetchAndHighlightLine();
 
             // Set interval to fetch highlight line number periodically (e.g., every 5 seconds)
-            setInterval(fetchAndHighlightLine, 1000);
+            setInterval(fetchAndHighlightLine, 50000);
 
             // Retrieve the selected code name from local storage
             // const selectedCodeName = localStorage.getItem('selectedCodeName');
@@ -624,6 +627,14 @@
             var lineInfo = doc.getLineHandle(lineNumber - 1); // Line numbers are 0-based
             codeEditor.addLineClass(lineInfo, 'background', 'highlighted-line');
         }
+
+        document.getElementById('auto-cycle-button').addEventListener('click', function () {
+            fetch('/auto-cycle',{
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => console.log(data.message))
+        });
 
         // 函数来处理代码显示和编辑
         function displayCode(codeName) {
