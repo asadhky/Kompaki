@@ -823,6 +823,12 @@ def auto_cycle():
 
     return jsonify({"message": "Button click registered"}), 200
 
+@app.route('/stop-cycle', methods=['POST'])
+def stop_cycle():
+    print("Stop cycle initiated")
+
+    return jsonify({"message": "Button click registered"}), 200
+
 # Function to read JSON data from file
 def read_json():
     if not os.path.exists(DATA_FILE):
