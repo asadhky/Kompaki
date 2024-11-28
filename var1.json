@@ -36,7 +36,7 @@
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis.bsA_ResetExe": {
-        "value": false,
+        "value": true,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis.bsa_Jogfwd": {
@@ -88,7 +88,7 @@
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis_1.bsA_ResetExe": {
-        "value": false,
+        "value": true,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_1.bsa_Jogfwd": {
@@ -140,7 +140,7 @@
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis_2.bsA_ResetExe": {
-        "value": false,
+        "value": true,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_2.bsa_Jogfwd": {
@@ -192,7 +192,7 @@
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis_3.bsA_ResetExe": {
-        "value": false,
+        "value": true,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_3.bsa_Jogfwd": {
@@ -238,5 +238,9 @@
     "JOG_MODE.JogMode_3": {
         "value": "2",
         "type": "STRING"
+    },
+    "x": {
+        "current_position": "12.000",
+        "end_position": "3.000"
     }
 }

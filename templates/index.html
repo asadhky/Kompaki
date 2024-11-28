@@ -168,6 +168,15 @@
         .icon-container {
             text-align: center; /* Centers the icon */
         }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+
         
 
     </style>
@@ -591,54 +600,63 @@
 
             <!-- 中部：Axis Status -->
             <div class="section" id="axis-status-section">
-                <h2 data-key="title-axis-status" style="color: #b3b3b3;">Axis Status</h2>
-                <button id="reset-axis-btn" style="float: right; margin-top: -5px;">Reset Axis</button>
-                
+                <div class="header-container"> 
+                    <h2 data-key="title-axis-status" style="color: #b3b3b3;">Axis Status</h2> 
+                    <button class="reset-axis-btn" id="reset-axis-btn">Reset Axis</button> 
+                </div>
                 <div class="axis-container">
                     <!-- X Axis -->
                     <div class="axis" id="status-x-axis" onclick="selectAxis('x')">
-                        <h2 data-key="title-x-axis" style="color: #b3b3b3;">X Axis</h2>
-                        <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="x-current">0.000</span></div>
-                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="x-end">0.000</span></div>
-                        <div data-key="label-active-position" style="color: #d3d3d3;">Jog Value<span id="x-active">0.000</span></div>
-                        <div class="axis-controls">
-                            <button class="arrow-button fast-button" onclick="moveAxis('x', 'fast-left')">⏪</button>
-                            <button class="arrow-button" onclick="moveAxis('x', 'left')">&#8592;</button>
-                            <button class="arrow-button" onclick="moveAxis('x', 'right')">&#8594;</button>
-                            <button class="arrow-button fast-button" onclick="moveAxis('x', 'fast-right')">⏩</button>
-                            <button class="arrow-button" onclick="resetAxis('x')">Stop</button> <!-- Reset button -->
+                        <div class="axis-header">
+                            <h2 data-key="title-x-axis" style="color: #b3b3b3;">X Axis</h2>
+                            <div class="axis-controls">
+                                <button class="arrow-button fast-button" onclick="moveAxis('x', 'fast-left')"><img src="{{ url_for('static', filename='fast-backward.png') }}" alt="Fast Left" class="button-icon"></button>
+                                <button class="arrow-button" onclick="moveAxis('x', 'left')"><img src="{{ url_for('static', filename='left.png') }}" alt="Left Arrow" class="button-icon"></button>
+                                <button class="arrow-button" onclick="moveAxis('x', 'right')"><img src="{{ url_for('static', filename='right.png') }}" alt="Right Arrow" class="button-icon"></button>
+                                <button class="arrow-button fast-button" onclick="moveAxis('x', 'fast-right')"><img src="{{ url_for('static', filename='fast-forward.png') }}" alt="Fast Right" class="button-icon"></button>
+                                <button class="arrow-button" onclick="resetAxis('x')"><img src="{{ url_for('static', filename='stop-button.png') }}" alt="StopButton" class="button-icon"></button> <!-- Reset button -->
 
+                            </div>
                         </div>
+                        <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="x-current">0.00</span></div>
+                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="x-end">0.00</span></div>
+                        
                     </div>
                     <!-- Y Axis -->
                     <div class="axis" id="status-y-axis" onclick="selectAxis('y')">
-                        <h2 data-key="title-y-axis" style="color: #b3b3b3;">Y Axis</h2>
-                        <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="y-current">0.000</span></div>
-                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="y-end">0.000</span></div>
-                        <div class="axis-controls">
-                            <button class="arrow-button fast-button" onclick="moveAxis('y', 'fast-up-left')">⏪</button>
-
-                            <button class="arrow-button" onclick="moveAxis('y', 'up-left')">&#8598;</button>
-                            <button class="arrow-button" onclick="moveAxis('y', 'down-right')">&#8600;</button>
-                            <button class="arrow-button fast-button" onclick="moveAxis('y', 'fast-down-right')">⏩</button>
-
-                            <button class="arrow-button" onclick="resetAxis('y')">Stop</button> <!-- Reset button -->
-
+                        <div class="axis-header">
+                            <h2 data-key="title-y-axis" style="color: #b3b3b3;">Y Axis</h2>
+                            <div class="axis-controls">
+                                <button class="arrow-button fast-button" onclick="moveAxis('y', 'fast-up-left')">    <img src="{{ url_for('static', filename='fastdiagleft.png') }}" alt="Fast Diag Left" class="button-icon"></button>
+                                <button class="arrow-button" onclick="moveAxis('y', 'up-left')"><img src="{{ url_for('static', filename='diagleft.png') }}" alt="Diag Left Arrow" class="button-icon"></button>
+                                <button class="arrow-button" onclick="moveAxis('y', 'down-right')"><img src="{{ url_for('static', filename='diagright.png') }}" alt="Diag Right Arrow" class="button-icon"></button>
+                                <button class="arrow-button fast-button" onclick="moveAxis('y', 'fast-down-right')"><img src="{{ url_for('static', filename='fastdiagright.png') }}" alt="Fast Diag Right" class="button-icon"></button>
+    
+                                <button class="arrow-button" onclick="resetAxis('y')"><img src="{{ url_for('static', filename='stop-button.png') }}" alt="StopButton" class="button-icon"></button> <!-- Reset button -->
+    
+                            </div>
                         </div>
+                        <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="y-current">0.00</span></div>
+                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="y-end">0.00</span></div>
+                        
                     </div>
                     <!-- Z Axis -->
                     <div class="axis" id="status-z-axis" onclick="selectAxis('z')">
-                        <h2 data-key="title-z-axis" style="color: #b3b3b3;">Z Axis</h2>
-                        <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="z-current">0.000</span></div>
-                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="z-end">0.000</span></div>
-                        <div class="axis-controls">
-                            <button class="arrow-button fast-button" onclick="moveAxis('z', 'fast-up')">⏫</button>
-                            <button class="arrow-button" onclick="moveAxis('z', 'up')">&#8593;</button>
-                            <button class="arrow-button" onclick="moveAxis('z', 'down')">&#8595;</button>
-                            <button class="arrow-button fast-button" onclick="moveAxis('z', 'fast-down')">⏬</button>
-                            <button class="arrow-button" onclick="resetAxis('z')">Stop</button> <!-- Reset button -->
+                        <div class="axis-header">
 
+                            <h2 data-key="title-z-axis" style="color: #b3b3b3;">Z Axis</h2>
+                            <div class="axis-controls">
+                                <button class="arrow-button fast-button" onclick="moveAxis('z', 'fast-up')"><img src="{{ url_for('static', filename='fastup.png') }}" alt="Fast Up" class="button-icon"></button>
+                                <button class="arrow-button" onclick="moveAxis('z', 'up')"><img src="{{ url_for('static', filename='uparrow.png') }}" alt="Up Arrow" class="button-icon"></button>
+                                <button class="arrow-button" onclick="moveAxis('z', 'down')"><img src="{{ url_for('static', filename='downarrow.png') }}" alt="Down Arrow" class="button-icon"></button>
+                                <button class="arrow-button fast-button" onclick="moveAxis('z', 'fast-down')"><img src="{{ url_for('static', filename='fastdown.png') }}" alt="Fast Down" class="button-icon"></button>
+                                <button class="arrow-button" onclick="resetAxis('z')"><img src="{{ url_for('static', filename='stop-button.png') }}" alt="StopButton" class="button-icon"></button> <!-- Reset button -->
+
+                            </div>
                         </div>
+                        <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="z-current">0.00</span></div>
+                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="z-end">0.00</span></div>
+                        
                     </div>
                 </div>
                 
@@ -654,12 +672,12 @@
                     <button id="enable-axis-y" onclick="toggleAxis('y')">Enable Y Axis</button>
                     <button id="enable-axis-z" onclick="toggleAxis('z')">Enable Z Axis</button>
                     
-                    <label for="speed" data-key="label-speed">Speed</label>
+                    <label for="speed" data-key="label-speed">Current Position</label>
                     <input type="number" id="speed" placeholder="Enter speed">
-                    <button id="set-speed" data-key="button-set-speed">Set Speed</button>
-                    <label for="position" data-key="label-position">Position</label>
+                    <button id="set-speed" data-key="button-set-speed">Set Current</button>
+                    <label for="position" data-key="label-position">End Position</label>
                     <input type="number" id="position" placeholder="Enter position">
-                    <button id="set-position" data-key="button-set-position">Set Position</button>
+                    <button id="set-position" data-key="button-set-position">Set End</button>
                 </div>
             
             
