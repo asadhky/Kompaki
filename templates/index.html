@@ -89,6 +89,7 @@
             display: flex;
             justify-content: space-around;
             margin-bottom: 8px;
+            max-width: 100%; /* Prevent overflow on zoom */
         }
 
         .axis {
@@ -610,14 +611,18 @@
                         <div class="axis-header">
                             <h2 data-key="title-x-axis" style="color: #b3b3b3;">X Axis</h2>
                             <div class="axis-controls">
-                                <button class="arrow-button fast-button" onclick="moveAxis('x', 'fast-left')"><img src="{{ url_for('static', filename='fast-backward.png') }}" alt="Fast Left" class="button-icon"></button>
-                                <button class="arrow-button" onclick="moveAxis('x', 'left')"><img src="{{ url_for('static', filename='left.png') }}" alt="Left Arrow" class="button-icon"></button>
-                                <button class="arrow-button" onclick="moveAxis('x', 'right')"><img src="{{ url_for('static', filename='right.png') }}" alt="Right Arrow" class="button-icon"></button>
-                                <button class="arrow-button fast-button" onclick="moveAxis('x', 'fast-right')"><img src="{{ url_for('static', filename='fast-forward.png') }}" alt="Fast Right" class="button-icon"></button>
-                                <button class="arrow-button" onclick="resetAxis('x')"><img src="{{ url_for('static', filename='stop-button.png') }}" alt="StopButton" class="button-icon"></button> <!-- Reset button -->
-
+                                <button class="reset-axis-btn" id="enable-axis-x" onclick="toggleAxis('x')">Enable</button>
                             </div>
                         </div>
+                        <div class="axis-controls button-group">
+                            <button class="arrow-button fast-button" onclick="moveAxis('x', 'fast-left')"><img src="{{ url_for('static', filename='fast-backward.png') }}" alt="Fast Left" class="button-icon"></button>
+                            <button class="arrow-button" onclick="moveAxis('x', 'left')"><img src="{{ url_for('static', filename='left.png') }}" alt="Left Arrow" class="button-icon"></button>
+                            <button class="arrow-button" onclick="moveAxis('x', 'right')"><img src="{{ url_for('static', filename='right.png') }}" alt="Right Arrow" class="button-icon"></button>
+                            <button class="arrow-button fast-button" onclick="moveAxis('x', 'fast-right')"><img src="{{ url_for('static', filename='fast-forward.png') }}" alt="Fast Right" class="button-icon"></button>
+                            <button class="arrow-button" onclick="resetAxis('x')"><img src="{{ url_for('static', filename='stop-button.png') }}" alt="StopButton" class="button-icon"></button> <!-- Reset button -->
+                            
+                        </div>
+                        
                         <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="x-current">0.00</span></div>
                         <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="x-end">0.00</span></div>
                         
@@ -626,15 +631,16 @@
                     <div class="axis" id="status-y-axis" onclick="selectAxis('y')">
                         <div class="axis-header">
                             <h2 data-key="title-y-axis" style="color: #b3b3b3;">Y Axis</h2>
-                            <div class="axis-controls">
-                                <button class="arrow-button fast-button" onclick="moveAxis('y', 'fast-up-left')">    <img src="{{ url_for('static', filename='fastdiagleft.png') }}" alt="Fast Diag Left" class="button-icon"></button>
-                                <button class="arrow-button" onclick="moveAxis('y', 'up-left')"><img src="{{ url_for('static', filename='diagleft.png') }}" alt="Diag Left Arrow" class="button-icon"></button>
-                                <button class="arrow-button" onclick="moveAxis('y', 'down-right')"><img src="{{ url_for('static', filename='diagright.png') }}" alt="Diag Right Arrow" class="button-icon"></button>
-                                <button class="arrow-button fast-button" onclick="moveAxis('y', 'fast-down-right')"><img src="{{ url_for('static', filename='fastdiagright.png') }}" alt="Fast Diag Right" class="button-icon"></button>
-    
-                                <button class="arrow-button" onclick="resetAxis('y')"><img src="{{ url_for('static', filename='stop-button.png') }}" alt="StopButton" class="button-icon"></button> <!-- Reset button -->
-    
-                            </div>
+                            <button class="reset-axis-btn" id="enable-axis-y" onclick="toggleAxis('y')">Enable</button>
+                        </div>
+                        <div class="axis-controls button-group">
+                            <button class="arrow-button fast-button" onclick="moveAxis('y', 'fast-up-left')">    <img src="{{ url_for('static', filename='fastdiagleft.png') }}" alt="Fast Diag Left" class="button-icon"></button>
+                            <button class="arrow-button" onclick="moveAxis('y', 'up-left')"><img src="{{ url_for('static', filename='diagleft.png') }}" alt="Diag Left Arrow" class="button-icon"></button>
+                            <button class="arrow-button" onclick="moveAxis('y', 'down-right')"><img src="{{ url_for('static', filename='diagright.png') }}" alt="Diag Right Arrow" class="button-icon"></button>
+                            <button class="arrow-button fast-button" onclick="moveAxis('y', 'fast-down-right')"><img src="{{ url_for('static', filename='fastdiagright.png') }}" alt="Fast Diag Right" class="button-icon"></button>
+
+                            <button class="arrow-button" onclick="resetAxis('y')"><img src="{{ url_for('static', filename='stop-button.png') }}" alt="StopButton" class="button-icon"></button> <!-- Reset button -->
+
                         </div>
                         <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="y-current">0.00</span></div>
                         <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="y-end">0.00</span></div>
@@ -643,16 +649,16 @@
                     <!-- Z Axis -->
                     <div class="axis" id="status-z-axis" onclick="selectAxis('z')">
                         <div class="axis-header">
-
                             <h2 data-key="title-z-axis" style="color: #b3b3b3;">Z Axis</h2>
-                            <div class="axis-controls">
-                                <button class="arrow-button fast-button" onclick="moveAxis('z', 'fast-up')"><img src="{{ url_for('static', filename='fastup.png') }}" alt="Fast Up" class="button-icon"></button>
-                                <button class="arrow-button" onclick="moveAxis('z', 'up')"><img src="{{ url_for('static', filename='uparrow.png') }}" alt="Up Arrow" class="button-icon"></button>
-                                <button class="arrow-button" onclick="moveAxis('z', 'down')"><img src="{{ url_for('static', filename='downarrow.png') }}" alt="Down Arrow" class="button-icon"></button>
-                                <button class="arrow-button fast-button" onclick="moveAxis('z', 'fast-down')"><img src="{{ url_for('static', filename='fastdown.png') }}" alt="Fast Down" class="button-icon"></button>
-                                <button class="arrow-button" onclick="resetAxis('z')"><img src="{{ url_for('static', filename='stop-button.png') }}" alt="StopButton" class="button-icon"></button> <!-- Reset button -->
+                            <button class="reset-axis-btn" id="enable-axis-z" onclick="toggleAxis('z')">Enable</button>
+                        </div>
+                        <div class="axis-controls button-group">
+                            <button class="arrow-button fast-button" onclick="moveAxis('z', 'fast-up')"><img src="{{ url_for('static', filename='fastup.png') }}" alt="Fast Up" class="button-icon"></button>
+                            <button class="arrow-button" onclick="moveAxis('z', 'up')"><img src="{{ url_for('static', filename='uparrow.png') }}" alt="Up Arrow" class="button-icon"></button>
+                            <button class="arrow-button" onclick="moveAxis('z', 'down')"><img src="{{ url_for('static', filename='downarrow.png') }}" alt="Down Arrow" class="button-icon"></button>
+                            <button class="arrow-button fast-button" onclick="moveAxis('z', 'fast-down')"><img src="{{ url_for('static', filename='fastdown.png') }}" alt="Fast Down" class="button-icon"></button>
+                            <button class="arrow-button" onclick="resetAxis('z')"><img src="{{ url_for('static', filename='stop-button.png') }}" alt="StopButton" class="button-icon"></button> <!-- Reset button -->
 
-                            </div>
                         </div>
                         <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="z-current">0.00</span></div>
                         <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="z-end">0.00</span></div>
@@ -668,9 +674,9 @@
             
                 <div id="axis-controls" style="display:none;" class="form-group-inline">
 
-                    <button id="enable-axis-x" onclick="toggleAxis('x')">Enable X Axis</button>
-                    <button id="enable-axis-y" onclick="toggleAxis('y')">Enable Y Axis</button>
-                    <button id="enable-axis-z" onclick="toggleAxis('z')">Enable Z Axis</button>
+                    <!-- <button id="enable-axis-x" onclick="toggleAxis('x')">Enable X Axis</button> -->
+                    <!-- <button id="enable-axis-y" onclick="toggleAxis('y')">Enable Y Axis</button> -->
+                    <!-- <button id="enable-axis-z" onclick="toggleAxis('z')">Enable Z Axis</button> -->
                     
                     <label for="speed" data-key="label-speed">Current Position</label>
                     <input type="number" id="speed" placeholder="Enter speed">
@@ -1880,7 +1886,7 @@ document.getElementById('set-position').addEventListener('click', function() {
                 };
 
                 // Update the button text
-                button.textContent = isEnabling ? "Stop X Axis" : "Enable X Axis";
+                button.textContent = isEnabling ? "Disable" : "Enable";
 
                 // Send JSON values to the server
                 updateAxisState(jsonValues);
@@ -1899,7 +1905,7 @@ document.getElementById('set-position').addEventListener('click', function() {
                 };
 
                 // Update the button text
-                button.textContent = isEnabling ? "Stop Y Axis" : "Enable Y Axis";
+                button.textContent = isEnabling ? "Disable" : "Enable";
 
                 // Send JSON values to the server
                 updateAxisState(jsonValues);
@@ -1918,7 +1924,7 @@ document.getElementById('set-position').addEventListener('click', function() {
                 };
 
                 // Update the button text
-                button.textContent = isEnabling ? "Stop Z Axis" : "Enable Z Axis";
+                button.textContent = isEnabling ? "Stop" : "Enable";
  
                 // Send JSON values to the server
                 updateAxisState(jsonValues);

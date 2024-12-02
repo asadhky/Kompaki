@@ -727,8 +727,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px; /* Fixed width to make square buttons */
-    height: 30px; /* Fixed height to make square buttons */
+    width: 40px; /* Fixed width to make square buttons */
+    height: 40px; /* Fixed height to make square buttons */
     box-sizing: border-box; /* Include border size in width/height */
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
@@ -760,7 +760,7 @@
   
 
 .reset-axis-btn {
-    margin-top: -5px;
+    margin-top: -10px;
     padding: 0.5rem 1rem; /* Increased padding for fatter button */
     background-color: #374151; /* bg-gray-700 */
     color: #d3d3d3; /* text-gray-200 */
@@ -796,4 +796,17 @@
   .axis-controls {
     display: flex;
   }
+
+  .axis-controls.button-group {
+    display: flex;
+    justify-content: space-between; /* Evenly space the buttons */
+    align-items: center; /* Align buttons vertically */
+    width: 100%; /* Ensure controls span the axis section */
+    box-sizing: border-box; /* Include padding/borders in width */
+    margin-top: 2px;
+    margin-bottom: 8px;
+    padding: 0 5px; /* Add some padding around the buttons */
+}
+
+
   
