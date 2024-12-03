@@ -611,9 +611,9 @@
                     <div class="axis" id="status-x-axis" onclick="selectAxis('x')">
                         <div class="axis-header">
                             <h2 data-key="title-x-axis" style="color: #b3b3b3;">X Axis</h2>
-                            <div class="axis-controls">
-                                <button class="reset-axis-btn" id="enable-axis-x" onclick="toggleAxis('x')">Enable</button>
-                            </div>
+                            <button class="edit-axis-button" id="edit-axis-x">
+                                <img src="{{ url_for('static', filename='edit1.png') }}" alt="Edit Axis" class="button-icon">
+                            </button>
                         </div>
                         <div class="axis-controls button-group">
                             <button class="arrow-button fast-button" onclick="moveAxis('x', 'fast-left')"><img src="{{ url_for('static', filename='fast-backward.png') }}" alt="Fast Left" class="button-icon"></button>
@@ -628,12 +628,48 @@
                         <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="x-end">0.00</span></div>
                         
                     </div>
+                    <!-- Edit Axis Dialog -->
+                    <div id="edit-dialog" class="edit-dialog hidden">
+                        <div class="modal-card bg-zinc-800 text-white rounded-lg p-8 w-96">
+                        <div class="modal-header flex justify-between items-center">
+                            <h2 class="text-xl">Edit X Axis</h2>
+                            <button class="newclosebutton" style="background: transparent; border: none; color: gray;font-size: 28px; font-weight: bold; cursor: pointer; padding-bottom: 25px;" onclick="closeEditDialog()">&times;</button>
+                        </div>
+                        <div class="modal-body mt-4 space-y-4">
+                            <div>
+                                <button class="reset-axis-btn" id="enable-axis-x" onclick="toggleAxis('x')">Enable</button>
+                            </div>
+                            <div class="flex flex-col">
+                            <label for="speed" class="text-sm mb-1" data-key="label-speed">Current Position</label>
+                            <input
+                                type="number"
+                                id="speed"
+                                placeholder="Enter speed"
+                                class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            />
+                            <button id="set-speed" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setSpeed()">Set Current</button>
+                            </div>
+                            <div class="flex flex-col">
+                            <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
+                            <input
+                                type="number"
+                                id="position"
+                                placeholder="Enter position"
+                                class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            />
+                            <button id="set-position" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPosition()">Set End</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+  
                     <!-- Y Axis -->
                     <div class="axis" id="status-y-axis" onclick="selectAxis('y')">
                         <div class="axis-header">
                             <h2 data-key="title-y-axis" style="color: #b3b3b3;">Y Axis</h2>
-                            <button class="reset-axis-btn" id="enable-axis-y" onclick="toggleAxis('y')">Enable</button>
-                        </div>
+                            <button class="edit-axis-button" id="edit-axis-y">
+                                <img src="{{ url_for('static', filename='edit1.png') }}" alt="Edit Axis" class="button-icon">
+                            </button>                        </div>
                         <div class="axis-controls button-group">
                             <button class="arrow-button fast-button" onclick="moveAxis('y', 'fast-up-left')">    <img src="{{ url_for('static', filename='fastdiagleft.png') }}" alt="Fast Diag Left" class="button-icon"></button>
                             <button class="arrow-button" onclick="moveAxis('y', 'up-left')"><img src="{{ url_for('static', filename='diagleft.png') }}" alt="Diag Left Arrow" class="button-icon"></button>
@@ -651,8 +687,9 @@
                     <div class="axis" id="status-z-axis" onclick="selectAxis('z')">
                         <div class="axis-header">
                             <h2 data-key="title-z-axis" style="color: #b3b3b3;">Z Axis</h2>
-                            <button class="reset-axis-btn" id="enable-axis-z" onclick="toggleAxis('z')">Enable</button>
-                        </div>
+                            <button class="edit-axis-button" id="edit-axis-z">
+                                <img src="{{ url_for('static', filename='edit1.png') }}" alt="Edit Axis" class="button-icon">
+                            </button>                        </div>
                         <div class="axis-controls button-group">
                             <button class="arrow-button fast-button" onclick="moveAxis('z', 'fast-up')"><img src="{{ url_for('static', filename='fastup.png') }}" alt="Fast Up" class="button-icon"></button>
                             <button class="arrow-button" onclick="moveAxis('z', 'up')"><img src="{{ url_for('static', filename='uparrow.png') }}" alt="Up Arrow" class="button-icon"></button>
@@ -673,19 +710,19 @@
             </div>
             
             
-                <div id="axis-controls" style="display:none;" class="form-group-inline">
+                <!-- <div id="axis-controls" style="display:none;" class="form-group-inline">
 
-                    <!-- <button id="enable-axis-x" onclick="toggleAxis('x')">Enable X Axis</button> -->
-                    <!-- <button id="enable-axis-y" onclick="toggleAxis('y')">Enable Y Axis</button> -->
-                    <!-- <button id="enable-axis-z" onclick="toggleAxis('z')">Enable Z Axis</button> -->
-                    
+                    <button id="enable-axis-x" onclick="toggleAxis('x')">Enable X Axis</button>
+                    <button id="enable-axis-y" onclick="toggleAxis('y')">Enable Y Axis</button>
+                    <button id="enable-axis-z" onclick="toggleAxis('z')">Enable Z Axis</button>
+                    <button class="reset-axis-btn" id="enable-axis-x" onclick="toggleAxis('x')">Enable</button>
                     <label for="speed" data-key="label-speed">Current Position</label>
                     <input type="number" id="speed" placeholder="Enter speed">
                     <button id="set-speed" data-key="button-set-speed">Set Current</button>
                     <label for="position" data-key="label-position">End Position</label>
                     <input type="number" id="position" placeholder="Enter position">
                     <button id="set-position" data-key="button-set-position">Set End</button>
-                </div>
+                </div> -->
             
             
                 <div class="section">
@@ -756,6 +793,18 @@
     {% include 'footer.html' %}
 
     <script>
+        // Function to show the edit dialog
+        function showEditDialog() {
+        document.getElementById('edit-dialog').classList.remove('hidden');
+        }
+
+        // Function to close the edit dialog
+        function closeEditDialog() {
+        document.getElementById('edit-dialog').classList.add('hidden');
+        }
+
+        // Add event listener to the edit axis button
+        document.getElementById('edit-axis-x').addEventListener('click', showEditDialog);
         const overrideStartButton = document.getElementById('override-stop-button');
         const overrideStopButton = document.getElementById('override-start-button');
         let isOverrideRunning = false; // Initial state
@@ -1119,6 +1168,7 @@ sliders.forEach(slider => {
         valueElem.classList.remove("up");
     });
 });
+
 
 function updateSliders() {
     const xhr = new XMLHttpRequest();
@@ -2200,6 +2250,9 @@ document.getElementById('set-position').addEventListener('click', function() {
                 }
             }
         });
+
+
+
 
     </script>
 </body>
