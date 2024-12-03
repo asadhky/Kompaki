@@ -96,7 +96,7 @@
             background-color: #424242;
             padding: 20px;
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             width: 30%;
             cursor: pointer;
             transition: background-color 0.3s ease;
@@ -110,6 +110,7 @@
             width: 48%;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Subtle shadow */
         }
 
         .axis {
@@ -714,9 +715,10 @@
                             <label for="reverse-checkbox" style="color: #b3b3b3; margin-left: 15px;">
                                 <input type="checkbox" id="reverse-checkbox" onclick="toggleReverse()" style="margin-right: 5px;">
                                 Reverse
-                            </label>
+                            </label>                         
                             <button id="spindle-stop-button" class="spindlestartbutton" style="background-image: url('../static/spindlestop.jpg');"></button>
                             <button id="spindle-start-button" class="spindlestartbutton" style="background-image: url('../static/spindlestart.jpg'); margin-right: 10px;"></button>
+                            
                             <div class="slider-ui color1">
                                 <input type="range" id="spindle-slider" min="0" max="100" step="1" value="{{ spindle_speed }}">
                                 <div class="bar">
