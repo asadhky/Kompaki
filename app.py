@@ -27,7 +27,7 @@ app.secret_key = '123456'  # Ensure to replace with your actual secret key
 DATA_FILE = 'var1.json'
 
 s3_client = boto3.client('s3')
-BUCKET_NAME = 'twincatjsonfile'
+BUCKET_NAME = 'newtwincatjsonfile'
 S3_FILE_KEY = 'var1.json'
 
 def read_json():
