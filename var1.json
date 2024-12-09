@@ -240,7 +240,15 @@
         "type": "STRING"
     },
     "x": {
-        "current_position": "12.000",
+        "current_position": "20.000",
+        "end_position": "1.000"
+    },
+    "z": {
+        "current_position": "40.000",
         "end_position": "3.000"
+    },
+    "y": {
+        "current_position": "30.000",
+        "end_position": "2.000"
     }
 }

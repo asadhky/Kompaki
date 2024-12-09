@@ -1159,6 +1159,31 @@ def upload_code():
         return jsonify({'success': True, 'codeName': filename})
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)})
+    
+    
+@app.route('/new-file', methods=['POST'])
+def new_file():
+    data = request.get_json()
+    file_name = data.get('fileName')
+    file_content = data.get('content', '')  # Get content if provided, otherwise empty
+
+    if not file_name:
+        return jsonify({'success': False, 'message': 'File name is required'})
+
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+
+        # Insert new file entry into the database
+        cursor.execute('INSERT INTO code (code_name, code_content) VALUES (%s, %s)', (file_name, file_content))
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+        return jsonify({'success': True, 'fileName': file_name})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+
 
 def save_code_to_database(code_name, code_content):
     try:

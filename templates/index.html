@@ -628,8 +628,8 @@
                         <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="x-end">0.00</span></div>
                         
                     </div>
-                    <!-- Edit Axis Dialog -->
-                    <div id="edit-dialog" class="edit-dialog hidden">
+                    <!-- Edit X Axis Dialog -->
+                    <div id="edit-dialog1" class="edit-dialog hidden">
                         <div class="modal-card bg-zinc-800 text-white rounded-lg p-8 w-96">
                         <div class="modal-header flex justify-between items-center">
                             <h2 class="text-xl">Edit X Axis</h2>
@@ -643,21 +643,21 @@
                             <label for="speed" class="text-sm mb-1" data-key="label-speed">Current Position</label>
                             <input
                                 type="number"
-                                id="speed"
+                                id="speed-x"
                                 placeholder="Enter speed"
                                 class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             />
-                            <button id="set-speed" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setSpeed()">Set Current</button>
+                            <button id="set-speed-x" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setSpeedX()">Set Current</button>
                             </div>
                             <div class="flex flex-col">
                             <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
                             <input
                                 type="number"
-                                id="position"
+                                id="position-x"
                                 placeholder="Enter position"
                                 class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             />
-                            <button id="set-position" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPosition()">Set End</button>
+                            <button id="set-position-x" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionX()">Set End</button>
                             </div>
                         </div>
                         </div>
@@ -683,6 +683,41 @@
                         <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="y-end">0.00</span></div>
                         
                     </div>
+                    <!-- Edit Y Axis Dialog -->
+                    <div id="edit-dialog2" class="edit-dialog hidden">
+                        <div class="modal-card bg-zinc-800 text-white rounded-lg p-8 w-96">
+                        <div class="modal-header flex justify-between items-center">
+                            <h2 class="text-xl">Edit Y Axis</h2>
+                            <button class="newclosebutton" style="background: transparent; border: none; color: gray;font-size: 28px; font-weight: bold; cursor: pointer; padding-bottom: 25px;" onclick="closeEditDialogY()">&times;</button>
+                        </div>
+                        <div class="modal-body mt-4 space-y-4">
+                            <div>
+                                <button class="reset-axis-btn" id="enable-axis-y" onclick="toggleAxis('y')">Enable</button>
+                            </div>
+                            <div class="flex flex-col">
+                            <label for="speed" class="text-sm mb-1" data-key="label-speed">Current Position</label>
+                            <input
+                                type="number"
+                                id="speed-y"
+                                placeholder="Enter speed"
+                                class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            />
+                            <button id="set-speed-y" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setSpeedY()">Set Current</button>
+                            </div>
+                            <div class="flex flex-col">
+                            <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
+                            <input
+                                type="number"
+                                id="position-y"
+                                placeholder="Enter position"
+                                class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            />
+                            <button id="set-position-y" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionY()">Set End</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
                     <!-- Z Axis -->
                     <div class="axis" id="status-z-axis" onclick="selectAxis('z')">
                         <div class="axis-header">
@@ -701,6 +736,40 @@
                         <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="z-current">0.00</span></div>
                         <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="z-end">0.00</span></div>
                         
+                    </div>
+                    <!-- Edit Z Axis Dialog -->
+                    <div id="edit-dialog3" class="edit-dialog hidden">
+                        <div class="modal-card bg-zinc-800 text-white rounded-lg p-8 w-96">
+                        <div class="modal-header flex justify-between items-center">
+                            <h2 class="text-xl">Edit Z Axis</h2>
+                            <button class="newclosebutton" style="background: transparent; border: none; color: gray;font-size: 28px; font-weight: bold; cursor: pointer; padding-bottom: 25px;" onclick="closeEditDialogZ()">&times;</button>
+                        </div>
+                        <div class="modal-body mt-4 space-y-4">
+                            <div>
+                                <button class="reset-axis-btn" id="enable-axis-z" onclick="toggleAxis('z')">Enable</button>
+                            </div>
+                            <div class="flex flex-col">
+                            <label for="speed" class="text-sm mb-1" data-key="label-speed">Current Position</label>
+                            <input
+                                type="number"
+                                id="speed-z"
+                                placeholder="Enter speed"
+                                class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            />
+                            <button id="set-speed-z" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setSpeedZ()">Set Current</button>
+                            </div>
+                            <div class="flex flex-col">
+                            <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
+                            <input
+                                type="number"
+                                id="position-z"
+                                placeholder="Enter position"
+                                class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            />
+                            <button id="set-position-z" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionZ()">Set End</button>
+                            </div>
+                        </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -723,7 +792,6 @@
                     <input type="number" id="position" placeholder="Enter position">
                     <button id="set-position" data-key="button-set-position">Set End</button>
                 </div> -->
-            
             
                 <div class="section">
                     <div class="axis-container">
@@ -795,16 +863,38 @@
     <script>
         // Function to show the edit dialog
         function showEditDialog() {
-        document.getElementById('edit-dialog').classList.remove('hidden');
+            document.getElementById('edit-dialog1').classList.remove('hidden');
         }
 
         // Function to close the edit dialog
         function closeEditDialog() {
-        document.getElementById('edit-dialog').classList.add('hidden');
+            document.getElementById('edit-dialog1').classList.add('hidden');
+        }
+
+        // Function to show the edit dialog
+        function showEditDialogY() {
+            document.getElementById('edit-dialog2').classList.remove('hidden');
+        }
+
+        // Function to close the edit dialog
+        function closeEditDialogY() {
+            document.getElementById('edit-dialog2').classList.add('hidden');
+        }
+
+        // Function to show the edit dialog
+        function showEditDialogZ() {
+            document.getElementById('edit-dialog3').classList.remove('hidden');
+        }
+
+        // Function to close the edit dialog
+        function closeEditDialogZ() {
+            document.getElementById('edit-dialog3').classList.add('hidden');
         }
 
         // Add event listener to the edit axis button
         document.getElementById('edit-axis-x').addEventListener('click', showEditDialog);
+        document.getElementById('edit-axis-y').addEventListener('click', showEditDialogY);
+        document.getElementById('edit-axis-z').addEventListener('click', showEditDialogZ);
         const overrideStartButton = document.getElementById('override-stop-button');
         const overrideStopButton = document.getElementById('override-start-button');
         let isOverrideRunning = false; // Initial state
@@ -1862,46 +1952,134 @@ function selectAxis(axis) {
 }
 
 // Update speed
-document.getElementById('set-speed').addEventListener('click', function() {
-    const speed = document.getElementById('speed').value;
-    if (selectedAxis) {
-        document.getElementById(`${selectedAxis}-current`).textContent = parseFloat(speed).toFixed(3);
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/update-axis-speed', true);
-        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    console.log('Speed updated successfully');
-                } else {
-                    console.error('Failed to update speed');
-                }
+// document.getElementById('set-speed').addEventListener('click', function() {
+//     const speed = document.getElementById('speed').value;
+//     if (selectedAxis) {
+//         document.getElementById(`${selectedAxis}-current`).textContent = parseFloat(speed).toFixed(3);
+
+//         const xhr = new XMLHttpRequest();
+//         xhr.open('POST', '/update-axis-speed', true);
+//         xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+//         xhr.onreadystatechange = function() {
+//             if (xhr.readyState === XMLHttpRequest.DONE) {
+//                 if (xhr.status === 200) {
+//                     console.log('Speed updated successfully');
+//                 } else {
+//                     console.error('Failed to update speed');
+//                 }
+//             }
+//         };
+//         xhr.send(JSON.stringify({ axis: selectedAxis, current_position: parseFloat(speed).toFixed(3) }));
+//     }
+// });
+
+// Function to handle speed update for a specific axis
+function updateAxisSpeed(axis) {
+    const speedInput = document.getElementById(`speed-${axis}`); // Input ID pattern: speed-x, speed-y, speed-z
+    const speed = speedInput.value;
+
+    // Update the displayed current speed for the selected axis
+    document.getElementById(`${axis}-current`).textContent = parseFloat(speed).toFixed(3);
+
+    // Send the update to the server
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/update-axis-speed', true);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log(`Speed updated successfully for ${axis} axis`);
+            } else {
+                console.error(`Failed to update speed for ${axis} axis`);
             }
-        };
-        xhr.send(JSON.stringify({ axis: selectedAxis, current_position: parseFloat(speed).toFixed(3) }));
-    }
-});
+        }
+    };
+    xhr.send(JSON.stringify({ axis: axis, current_position: parseFloat(speed).toFixed(3) }));
+}
+
+// Separate functions for each axis
+function setSpeedX() {
+    updateAxisSpeed('x');
+}
+
+function setSpeedY() {
+    updateAxisSpeed('y');
+}
+
+function setSpeedZ() {
+    updateAxisSpeed('z');
+}
+
+
 
 // Update position
-document.getElementById('set-position').addEventListener('click', function() {
-    const position = document.getElementById('position').value;
-    if (selectedAxis) {
-        document.getElementById(`${selectedAxis}-end`).textContent = parseFloat(position).toFixed(3);
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/update-axis-position', true);
-        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    console.log('Position updated successfully');
-                } else {
-                    console.error('Failed to update position');
-                }
-            }
-        };
-        xhr.send(JSON.stringify({ axis: selectedAxis, end_position: parseFloat(position).toFixed(3) }));
+// document.getElementById('set-position').addEventListener('click', function() {
+//     const position = document.getElementById('position').value;
+//     if (selectedAxis) {
+//         document.getElementById(`${selectedAxis}-end`).textContent = parseFloat(position).toFixed(3);
+//         const xhr = new XMLHttpRequest();
+//         xhr.open('POST', '/update-axis-position', true);
+//         xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+//         xhr.onreadystatechange = function() {
+//             if (xhr.readyState === XMLHttpRequest.DONE) {
+//                 if (xhr.status === 200) {
+//                     console.log('Position updated successfully');
+//                 } else {
+//                     console.error('Failed to update position');
+//                 }
+//             }
+//         };
+//         xhr.send(JSON.stringify({ axis: selectedAxis, end_position: parseFloat(position).toFixed(3) }));
+//     }
+// });
+
+// Function to handle position update for a specific axis
+function updateAxisPosition(axis, inputId) {
+    const positionInput = document.getElementById(inputId);
+    if (!positionInput) {
+        console.error(`Input field for ${axis} axis not found`);
+        return;
     }
-});
+    const position = positionInput.value;
+
+    // Update the displayed end position for the selected axis
+    const endPositionElement = document.getElementById(`${axis}-end`);
+    if (endPositionElement) {
+        endPositionElement.textContent = parseFloat(position).toFixed(3);
+    } else {
+        console.error(`Display element for ${axis} axis end position not found`);
+        return;
+    }
+
+    // Send the update to the server
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/update-axis-position', true);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log(`Position updated successfully for ${axis} axis`);
+            } else {
+                console.error(`Failed to update position for ${axis} axis`);
+            }
+        }
+    };
+    xhr.send(JSON.stringify({ axis: axis, end_position: parseFloat(position).toFixed(3) }));
+}
+
+// Separate functions for each axis
+function setPositionX() {
+    updateAxisPosition('x', 'position-x');
+}
+
+function setPositionY() {
+    updateAxisPosition('y', 'position-y');
+}
+
+function setPositionZ() {
+    updateAxisPosition('z', 'position-z');
+}
+
 
 // function updateAxisStatus() {
 //     // Perform an AJAX request to get the current axis status

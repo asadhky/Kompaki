@@ -11,7 +11,7 @@
             box-sizing: border-box;
         }
         .highlighted-line {
-            background-color: #45a049;
+            background-color: #697565;
         }
 
         .fixed-bottom-bar {
@@ -246,7 +246,7 @@
         }
 
         .code-item.selected {
-            background-color: #4CAF50;
+            background-color: #697565;
             color: #fff;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
@@ -382,7 +382,7 @@
         #stop-cycle-button,
         #download-gcode {
             width: 100%;
-            background-color: #4CAF50;
+            background-color: #697565;
             color: white;
             padding: 16px 0px;
             font-size: 1.1rem;
@@ -402,7 +402,7 @@
         #auto-cycle-button:hover,
         #stop-cycle-button:hover,
         #download-gcode:hover {
-            background-color: #388e3c;
+            background-color: #7a8b74;
             outline: 2px solid white;
             transform: scale(0.95);
         }
@@ -464,6 +464,193 @@
             justify-content: space-between; /* Space between the buttons */
             gap: 10px;                    /* Optional spacing between buttons */
         }
+
+        /* Buttons row setup */
+        .buttons-row {
+            display: flex;
+            gap: 10px; /* Space between buttons */
+            width: 100%; /* Occupy full row width */
+            margin-bottom: 10px; /* Add spacing below row */
+        }
+
+        /* Shared button styles */
+        .styled-button {
+            flex: 1; /* Ensures equal width for both buttons */
+            background-color: #388e3c; /* Green background */
+            color: white; /* White text */
+            height: 45px; /* Fixed height for consistent proportions */
+            font-size: 1.1rem; /* Font size */
+            font-weight: 400; /* Font weight */
+            border: none; /* No border */
+            outline: none; /* Remove outline */
+            border-radius: 8px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            margin: 10px 0; /* Top and bottom margin */
+            transition: 0.3s ease; /* Smooth transitions */
+            display: flex; /* Flex layout for alignment */
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+        }
+
+        /* Hover state */
+        .styled-button:hover {
+            background-color: #2e7d32; /* Darker green */
+            outline: 2px solid white; /* White outline */
+            transform: scale(0.95); /* Slight shrink effect */
+        }
+
+        /* Button icon styling */
+        .button-icon {
+            width: 16px; /* Icon size */
+            margin-left: 8px; /* Space between text and icon */
+        }
+
+        @import url("https://fonts.googleapis.com/css?family=Roboto");
+        @-webkit-keyframes come-in {
+        0% {
+            -webkit-transform: translatey(100px);
+                    transform: translatey(100px);
+            opacity: 0;
+        }
+        30% {
+            -webkit-transform: translateX(-50px) scale(0.4);
+                    transform: translateX(-50px) scale(0.4);
+        }
+        70% {
+            -webkit-transform: translateX(0px) scale(1.2);
+                    transform: translateX(0px) scale(1.2);
+        }
+        100% {
+            -webkit-transform: translatey(0px) scale(1);
+                    transform: translatey(0px) scale(1);
+            opacity: 1;
+        }
+        }
+        @keyframes come-in {
+        0% {
+            -webkit-transform: translatey(100px);
+                    transform: translatey(100px);
+            opacity: 0;
+        }
+        30% {
+            -webkit-transform: translateX(-50px) scale(0.4);
+                    transform: translateX(-50px) scale(0.4);
+        }
+        70% {
+            -webkit-transform: translateX(0px) scale(1.2);
+                    transform: translateX(0px) scale(1.2);
+        }
+        100% {
+            -webkit-transform: translatey(0px) scale(1);
+                    transform: translatey(0px) scale(1);
+            opacity: 1;
+        }
+        }
+        * {
+        margin: 0;
+        padding: 0;
+        }
+
+        html, body {
+        background: #eaedf2;
+        font-family: 'Roboto', sans-serif;
+        }
+
+        .floating-container {
+        position: fixed;
+        width: 100px;
+        height: 100px;
+        bottom: calc(3%);
+        right: 0;
+        margin: 35px 25px;
+        z-index: 1100; /* Higher than the footer */
+        }
+        .floating-container:hover {
+        height: 300px;
+        }
+        .floating-container:hover .floating-button {
+        box-shadow: 0 10px 25px rgba(44, 179, 240, 0.6);
+        -webkit-transform: translatey(5px);
+                transform: translatey(5px);
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+        }
+        .floating-container:hover .element-container .float-element:nth-child(1) {
+        -webkit-animation: come-in 0.4s forwards 0.2s;
+                animation: come-in 0.4s forwards 0.2s;
+        }
+        .floating-container:hover .element-container .float-element:nth-child(2) {
+        -webkit-animation: come-in 0.4s forwards 0.4s;
+                animation: come-in 0.4s forwards 0.4s;
+        }
+        .floating-container:hover .element-container .float-element:nth-child(3) {
+        -webkit-animation: come-in 0.4s forwards 0.6s;
+                animation: come-in 0.4s forwards 0.6s;
+        }
+        .floating-container .floating-button {
+            position: absolute;
+            width: 65px;
+            height: 65px;
+            background: #6EACDA;
+            bottom: 0;
+            border-radius: 50%;
+            left: 0;
+            right: 0;
+            margin: auto;
+            color: white;
+            text-align: center;
+            font-size: 23px;
+            z-index: 100;
+            box-shadow: 0 10px 25px -5px rgba(44, 179, 240, 0.6);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex; /* Use flexbox for centering */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+        .floating-container .float-element {
+        position: relative;
+        display: block;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        margin: 15px auto;
+        color: white;
+        font-weight: 500;
+        text-align: center;
+        line-height: 50px;
+        z-index: 0;
+        opacity: 0;
+        -webkit-transform: translateY(100px);
+                transform: translateY(100px);
+        }
+        .floating-container .float-element .material-icons {
+        vertical-align: middle;
+        font-size: 16px;
+        }
+        .floating-container .float-element:nth-child(1) {
+        background: #42A5F5;
+        box-shadow: 0 20px 20px -10px rgba(66, 165, 245, 0.5);
+        }
+        .floating-container .float-element:nth-child(2) {
+        background: #4CAF50;
+        box-shadow: 0 20px 20px -10px rgba(76, 175, 80, 0.5);
+        }
+        .floating-container .float-element:nth-child(3) {
+        background: #FF9800;
+        box-shadow: 0 20px 20px -10px rgba(255, 152, 0, 0.5);
+        }
+
+
+
+
+
+
+
+
+
+
+
     </style>
     <!-- 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -497,10 +684,18 @@
         <form id="upload-form" style="display: none;">
             <input type="file" name="codeFile" id="codeFile">
         </form>
-        <button id="upload-button">
-            Upload Code
-            <img src="{{ url_for('static', filename='upload.png') }}" alt="Upload Icon" style="width: 16px; margin-left: 8px; position: relative; bottom: -1px;">
-        </button>
+        <div class="buttons-row">
+            <button id="upload-button" class="styled-button">
+                Upload
+                <img src="{{ url_for('static', filename='upload.png') }}" alt="Upload Icon" class="button-icon">
+            </button>
+
+            <button id="new-file-button" class="styled-button">
+                New File
+                <img src="{{ url_for('static', filename='addfile.png') }}" alt="New File Icon" class="button-icon">
+            </button>
+        </div>
+        
 
         </div>
 
@@ -541,6 +736,23 @@
 
 
 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <div class="floating-container">
+        <div class="floating-button" onclick="toggleFloatingMenu()"><i class="material-icons"><span class="material-icons">
+                smart_toy
+            </span></i></div>
+        <div class="element-container">
+            <span class="float-element tooltip-left" onclick="generateCode()">
+                <i class="material-icons">code</i>
+            </span>
+            <span class="float-element" onclick="optimizeCode()">
+                <i class="material-icons">build</i>
+            </span>
+            <span class="float-element" onclick="document.querySelector('.chatbox').style.display = 'block'">
+                <i class="material-icons">chat</i>
+            </span>
+        </div>
+    </div>
 
 
     <!-- 固定在底部的导航栏 -->
@@ -681,8 +893,6 @@
                 });
         }
 
-
-
         // 函数来添加新的列表项并绑定点击事件
         function addListItem(codeName) {
             var codeList = document.getElementById('code-list');
@@ -808,18 +1018,49 @@
                         method: 'POST',
                         body: formData
                     })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                // 添加代码名称到左侧列表
-                                addListItem(data.codeName); // 使用函数添加列表项和事件监听器
-                            } else {
-                                alert('上传失败: ' + data.message);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // 添加代码名称到左侧列表
+                            addListItem(data.codeName); // 使用函数添加列表项和事件监听器
+                        } else {
+                            alert('上传失败: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                }
+            });
+
+            // New File button functionality
+            document.getElementById('new-file-button').addEventListener('click', function () {
+                var fileName = prompt('Enter the name of the new file:');
+                if (fileName) {
+                    // Clear the editor for a new file 
+                    codeEditor.setValue(''); 
+                    localStorage.setItem('selectedCodeName', fileName);
+
+                    // Send new file name to the server
+                    fetch('/new-file', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ fileName: fileName, content: '' })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Add new file name to the list
+                            addListItem(data.fileName); // 使用函数添加列表项和事件监听器
+                        } else {
+                            alert('Failed to create new file: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
                 }
             });
 
