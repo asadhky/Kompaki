@@ -17,6 +17,9 @@ import json
 import os
 import boto3
 import threading
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://username:password@localhost/db_name'
@@ -998,15 +1001,46 @@ def ask_gpt(question):
 def ask():
     if request.method == 'POST':
         question = request.json['question']
-        answer = ask_gpt(question)
+        # answer = ask_gpt(question)
+        # response = {
+        #     'answer' : answer
+        # }
+        question_category = classify_prompt(question)
         response = {
-            'answer' : answer
+            'answer' : question_category
         }
         return jsonify(response)
     else:
         return render_template('index.html')
 
+# Classifies the prompt into different categories
+def classify_prompt(prompt):
+        # Define example prompts for each category
+    categories = {
+        "Machine-specific knowledge management (simple)": "status, state, info, details, overview",
+        "Machine-specific knowledge management (complex)": "report, analyze, diagnose, detailed analysis, in-depth",
+        "Interactive training": "train, learn, guide, tutorial, instruction, step-by-step, how to",
+        "Generation of G-code": "generate G-code, create toolpath, CNC programming, machine code, coordinate generation"
+    }
 
+    # Add prompt to the list of documents
+    documents = list(categories.values()) + [prompt]
+
+    # Vectorize the documents using TF-IDF
+    vectorizer = TfidfVectorizer()
+    tfidf_matrix = vectorizer.fit_transform(documents)
+
+    # Compute cosine similarity between prompt and categories
+    prompt_vector = tfidf_matrix[-1]  # The vector for the input prompt
+    category_vectors = tfidf_matrix[:-1]  # Vectors for each category
+
+    similarities = cosine_similarity(prompt_vector, category_vectors).flatten()
+
+    # Identify the best matching category
+    max_similarity = max(similarities)
+    best_category = list(categories.keys())[similarities.argmax()] if max_similarity > 0.05 else "Other"
+
+    return best_category
 
 @app.errorhandler(500)
 def internal_server_error(e):
