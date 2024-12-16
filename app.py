@@ -1021,13 +1021,15 @@ def ask_perplexity(question):
         "Authorization": "Bearer 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",
         "Content-Type": "application/json"
     }
-
     response = requests.request("POST", url, json=payload, headers=headers)
     # Get the JSON response
     api_response = response.json()
 
     # Extract content from the nested structure
     content = api_response.get('choices', [{}])[0].get('message', {}).get('content', 'No content found')
+    assert isinstance(content, str), f"Expected a string, but got {type(content)}"
+    content.replace("###", "\n")
+    content.replace("**", " ")
     return content
 
 def ask_gpt(question):
