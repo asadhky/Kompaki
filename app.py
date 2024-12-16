@@ -53,7 +53,7 @@ db_config = {
 }
 
 # 用您的OpenAI API密钥替换此处
-openai.api_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = "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"
 # Initialize a global variable for the PLC connection
 plc = None
 
@@ -983,31 +983,33 @@ class FolderApp(db.Model):
 
 # 定义 ask_gpt 函数，输入问题，返回 GPT-3 的回答
 def ask_gpt(question):
+    instruction = "Consider you are a CNC machine AI assistant. As the CNC Machine AI Assistant, you should provide user-friendly, knowledgeable, and efficient support for operating the machine. It should guide users with clear instructions, assist in selecting tools, materials, and settings, interpret G-code/M-code with real-time feedback and also provide accurate CNC code if asked by the user to provide CNC code for anything. The assistant must offer optimization tips to improve efficiency, monitor machine status, and suggest maintenance or troubleshooting steps when needed. It should adapt to user expertise, offering detailed explanations for novices and advanced insights for experts, while maintaining a professional yet approachable tone. Safety must be prioritized with alerts for unsafe conditions and quick access to emergency stop commands. Additionally, it should include a comprehensive library of materials and tools, suggest best practices, and ensure secure, personalized interaction for an intuitive and productive user experience."
+    response = openai.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": instruction},
+            {"role": "user", "content": question}
+        ]
+    )
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "user", "content": question}
-            ]
-        )
-        result = response['choices'][0]['message']['content'].strip()
-        return result
-    except Exception as e:
-        print("Error occurred:", str(e))
-        return "An error occurred while processing your request."
+        reply = response.choices[0].message
+        return reply
+    except KeyError as e:
+        print("Key error while accessing response content:", e)
+        return "Key error while accessing response content"
+    except IndexError as e:
+        print("Index error while accessing response content:", e)
+        return "Index error while accessing response content"
 
 # 定义路由，处理 POST 请求
 @app.route('/ask', methods=['GET', 'POST'])
 def ask():
     if request.method == 'POST':
         question = request.json['question']
-        # answer = ask_gpt(question)
-        # response = {
-        #     'answer' : answer
-        # }
-        question_category = classify_prompt(question)
+        response_ai = ask_gpt(question)
+        # question_category = classify_prompt(question)
         response = {
-            'answer' : question_category
+            'answer' : response_ai
         }
         return jsonify(response)
     else:
