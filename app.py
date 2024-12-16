@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
+import requests
 from extensions import db  # 从extensions.py导入db实例
 from models import Code, Icon, Layout, AppIcon  # 现在这里不会有循环导入问题
 from werkzeug.utils import secure_filename
@@ -53,7 +54,13 @@ db_config = {
 }
 
 # 用您的OpenAI API密钥替换此处
-openai.api_key = "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"
+secrets_path = os.path.join(os.getcwd(), 'secrets.json')
+with open(secrets_path, 'r') as file:
+    secrets = json.load(file)
+
+# Access the API_KEY from the secrets
+api_key = secrets['API_KEY']
+openai.api_key = api_key
 # Initialize a global variable for the PLC connection
 plc = None
 
@@ -982,17 +989,59 @@ class FolderApp(db.Model):
 
 
 # 定义 ask_gpt 函数，输入问题，返回 GPT-3 的回答
+def ask_perplexity(question):
+    instruction = "Consider you are a CNC machine AI assistant. As the CNC Machine AI Assistant, you should provide user-friendly, knowledgeable, and efficient support for operating the machine. It should guide users with clear instructions, assist in selecting tools, materials, and settings, interpret G-code/M-code with real-time feedback and also provide accurate CNC code if asked by the user to provide CNC code for anything. The assistant must offer optimization tips to improve efficiency, monitor machine status, and suggest maintenance or troubleshooting steps when needed. It should adapt to user expertise, offering detailed explanations for novices and advanced insights for experts, while maintaining a professional yet approachable tone. Safety must be prioritized with alerts for unsafe conditions and quick access to emergency stop commands. Additionally, it should include a comprehensive library of materials and tools, suggest best practices, and ensure secure, personalized interaction for an intuitive and productive user experience."
+    url = "https://api.perplexity.ai/chat/completions"
+
+    payload = {
+        "model": "llama-3.1-sonar-small-128k-online",
+        "messages": [
+            {
+                "role": "system",
+                "content": instruction
+            },
+            {
+                "role": "user",
+                "content": question
+            }
+        ],
+        "max_tokens": 10000,
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "search_domain_filter": ["perplexity.ai"],
+        "return_images": False,
+        "return_related_questions": False,
+        "search_recency_filter": "month",
+        "top_k": 0,
+        "stream": False,
+        "presence_penalty": 0,
+        "frequency_penalty": 1
+    }
+    headers = {
+        "Authorization": "Bearer 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",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.request("POST", url, json=payload, headers=headers)
+    # Get the JSON response
+    api_response = response.json()
+
+    # Extract content from the nested structure
+    content = api_response.get('choices', [{}])[0].get('message', {}).get('content', 'No content found')
+    return content
+
 def ask_gpt(question):
     instruction = "Consider you are a CNC machine AI assistant. As the CNC Machine AI Assistant, you should provide user-friendly, knowledgeable, and efficient support for operating the machine. It should guide users with clear instructions, assist in selecting tools, materials, and settings, interpret G-code/M-code with real-time feedback and also provide accurate CNC code if asked by the user to provide CNC code for anything. The assistant must offer optimization tips to improve efficiency, monitor machine status, and suggest maintenance or troubleshooting steps when needed. It should adapt to user expertise, offering detailed explanations for novices and advanced insights for experts, while maintaining a professional yet approachable tone. Safety must be prioritized with alerts for unsafe conditions and quick access to emergency stop commands. Additionally, it should include a comprehensive library of materials and tools, suggest best practices, and ensure secure, personalized interaction for an intuitive and productive user experience."
     response = openai.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": instruction},
             {"role": "user", "content": question}
         ]
     )
     try:
-        reply = response.choices[0].message
+        # reply = response.choices[0].message
+        reply = response['choices'][0]['message']['content']
         return reply
     except KeyError as e:
         print("Key error while accessing response content:", e)
@@ -1006,7 +1055,7 @@ def ask_gpt(question):
 def ask():
     if request.method == 'POST':
         question = request.json['question']
-        response_ai = ask_gpt(question)
+        response_ai = ask_perplexity(question)
         # question_category = classify_prompt(question)
         response = {
             'answer' : response_ai
