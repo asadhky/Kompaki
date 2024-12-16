@@ -792,13 +792,28 @@
                     <input type="number" id="position" placeholder="Enter position">
                     <button id="set-position" data-key="button-set-position">Set End</button>
                 </div> -->
+
             
                 <div class="section">
                     <div class="axis-container">
                         <div class="rangetitles" id="terminal-section">
-                            <h2 data-key="label-override" style="color: #b3b3b3; display: inline-block;">Select Forward Speed</h2>                            
-                            <button id="override-stop-button" class="overridestartbutton" style="background-image: url('../static/overridestop.jpg');"></button>
-                            <button id="override-start-button" class="overridestartbutton" style="background-image: url('../static/overridestart.jpg'); margin-right: 10px;"></button>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <h2 data-key="label-override" style="color: #b3b3b3; margin-right: 20px;">Select Forward Speed</h2>
+                                <div style="display: flex; gap: 10px;">
+                                    <!-- Button and Text Group -->
+                                    <div style="display: inline-block; text-align: center;">
+                                        <button id="override-start-button" class="overridestartbutton" style="background-image: url('../static/overridestart.jpg');"></button>
+                                        <div style="color: #b3b3b3; font-size: 14px;">OFF</div>
+                                    </div>
+                                    <div style="display: inline-block; text-align: center;">
+                                        <button id="override-stop-button" class="overridestartbutton" style="background-image: url('../static/overridestop.jpg');"></button>
+                                        <div style="color: #b3b3b3; font-size: 14px;">ON</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                            
                             <div class="slider-ui color1">
                                 <input type="range" id="override-slider" min="0" max="100" step="1" value="{{ forward_speed }}">
                                 <div class="bar">
@@ -816,14 +831,23 @@
                             
                         </div>
                         <div class="rangetitles" id="terminal-section">
-                            <h2 data-key="label-spindle" style="color: #b3b3b3; display: inline-block;">Select Spindle Speed</h2>
-                            <label for="reverse-checkbox" style="color: #b3b3b3; margin-left: 15px;">
-                                <input type="checkbox" id="reverse-checkbox" onclick="toggleReverse()" style="margin-right: 5px;">
-                                Reverse
-                            </label>                         
-                            <button id="spindle-stop-button" class="spindlestartbutton" style="background-image: url('../static/spindlestop.jpg');"></button>
-                            <button id="spindle-start-button" class="spindlestartbutton" style="background-image: url('../static/spindlestart.jpg'); margin-right: 10px;"></button>
-                            
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <h2 data-key="label-spindle" style="color: #b3b3b3; display: inline-block;">Select Spindle Speed</h2>
+                                <div style="display: flex; gap: 10px;">
+                                    <label for="reverse-checkbox" style="color: #b3b3b3; margin-left: 15px;  margin-top: 15px;">
+                                        <input type="checkbox" id="reverse-checkbox" onclick="toggleReverse()" style="margin-right: 5px;">
+                                        Reverse
+                                    </label> 
+                                    <div style="display: inline-block; text-align: center;">                      
+                                        <button id="spindle-start-button" class="spindlestartbutton" style="background-image: url('../static/spindlestart.jpg');"></button>
+                                        <div style="color: #b3b3b3; font-size: 14px;">OFF</div>
+                                    </div>  
+                                    <div style="display: inline-block; text-align: center;"> 
+                                        <button id="spindle-stop-button" class="spindlestartbutton" style="background-image: url('../static/spindlestop.jpg');"></button>
+                                        <div style="color: #b3b3b3; font-size: 14px;">ON</div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="slider-ui color1">
                                 <input type="range" id="spindle-slider" min="0" max="100" step="1" value="{{ spindle_speed }}">
                                 <div class="bar">

@@ -627,10 +627,10 @@
 	color: #000;
 } */
 .slider-ui.color1 .bar {
-	background-color: #697565;
+	background-color: #526D82;
 }
 .slider-ui.color1 .value {
-	border-color: #697565;
+	border-color: #526D82;
 }
 
 .spindlestartbutton {
@@ -663,7 +663,6 @@
 
 
 .overridestartbutton {
-    float: right;
     width: 45px;
     height: 45px;
     background-repeat: no-repeat;
@@ -673,9 +672,10 @@
     cursor: pointer;
     background-image: url('../overridestart.jpg');
     border-radius: 4px;
-    transition: filter 0.3s ease, transform 0.3s ease; /* Smooth effect for both filter and transform */
+    transition: filter 0.3s ease, transform 0.3s ease;
     box-shadow: 0 5px 0 rgba(0,0,0,.1);
 }
+
 
 .overridestartbutton:hover {
     filter: brightness(1.2);
@@ -758,7 +758,7 @@
 .reset-axis-btn {
     margin-top: -10px;
     padding: 0.5rem 1rem; /* Increased padding for fatter button */
-    background-color: #697565; /* bg-gray-700 */
+    background-color: #526D82; /* bg-gray-700 */
     color: #d3d3d3; /* text-gray-200 */
     border: 1px solid #3C3D37; /* border-gray-600 */
     border-radius: 0.375rem; /* rounded-md */
@@ -805,13 +805,14 @@
     padding: 0 5px; /* Add some padding around the buttons */
 }
 
+
 /* Edit Axis Button */
 .edit-axis-button {
     font-size: 16px; /* Slightly smaller font size */
     width: 25px; /* Smaller width than arrow buttons */
     height: 25px; /* Smaller height than arrow buttons */
     border: 0.3px solid rgba(204, 204, 204, 0.8); /* Match the arrow buttons */
-    background-color: #697565; /* Dark gray background */
+    background-color: #526D82; /* Dark gray background */
     cursor: pointer;
     color: #d3d3d3; /* Text color */
     border-radius: 0.375rem; /* Rounded corners */
