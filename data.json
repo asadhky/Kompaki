@@ -10,16 +10,16 @@
     },
     "is_override_running": false,
     "is_spindle_running": false,
-    "y": {
-        "current_position": "1.000",
-        "end_position": "23.000"
-    },
     "x": {
         "current_position": 2.0,
-        "end_position": "33.000"
+        "end_position": 33.0
+    },
+    "y": {
+        "current_position": 1.0,
+        "end_position": 23.0
     },
     "z": {
-        "current_position": "23.000",
-        "end_position": "1.000"
+        "current_position": 23.0,
+        "end_position": 1.0
     }
 }

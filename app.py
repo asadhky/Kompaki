@@ -836,6 +836,20 @@ def read_json():
     with open(DATA_FILE, 'r') as f:
         return json.load(f)
     
+#Read values from the JSON file and update on frontend    
+@app.route('/get-axis-values', methods=['GET'])
+def get_axis_values():
+    try:
+        # Read the JSON data
+        with open(DATA_FILE, 'r') as f:
+            axis_data = json.load(f)
+
+        return jsonify(axis_data), 200  # Send the data as JSON response
+
+    except Exception as e:
+        return jsonify({"message": "Error reading axis data", "error": str(e)}), 500
+
+    
 @app.route('/update-axis-speed', methods=['POST'])
 def update_axis_speed():
     data = request.json
@@ -847,7 +861,6 @@ def update_axis_speed():
         current_data[axis] = {
             'current_position': 0.0,
             'end_position': 0.0
-            # 'active_position': 0.0
         }
 
     current_data[axis]['current_position'] = current_position
@@ -862,6 +875,7 @@ def update_axis_speed():
 
     return jsonify({"message": "Axis speed updated and uploaded to S3 successfully!"})
 
+# Function to set the End position of all axis
 @app.route('/update-axis-position', methods=['POST'])
 def update_axis_position():
     data = request.json
@@ -869,14 +883,17 @@ def update_axis_position():
     end_position = data.get('end_position')
     current_data = read_json()
 
-    if axis not in current_data:
-        current_data[axis] = {
-            'current_position': 0.0,
-            'end_position': 0.0,
-            # 'active_position': 0.0
-        }
+    # Map axis to the correct JSON key
+    axis_map = {
+        'x': 'GVL_Motion_Control_single_axis.fbsa_MoveAbs.Position',
+        'y': 'GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Position',
+        'z': 'GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Position'
+    }
 
-    current_data[axis]['end_position'] = end_position
+    if axis in axis_map:
+        current_data[axis_map[axis]]['value'] = round(float(end_position), 2)
+    else:
+        return jsonify({"message": "Invalid axis"}), 400
 
     with open(DATA_FILE, 'w') as f:
         json.dump(current_data, f, indent=4)
@@ -884,9 +901,11 @@ def update_axis_position():
     try:
         s3_client.upload_file(DATA_FILE, BUCKET_NAME, S3_FILE_KEY)
     except Exception as e:
-        return jsonify({"message": "Failed to upload to the S3", "error": str(e)}), 500
+        return jsonify({"message": "Failed to upload to S3", "error": str(e)}), 500
 
     return jsonify({"message": "Axis position updated and uploaded to S3 successfully!"})
+
+
 
 @app.route('/get_axis_status', methods=['GET'])
 def get_axis_status():
