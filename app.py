@@ -25,6 +25,7 @@ app.secret_key = '123456'  # Ensure to replace with your actual secret key
 
 # Assume data.json exists and stores slider values
 DATA_FILE = 'var1.json'
+OP_DATA_FILE = 'op.json'
 
 s3_client = boto3.client('s3')
 BUCKET_NAME = 'newtwincatjsonfile'
@@ -821,13 +822,63 @@ def reset_individual_axis():
 def auto_cycle():
     print("Auto cycle initiated")
 
-    return jsonify({"message": "Button click registered"}), 200
+    try:
+        # Read the JSON data
+        with open(OP_DATA_FILE, 'r') as f:
+            current_data = json.load(f)
+
+        # Update the Auto variable's value to true
+        if 'Auto' in current_data:
+            current_data['Auto']['value'] = True
+        else:
+            current_data['Auto'] = {'value': True, 'type': 'BOOL'}
+
+        # Write the updated data back to the file
+        with open(OP_DATA_FILE, 'w') as f:
+            json.dump(current_data, f, indent=4)
+
+        # Optionally, upload the file to S3
+        try:
+            s3_client.upload_file(OP_DATA_FILE, BUCKET_NAME, S3_FILE_KEY)
+        except Exception as e:
+            return jsonify({"message": "Failed to upload to S3", "error": str(e)}), 500
+
+        return jsonify({"message": "Auto variable updated to true and uploaded to S3 successfully!"}), 200
+
+    except Exception as e:
+        return jsonify({"message": "Error updating Auto variable", "error": str(e)}), 500
+
 
 @app.route('/stop-cycle', methods=['POST'])
 def stop_cycle():
     print("Stop cycle initiated")
 
-    return jsonify({"message": "Button click registered"}), 200
+    try:
+        # Read the JSON data
+        with open(OP_DATA_FILE, 'r') as f:
+            current_data = json.load(f)
+
+        # Update the Auto variable's value to false
+        if 'Auto' in current_data:
+            current_data['Auto']['value'] = False
+        else:
+            current_data['Auto'] = {'value': False, 'type': 'BOOL'}
+
+        # Write the updated data back to the file
+        with open(OP_DATA_FILE, 'w') as f:
+            json.dump(current_data, f, indent=4)
+
+        # Optionally, upload the file to S3
+        try:
+            s3_client.upload_file(OP_DATA_FILE, BUCKET_NAME, S3_FILE_KEY)
+        except Exception as e:
+            return jsonify({"message": "Failed to upload to S3", "error": str(e)}), 500
+
+        return jsonify({"message": "Auto variable updated to false and uploaded to S3 successfully!"}), 200
+
+    except Exception as e:
+        return jsonify({"message": "Error updating Auto variable", "error": str(e)}), 500
+
 
 # Function to read JSON data from file
 def read_json():
