@@ -30,6 +30,7 @@ OP_DATA_FILE = 'op.json'
 s3_client = boto3.client('s3')
 BUCKET_NAME = 'newtwincatjsonfile'
 S3_FILE_KEY = 'var1.json'
+OPS3_FILE_KEY = 'op.json'
 
 def read_json():
     with open(DATA_FILE, 'r') as f:
@@ -43,8 +44,8 @@ app.config['MAIL_USERNAME'] = 'riskerasad@gmail.com'
 app.config['MAIL_PASSWORD'] = 'iqmzuxopchoogpdu'
 
 db_config = {
-    'user': 'root',
-    'password': 'buttsahib',
+    'user': 'xixi',
+    'password': 'Chenxi1213!',
     'host': 'localhost',
     'port': 3308,
     'database': 'userdb'
@@ -839,7 +840,7 @@ def auto_cycle():
 
         # Optionally, upload the file to S3
         try:
-            s3_client.upload_file(OP_DATA_FILE, BUCKET_NAME, S3_FILE_KEY)
+            s3_client.upload_file(OP_DATA_FILE, BUCKET_NAME, OPS3_FILE_KEY)
         except Exception as e:
             return jsonify({"message": "Failed to upload to S3", "error": str(e)}), 500
 
@@ -870,7 +871,7 @@ def stop_cycle():
 
         # Optionally, upload the file to S3
         try:
-            s3_client.upload_file(OP_DATA_FILE, BUCKET_NAME, S3_FILE_KEY)
+            s3_client.upload_file(OP_DATA_FILE, BUCKET_NAME, OPS3_FILE_KEY)
         except Exception as e:
             return jsonify({"message": "Failed to upload to S3", "error": str(e)}), 500
 
