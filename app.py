@@ -44,8 +44,8 @@ app.config['MAIL_USERNAME'] = 'riskerasad@gmail.com'
 app.config['MAIL_PASSWORD'] = 'iqmzuxopchoogpdu'
 
 db_config = {
-    'user': 'xixi',
-    'password': 'Chenxi1213!',
+    'user': 'root',
+    'password': 'buttsahib',
     'host': 'localhost',
     'port': 3308,
     'database': 'userdb'

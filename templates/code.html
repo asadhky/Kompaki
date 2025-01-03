@@ -227,6 +227,12 @@
             overflow-y: auto;
         }
 
+        #code-list {
+            max-height: 100%; /* Adjust the height as needed */
+            overflow-y: auto; /* Enables vertical scrolling */
+            padding: 10px; /* Optional: add some padding for aesthetics */
+        }
+
         .code-item {
             background-color: #3c3c3c;
             padding: 15px;
@@ -644,13 +650,6 @@
 
 
 
-
-
-
-
-
-
-
     </style>
     <!-- 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -733,27 +732,6 @@
 
 
     </div>
-
-
-
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <div class="floating-container">
-        <div class="floating-button" onclick="toggleFloatingMenu()"><i class="material-icons"><span class="material-icons">
-                smart_toy
-            </span></i></div>
-        <div class="element-container">
-            <span class="float-element tooltip-left" onclick="generateCode()">
-                <i class="material-icons">code</i>
-            </span>
-            <span class="float-element" onclick="optimizeCode()">
-                <i class="material-icons">build</i>
-            </span>
-            <span class="float-element" onclick="document.querySelector('.chatbox').style.display = 'block'">
-                <i class="material-icons">chat</i>
-            </span>
-        </div>
-    </div>
-
 
     <!-- 固定在底部的导航栏 -->
     {% include 'footer.html' %}

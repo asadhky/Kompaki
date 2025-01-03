@@ -176,7 +176,7 @@
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_3.fbsa_MoveAbs.Execute": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_3.Rap_Position": {
