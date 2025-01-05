@@ -44,8 +44,8 @@ app.config['MAIL_USERNAME'] = 'riskerasad@gmail.com'
 app.config['MAIL_PASSWORD'] = 'iqmzuxopchoogpdu'
 
 db_config = {
-    'user': 'root',
-    'password': 'buttsahib',
+    'user': 'xixi',
+    'password': 'Chenxi1213!',
     'host': 'localhost',
     'port': 3308,
     'database': 'userdb'
@@ -1076,6 +1076,15 @@ def ask():
         return jsonify(response)
     else:
         return render_template('index.html')
+
+@app.route('/debug-api-key', methods=['GET'])
+def debug_api_key():
+    import os
+    api_key = os.getenv('OPENAI_API_KEY')
+    if api_key:
+        return f"API Key is accessible: {api_key[:4]}****"  # Masking for security
+    else:
+        return "API Key is not accessible in Flask."
 
 
 
