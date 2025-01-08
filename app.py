@@ -50,7 +50,6 @@ db_config = {
     'port': 3308,
     'database': 'userdb'
 }
-
 # 用您的OpenAI API密钥替换此处
 openai.api_key = os.getenv('OPENAI_API_KEY')
 # Initialize a global variable for the PLC connection
