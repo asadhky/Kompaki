@@ -29,10 +29,12 @@ app.secret_key = '123456'  # Ensure to replace with your actual secret key
 
 # Assume data.json exists and stores slider values
 DATA_FILE = 'var1.json'
+OP_DATA_FILE = 'op.json'
 
 s3_client = boto3.client('s3')
 BUCKET_NAME = 'newtwincatjsonfile'
 S3_FILE_KEY = 'var1.json'
+OPS3_FILE_KEY = 'op.json'
 
 def read_json():
     with open(DATA_FILE, 'r') as f:
@@ -52,7 +54,6 @@ db_config = {
     'port': 3308,
     'database': 'userdb'
 }
-
 # 用您的OpenAI API密钥替换此处
 secrets_path = os.path.join(os.getcwd(), 'secrets.json')
 with open(secrets_path, 'r') as file:
@@ -831,13 +832,63 @@ def reset_individual_axis():
 def auto_cycle():
     print("Auto cycle initiated")
 
-    return jsonify({"message": "Button click registered"}), 200
+    try:
+        # Read the JSON data
+        with open(OP_DATA_FILE, 'r') as f:
+            current_data = json.load(f)
+
+        # Update the Auto variable's value to true
+        if 'Auto' in current_data:
+            current_data['Auto']['value'] = True
+        else:
+            current_data['Auto'] = {'value': True, 'type': 'BOOL'}
+
+        # Write the updated data back to the file
+        with open(OP_DATA_FILE, 'w') as f:
+            json.dump(current_data, f, indent=4)
+
+        # Optionally, upload the file to S3
+        try:
+            s3_client.upload_file(OP_DATA_FILE, BUCKET_NAME, OPS3_FILE_KEY)
+        except Exception as e:
+            return jsonify({"message": "Failed to upload to S3", "error": str(e)}), 500
+
+        return jsonify({"message": "Auto variable updated to true and uploaded to S3 successfully!"}), 200
+
+    except Exception as e:
+        return jsonify({"message": "Error updating Auto variable", "error": str(e)}), 500
+
 
 @app.route('/stop-cycle', methods=['POST'])
 def stop_cycle():
     print("Stop cycle initiated")
 
-    return jsonify({"message": "Button click registered"}), 200
+    try:
+        # Read the JSON data
+        with open(OP_DATA_FILE, 'r') as f:
+            current_data = json.load(f)
+
+        # Update the Auto variable's value to false
+        if 'Auto' in current_data:
+            current_data['Auto']['value'] = False
+        else:
+            current_data['Auto'] = {'value': False, 'type': 'BOOL'}
+
+        # Write the updated data back to the file
+        with open(OP_DATA_FILE, 'w') as f:
+            json.dump(current_data, f, indent=4)
+
+        # Optionally, upload the file to S3
+        try:
+            s3_client.upload_file(OP_DATA_FILE, BUCKET_NAME, OPS3_FILE_KEY)
+        except Exception as e:
+            return jsonify({"message": "Failed to upload to S3", "error": str(e)}), 500
+
+        return jsonify({"message": "Auto variable updated to false and uploaded to S3 successfully!"}), 200
+
+    except Exception as e:
+        return jsonify({"message": "Error updating Auto variable", "error": str(e)}), 500
+
 
 # Function to read JSON data from file
 def read_json():
@@ -845,6 +896,20 @@ def read_json():
         return {}
     with open(DATA_FILE, 'r') as f:
         return json.load(f)
+    
+#Read values from the JSON file and update on frontend    
+@app.route('/get-axis-values', methods=['GET'])
+def get_axis_values():
+    try:
+        # Read the JSON data
+        with open(DATA_FILE, 'r') as f:
+            axis_data = json.load(f)
+
+        return jsonify(axis_data), 200  # Send the data as JSON response
+
+    except Exception as e:
+        return jsonify({"message": "Error reading axis data", "error": str(e)}), 500
+
     
 @app.route('/update-axis-speed', methods=['POST'])
 def update_axis_speed():
@@ -857,7 +922,6 @@ def update_axis_speed():
         current_data[axis] = {
             'current_position': 0.0,
             'end_position': 0.0
-            # 'active_position': 0.0
         }
 
     current_data[axis]['current_position'] = current_position
@@ -872,6 +936,7 @@ def update_axis_speed():
 
     return jsonify({"message": "Axis speed updated and uploaded to S3 successfully!"})
 
+# Function to set the End position of all axis
 @app.route('/update-axis-position', methods=['POST'])
 def update_axis_position():
     data = request.json
@@ -879,14 +944,17 @@ def update_axis_position():
     end_position = data.get('end_position')
     current_data = read_json()
 
-    if axis not in current_data:
-        current_data[axis] = {
-            'current_position': 0.0,
-            'end_position': 0.0,
-            # 'active_position': 0.0
-        }
+    # Map axis to the correct JSON key
+    axis_map = {
+        'x': 'GVL_Motion_Control_single_axis.fbsa_MoveAbs.Position',
+        'y': 'GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Position',
+        'z': 'GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Position'
+    }
 
-    current_data[axis]['end_position'] = end_position
+    if axis in axis_map:
+        current_data[axis_map[axis]]['value'] = round(float(end_position), 2)
+    else:
+        return jsonify({"message": "Invalid axis"}), 400
 
     with open(DATA_FILE, 'w') as f:
         json.dump(current_data, f, indent=4)
@@ -894,9 +962,11 @@ def update_axis_position():
     try:
         s3_client.upload_file(DATA_FILE, BUCKET_NAME, S3_FILE_KEY)
     except Exception as e:
-        return jsonify({"message": "Failed to upload to the S3", "error": str(e)}), 500
+        return jsonify({"message": "Failed to upload to S3", "error": str(e)}), 500
 
     return jsonify({"message": "Axis position updated and uploaded to S3 successfully!"})
+
+
 
 @app.route('/get_axis_status', methods=['GET'])
 def get_axis_status():
@@ -1067,6 +1137,17 @@ def ask():
         return render_template('index.html')
 
 # Classifies the prompt into different categories
+
+@app.route('/debug-api-key', methods=['GET'])
+def debug_api_key():
+    import os
+    api_key = os.getenv('OPENAI_API_KEY')
+    if api_key:
+        return f"API Key is accessible: {api_key[:4]}****"  # Masking for security
+    else:
+        return "API Key is not accessible in Flask."
+
+
 def classify_prompt(prompt):
         # Define example prompts for each category
     categories = {

@@ -6,7 +6,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * {
-            margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
@@ -225,6 +224,12 @@
             padding: 10px;
             box-sizing: border-box;
             overflow-y: auto;
+        }
+
+        #code-list {
+            max-height: 100%; /* Adjust the height as needed */
+            overflow-y: auto; /* Enables vertical scrolling */
+            padding: 10px; /* Optional: add some padding for aesthetics */
         }
 
         .code-item {
@@ -546,10 +551,6 @@
             opacity: 1;
         }
         }
-        * {
-        margin: 0;
-        padding: 0;
-        }
 
         html, body {
         background: #eaedf2;
@@ -644,13 +645,6 @@
 
 
 
-
-
-
-
-
-
-
     </style>
     <!-- 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -733,27 +727,6 @@
 
 
     </div>
-
-
-
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <div class="floating-container">
-        <div class="floating-button" onclick="toggleFloatingMenu()"><i class="material-icons"><span class="material-icons">
-                smart_toy
-            </span></i></div>
-        <div class="element-container">
-            <span class="float-element tooltip-left" onclick="generateCode()">
-                <i class="material-icons">code</i>
-            </span>
-            <span class="float-element" onclick="optimizeCode()">
-                <i class="material-icons">build</i>
-            </span>
-            <span class="float-element" onclick="document.querySelector('.chatbox').style.display = 'block'">
-                <i class="material-icons">chat</i>
-            </span>
-        </div>
-    </div>
-
 
     <!-- 固定在底部的导航栏 -->
     {% include 'footer.html' %}

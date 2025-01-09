@@ -4,20 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Add Font Awesome link -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
     <style>
         :root {
             --text-color: #ececec;
             --inverse-text-color: #252631;
             --background-color: #1f2029;
             --icon-background-color: #252631;
-            --brand-color-html5: #e34f26;
-            --brand-color-css3: #2196f3;
-            --brand-color-nodejs: #6cc24a;
-            --brand-color-npm: #cb3837;
-            --brand-color-sass: #c69;
-            --brand-color-angular: #b52e31;
-            --brand-color-ionic: #498AFF;
             --inverse-background-color: #526D82;
         }
 
@@ -26,6 +21,7 @@
             font-family: Arial, sans-serif;
         }
 
+        /* Footer */
         .footer {
             display: flex;
             justify-content: space-around;
@@ -48,7 +44,6 @@
             cursor: pointer;
             position: relative;
             transition: 0.5s ease;
-            z-index: 2; /* Make sure icon stays above the circle */
         }
 
         .footer-button i {
@@ -62,60 +57,233 @@
             transform: scale(1.2);
         }
 
-        .footer-button:after {
-            content: "";
+        /* Chatbot Styles */
+        body.show-chatbot .chatbot-toggler {
+            transform: rotate(90deg);
+        }
+
+        .chatbot-toggler span {
+            color: #fff;
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background-color: var(--icon-background-color);
-            transform: scale3d(1, 1, 1);
-            transform-origin: 50% 50%;
-            will-change: transform;
-            transition: .25s ease-out;
-            z-index: -1; /* Ensure the background circle is behind the icon */
         }
 
-        .footer-button:hover:after {
-            transform: scale3d(0, 0, 0);
-            transition: .25s ease-in;
+        .chatbot-toggler span:last-child,
+        body.show-chatbot .chatbot-toggler span:first-child {
+            opacity: 0;
         }
 
-        .modal {
-            display: none; /* Hidden by default */
+        body.show-chatbot .chatbot-toggler span:last-child {
+            opacity: 1;
+        }
+
+        .chatbot {
             position: fixed;
-            z-index: 1001; /* Sit on top */
-            left: 0;
-            top: 0;
+            right: 35px;
+            bottom: 90px;
+            width: 420px;
+            background: #232D36;
+            border-radius: 15px;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.5);
+            transform-origin: bottom right;
+            box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
+                        0 32px 64px -48px rgba(0, 0, 0, 0.5);
+            transition: all 0.1s ease;
+            z-index: 1100;
+        }
+
+        body.show-chatbot .chatbot {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+
+        .chatbot header {
+            padding: 1px ;
+            /* padding-top: 20px; */
+            position: relative;
+            text-align: center;
+            color: #fff;
+            background: #526D82;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h2 {
+            font-size: 1.4rem;
+        }
+
+        .chatbot header span {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            cursor: pointer;
+            transform: translateY(-50%);
+            display: block;
+        }
+
+        .chatbot .chatbox {
+            overflow-y: auto;
+            height: 510px;
+            padding: 10px 20px 100px;
+        }
+
+        .chatbox .chat {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+
+        .chatbox .incoming span {
+            width: 32px;
+            height: 32px;
+            color: #fff;
+            text-align: center;
+            line-height: 32px;
+            background: #724ae8;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .chatbox .chat p {
+            position: relative;
+            white-space: pre-wrap;
+            padding: 12px 16px;
+            border-radius: 15px;
+            max-width: 75%;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 5px 0;
+        }
+
+        .chat-input {
+            display: flex;
+            align-items: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            padding: 3px 20px;
+            background: #232D36;
+            border-top: 1px solid #9FA2A7;
+        }
+
+        .chat-input textarea {
+            flex-grow: 1;
+            border: none;
+            resize: none;
+            padding: 5px;
+            margin-right: 10px;
+            border-radius: 5px;
+            font-size: 14px !important; /* Force smaller font size */
+            outline: none;
+            background: #232D36;
+            color: #ECE5DD;
+        }
+
+        .chat-input span {
+            font-size: 24px;
+            cursor: pointer;
+            color: #526D82;
+            padding-top: 10px;
+        }
+
+        /* Incoming messages (AI) */
+        .chatbox .incoming p {
+            background-color: var(--inverse-background-color);
+            color: var(--text-color);
+        }
+
+        .chatbox .incoming p::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 15px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent var(--inverse-background-color) transparent transparent;
+        }
+
+        .icon-container {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between icons */
+            padding-bottom: 20px;
+        }
+
+        /* Outgoing messages (User) */
+        .chatbox .outgoing p {
+            background-color: var(--text-color);
+            color: var(--inverse-text-color);
+            margin-left: auto;
+            margin-right: 20px; /* Space for alignment */
+        }
+
+        .chatbox .outgoing p::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 15px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent transparent transparent var(--text-color);
+        }
+
+        #attachment-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-right: 10px;
+            color: #724ae8;
+        }
+
+        #attachment-label:hover {
+            color: #9b6ef3;
+        }
+
+        .chatbot.fullscreen {
             width: 100%;
             height: 100%;
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            right: 0;
+            bottom: 0;
+            border-radius: 0;
+            transform: none;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
         }
 
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto; /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; /* Could be more or less, depending on screen size */
+        .chatbot.fullscreen header h3 {
+            font-size: 1.6rem;
         }
 
-        .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
+        .chatbot.fullscreen .chatbox {
+            height: calc(100% - 140px); /* Adjust height to fit the full-screen layout */
         }
 
-        .close-button:hover,
-        .close-button:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
+        .chatbot.fullscreen .chat-input {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+
+        @media (max-width: 490px) {
+            .chatbot {
+                right: 0;
+                bottom: 0;
+                height: 100%;
+                border-radius: 0;
+                width: 100%;
+            }
+
+            .chatbot .chatbox {
+                height: 90%;
+                padding: 25px 15px 100px;
+            }
+
+            .chatbot .chat-input {
+                padding: 5px 15px;
+            }
         }
     </style>
 </head>
@@ -137,77 +305,97 @@
             </button>
         </a>
         <button id="AI-chat-button" class="footer-button">
-            <i class="fas fa-robot"></i> <!-- AI icon using Font Awesome -->
+            <i class="fas fa-robot"></i>
         </button>
     </div>
 
-    <div id="AI-chat-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2>AI chat</h2>
-
-            <!-- 对话记录 -->
-            <div id="chat-history" class="chat-history">
-                <!-- 在这里动态添加聊天内容 -->
+    <div class="chatbot" id="chatbot">
+        <header>
+            <h3>AI Chat</h3>
+            <span id="toggle-fullscreen" class="material-symbols-outlined" 
+                  style="position: absolute; right: 45px; top: 50%; transform: translateY(-50%); cursor: pointer;">fullscreen</span>
+            <span id="close-chatbot" class="material-symbols-outlined" 
+                  style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer;">close</span>
+        </header>
+        
+        <ul class="chatbox" id="chat-history">
+            <li class="chat incoming">
+                <span class="material-symbols-outlined">smart_toy</span>
+                <p>Hi there 👋<br>How can I help you today?</p>
+            </li>
+        </ul>
+        <div class="chat-input">
+            <textarea id="chat-input" placeholder="Enter a message..." spellcheck="false"></textarea>
+            <div class="icon-container">
+                <label id="attachment-label" for="attachment-input">
+                    <span class="material-symbols-rounded" title="Attach a file">attach_file</span>
+                </label>
+                <input type="file" id="attachment-input" style="display: none;" />
+                <span id="send-btn" class="material-symbols-rounded">send</span>
             </div>
-
-            <!-- 文字输入框 -->
-            <input type="text" id="chat-input" placeholder="Enter question...">
-            <button id="send-message">Send</button>
-        </div>
+        </div>        
     </div>
 
     <script>
+
         document.addEventListener('DOMContentLoaded', function () {
-            const aiChatModal = document.getElementById("AI-chat-modal");
-            const aiChatBtn = document.getElementById("AI-chat-button");
-            const sendButton = document.getElementById("send-message");
-            const chatInput = document.getElementById("chat-input");
-            const chatHistory = document.getElementById("chat-history");
-    
-            const closeButtons = document.getElementsByClassName("close-button");
-    
-            // Open the AI chat modal
-            aiChatBtn.onclick = function () {
-                aiChatModal.style.display = "block";
-            };
-    
-            // Add close functionality to all close buttons
-            for (let i = 0; i < closeButtons.length; i++) {
-                closeButtons[i].onclick = function () {
-                    this.closest('.modal').style.display = 'none';
-                };
-            }
-    
-            // Close modal when clicking outside the modal
-            window.onclick = function (event) {
-                if (event.target === aiChatModal) {
-                    aiChatModal.style.display = "none";
-                }
-            };
-    
-            // Send message functionality
-            sendButton.onclick = function () {
-                const question = chatInput.value;
-                if (question.trim()) {
-                    chatHistory.innerHTML += `<div><strong>You:</strong> ${question}</div>`;
-                    // AJAX request to the server
-                    $.ajax({
-                        type: 'POST',
-                        contentType: 'application/json',
-                        url: '/ask',
-                        data: JSON.stringify({ 'question': question }),
-                        success: function (data) {
-                            chatHistory.innerHTML += `<div><strong>AI:</strong> ${data.answer}</div>`;
-                            chatInput.value = ''; // Clear the input field
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error:', error);
-                            chatHistory.innerHTML += `<div><strong>Error:</strong> An error occurred.</div>`;
-                        }
+            const chatbot = document.getElementById('chatbot');
+            const toggleFullscreen = document.getElementById('toggle-fullscreen');
+
+            toggleFullscreen.addEventListener('click', () => {
+                chatbot.classList.toggle('fullscreen');
+                toggleFullscreen.textContent = chatbot.classList.contains('fullscreen') 
+                    ? 'fullscreen_exit' 
+                    : 'fullscreen';
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const chatbot = document.getElementById('chatbot');
+            const aiChatButton = document.getElementById('AI-chat-button');
+            const closeChatbot = document.getElementById('close-chatbot');
+            const sendButton = document.getElementById('send-btn');
+            const chatInput = document.getElementById('chat-input');
+            const chatHistory = document.getElementById('chat-history');
+
+            // Toggle chatbot display
+            aiChatButton.addEventListener('click', () => {
+                document.body.classList.add('show-chatbot');
+            });
+
+            closeChatbot.addEventListener('click', () => {
+                document.body.classList.remove('show-chatbot');
+            });
+
+            sendButton.addEventListener('click', function () {
+                const question = chatInput.value.trim();
+                if (!question) return;
+
+                // Append user message to chat
+                const userMessage = `<li class="chat outgoing"><p>${question}</p></li>`;
+                chatHistory.insertAdjacentHTML('beforeend', userMessage);
+
+                // AJAX to server
+                fetch('/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        const aiMessage = `<li class="chat incoming">
+                            <span class="material-symbols-outlined">smart_toy</span>
+                            <p>${data.answer}</p>
+                        </li>`;
+                        chatHistory.insertAdjacentHTML('beforeend', aiMessage);
+                        chatInput.value = '';
+                        chatHistory.scrollTop = chatHistory.scrollHeight;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        chatHistory.insertAdjacentHTML('beforeend', `<li class="chat error"><p>Error occurred.</p></li>`);
                     });
-                }
-            };
+            });
         });
     </script>
 </body>

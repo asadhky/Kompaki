@@ -24,11 +24,11 @@
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis.Rap_Position": {
-        "value": 0.0,
+        "value": 1.0,
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Position": {
-        "value": 10.0,
+        "value": 5.0,
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Velocity": {
@@ -76,11 +76,11 @@
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_1.Rap_Position": {
-        "value": 0,
+        "value": 3.0,
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Position": {
-        "value": 0,
+        "value": 7.0,
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Velocity": {
@@ -128,11 +128,11 @@
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_2.Rap_Position": {
-        "value": 0,
+        "value": 5.0,
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Position": {
-        "value": 0,
+        "value": 1.0,
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Velocity": {
@@ -176,7 +176,7 @@
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_3.fbsa_MoveAbs.Execute": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_3.Rap_Position": {
@@ -238,17 +238,5 @@
     "JOG_MODE.JogMode_3": {
         "value": "2",
         "type": "STRING"
-    },
-    "x": {
-        "current_position": "20.000",
-        "end_position": "1.000"
-    },
-    "z": {
-        "current_position": "40.000",
-        "end_position": "3.000"
-    },
-    "y": {
-        "current_position": "30.000",
-        "end_position": "2.000"
     }
 }
