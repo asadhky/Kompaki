@@ -21,6 +21,7 @@ import threading
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import re
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://username:password@localhost/db_name'
@@ -1128,15 +1129,24 @@ def ask():
     if request.method == 'POST':
         question = request.json['question']
         response_ai = ask_perplexity(question)
+        formatted_response = format_output(response_ai)
         # question_category = classify_prompt(question)
         response = {
-            'answer' : response_ai
+            'answer' : formatted_response
         }
         return jsonify(response)
     else:
         return render_template('index.html')
 
 # Classifies the prompt into different categories
+def format_output(raw_text):
+    # Remove Markdown headings (### Example CNC Program)
+    formatted_text = re.sub(r'###.*', '', raw_text)
+    # Remove Markdown code block markers (```plaintext, ``` etc.)
+    formatted_text = re.sub(r'```.*?```', '', formatted_text, flags=re.DOTALL)
+    # Remove inline Markdown formatting (e.g., **bold text**)
+    formatted_text = re.sub(r'\*\*(.*?)\*\*', r'\1', formatted_text)
+    return formatted_text
 
 @app.route('/debug-api-key', methods=['GET'])
 def debug_api_key():
