@@ -65,6 +65,7 @@
 </style></head>
 
 <div class="top-nav-bar">
+    <button class="nav-button" id="sidebar-button"> &#9776; <!-- Unicode for Hamburger Menu Icon --> </button>
     <a href="/index">
         <button class="nav-button" id="back-button">
             <img src="{{ url_for('static', filename='TEC-Logo.svg') }}" alt="返回" style="width: 170px;">
@@ -387,6 +388,10 @@
 
 
 <script>
+    document.getElementById("sidebar-button").onclick = function() {
+        document.getElementById("nav-toggle").checked = !document.getElementById("nav-toggle").checked;
+    };
+
     // Layout window dialog
         const layoutButton = document.getElementById('layout-button');
         const layoutDialog = document.getElementById('layout-dialog');
