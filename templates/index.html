@@ -106,6 +106,7 @@
         .rangetitles {
             background-color: #424242;
             padding: 20px;
+            padding-bottom: 0;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 48%;
@@ -168,9 +169,15 @@
             width: 20px;
             height: 20px;
         }
+
         .icon-container {
-            text-align: center; /* Centers the icon */
+            display: flex;
+            justify-content: center; /* Centers the content horizontally */
+            align-items: center; /* Centers the content vertically (if needed) */
+            width: 100%; /* Ensures the container takes up full width */
         }
+
+
 
         .header-container {
             display: flex;
@@ -190,7 +197,7 @@
     {% include 'sidebar.html' %}
 
     <!-- Assuming you have a top bar where the categories will go -->
-    <div class="top-categories" id="categories">
+    <!-- <div class="top-categories" id="categories">
         <div class="category" id="category-individualworkflow">Individual Workflow</div>
         <div class="category" id="category-planning">Planning</div>
         <div class="category" id="category-machining">Machining</div>
@@ -198,7 +205,6 @@
         <div class="category" id="category-community">Community</div>
         <div class="category" id="category-development">Development</div>
         <div class="category" id="category-utility">Utility</div>
-        <!-- Add Category Button -->
         <div class="app-category-item add-category" onclick="addCategory()">
             <span class="add-category-icon">+</span>
         </div>
@@ -211,378 +217,7 @@
             }
         </style>
         </style>
-    </div>
-
-    <!-- Application icons will be displayed here when the Individual Workflow category is clicked -->
-    <div id="category-individualworkflow-apps-container" class="apps-container">
-        <a href="/connection" class="app-icon">
-            <img src="{{ url_for('static', filename='pc.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-sample">sample1</div>
-        </a>
-        <!-- Other applications... -->
-        <a href="/Tool manager" class="app-icon">
-            <img src="{{ url_for('static', filename='Tool-manager.jpg') }}" alt="连接" />
-            <div class="app-label" data-key="label-sample">sample2</div>
-        </a>
-        <a href="/Calendar" class="app-icon">
-            <img src="{{ url_for('static', filename='calendar.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-sample">sample3</div>
-        </a>
-        <a href="/File manager" class="app-icon">
-            <img src="{{ url_for('static', filename='file.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-sample">sample4</div>
-        </a>
-        </a>
-    </div>
-
-    <!-- Application icons will be displayed here when the Planning category is clicked -->
-    <div id="category-planning-apps-container" class="apps-container">
-        <a href="/connection" class="app-icon">
-            <img src="{{ url_for('static', filename='pc.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-connection">Connection</div>
-        </a>
-        <!-- Other applications... -->
-        <a href="/Tool manager" class="app-icon">
-            <img src="{{ url_for('static', filename='Tool-manager.jpg') }}" alt="连接" />
-            <div class="app-label" data-key="label-tool-manager">Tool Manager</div>
-        </a>
-        <a href="/Calendar" class="app-icon">
-            <img src="{{ url_for('static', filename='calendar.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-calendar">Calendar</div>
-        </a>
-        <a href="/File manager" class="app-icon">
-            <img src="{{ url_for('static', filename='file.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-file-manager">File Manager</div>
-        </a>
-        <a href="/Cycle time estimation" class="app-icon">
-            <img src="{{ url_for('static', filename='cycle.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-cycle-time-estimation">Cycle Time Estimation</div>
-        </a>
-        <a href="/code" class="app-icon">
-            <img src="{{ url_for('static', filename='code.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-code">Code</div>
-        </a>
-    </div>
-
-    <!-- Application icons will be displayed here when the Machining category is clicked -->
-    <div id="category-machining-apps-container" class="apps-container">
-        <a href="/simulation" class="app-icon">
-            <img src="{{ url_for('static', filename='simulation.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-simulation">Simulation</div>
-        </a>
-        <a href="/Digital twin" class="app-icon">
-            <img src="{{ url_for('static', filename='digital-twin.jpg') }}" alt="连接" />
-            <div class="app-label" data-key="label-digital-twin">Digital twin</div>
-        </a>
-        <a href="/3D viewer" class="app-icon">
-            <img src="{{ url_for('static', filename='3d-viewer.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-2d-3d-viewer">2D/3D viewer</div>
-        </a>
-        <a href="/NC operation" class="app-icon">
-            <img src="{{ url_for('static', filename='operations.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-nc-operation">NC operation</div>
-        </a>
-        <a href="/Collision advance" class="app-icon">
-            <img src="{{ url_for('static', filename='collision.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-collision-advance">Collision advance</div>
-        </a>
-    </div>
-    
-    
-
-    <!-- Application icons will be displayed here when the Monitoring category is clicked -->
-    <div id="category-monitoring-apps-container" class="apps-container">
-        <a href="/Data logger" class="app-icon">
-            <img src="{{ url_for('static', filename='log.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-data-logger">Data logger</div>
-        </a>
-        <a href="/Maintenance manager" class="app-icon">
-            <img src="{{ url_for('static', filename='report.jpg') }}" alt="连接" />
-            <div class="app-label" data-key="label-maintenance-manager">Maintenance manager</div>
-        </a>
-        <a href="/Servo viewer" class="app-icon">
-            <img src="{{ url_for('static', filename='Servo-viewer.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-servo-viewer">Servo viewer</div>
-        </a>
-        <a href="/KPI" class="app-icon">
-            <img src="{{ url_for('static', filename='kpi.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-kpi">KPI</div>
-        </a>
-    </div>
-    
-
-    <!-- Application icons will be displayed here when the Community category is clicked -->
-    <div id="category-community-apps-container" class="apps-container">
-        <a href="/team board" class="app-icon">
-            <img src="{{ url_for('static', filename='team.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-team-board">Team board</div>
-        </a>
-        <a href="/cloud" class="app-icon">
-            <img src="{{ url_for('static', filename='cloud.jpg') }}" alt="连接" />
-            <div class="app-label" data-key="label-cloud-machining">Cloud Machining</div>
-        </a>
-        <a href="/finance" class="app-icon">
-            <img src="{{ url_for('static', filename='finance.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-finance">Finance</div>
-        </a>
-        <a href="/update" class="app-icon">
-            <img src="{{ url_for('static', filename='update.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-update">Update</div>
-        </a>
-        <a href="/consumer_service" class="app-icon">
-            <img src="{{ url_for('static', filename='consumer_service.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-customer-support">Customer Support</div>
-        </a>
-        <a href="/shopping" class="app-icon">
-            <img src="{{ url_for('static', filename='shopping.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-shopping">Shopping</div>
-        </a>
-    </div>
-
-    <!-- Application icons will be displayed here when the Development category is clicked -->
-    <div id="category-development-apps-container" class="apps-container">
-        <a href="/connection" class="app-icon">
-            <img src="{{ url_for('static', filename='pc.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-sample">sample1</div>
-        </a>
-        <!-- Other applications... -->
-        <a href="/Tool manager" class="app-icon">
-            <img src="{{ url_for('static', filename='Tool-manager.jpg') }}" alt="连接" />
-            <div class="app-label" data-key="label-sample">sample2</div>
-        </a>
-        <a href="/Calendar" class="app-icon">
-            <img src="{{ url_for('static', filename='calendar.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-sample">sample3</div>
-        </a>
-        <a href="/File manager" class="app-icon">
-            <img src="{{ url_for('static', filename='file.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-sample">sample4</div>
-        </a>
-        </a>
-    </div>
-    
-
-    <!-- Application icons will be displayed here when the Utility category is clicked -->
-    <div id="category-utility-apps-container" class="apps-container">
-        <a href="/manual" class="app-icon">
-            <img src="{{ url_for('static', filename='manual.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-manual">manual</div>
-        </a>
-        <a href="/memo" class="app-icon">
-            <img src="{{ url_for('static', filename='memo.jpg') }}" alt="连接" />
-            <div class="app-label" data-key="label-memo">memo</div>
-        </a>
-        <a href="/camera" class="app-icon">
-            <img src="{{ url_for('static', filename='camera.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-camera">camera</div>
-        </a>
-        <a href="/calculator" class="app-icon">
-            <img src="{{ url_for('static', filename='calculator.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-calculator">calculator</div>
-        </a>
-        <a href="/browser" class="app-icon">
-            <img src="{{ url_for('static', filename='browser.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-browser">browser</div>
-        </a>
-        <a href="/setting1" class="app-icon">
-            <img src="{{ url_for('static', filename='setting.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-setting">setting</div>
-        </a>
-        <a href="/maintenance" class="app-icon">
-            <img src="{{ url_for('static', filename='maintenance.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-maintenance">maintenance</div>
-        </a>
-    </div>
-    
-
-
-
-
-
-    <!--    &lt;!&ndash; 自定义右键菜单 &ndash;&gt;-->
-    <!--    <div id="customContextMenu" class="custom-context-menu">-->
-    <!--        <button id="addButton">Add</button>-->
-    <!--        <button id="deleteButton">Delete</button>-->
-    <!--        <button id="renameButton">Rename</button>-->
-    <!--    </div>-->
-
-    <!--    <div id="folderMenu" class="folder-menu">-->
-    <!--        <button id="add-folder-Button">Add new folder</button>-->
-    <!--        <button id="delete-folder-Button">Delete folder</button>-->
-    <!--        <button id="rename-folder-Button">Rename folder</button>-->
-    <!--    </div>-->
-
-    <!-- add 应用列表 -->
-    <div id="smallModal" class="small-modal">
-        <div class="small-modal-content">
-            <span class="close-button">&times;</span>
-            <h2>Add List</h2>
-            <div id="current-category-name" class="current-category-name"></div>
-            <div class="app-category-list">
-                <div class="app-category-item" onclick="showApps('category1-apps')">Planning</div>
-                <div class="app-category-item" onclick="showApps('category2-apps')">Machining</div>
-                <div class="app-category-item" onclick="showApps('category3-apps')">Monitoring</div>
-                <div class="app-category-item" onclick="showApps('category4-apps')">Community</div>
-                <div class="app-category-item" onclick="showApps('category5-apps')">Utility</div>
-                <!-- 其他类别... -->
-            </div>
-
-            <div id="category1-apps" class="app-icons-container">
-                <!-- 类别1的应用图标 -->
-                <!-- 应用图标... -->
-                <a href="/PC operation" class="app-icon">
-                    <img src="{{ url_for('static', filename='pc.jpg') }}" alt="PC operation" />
-                    <div class="app-label">connection</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Tool manager" class="app-icon">
-                    <img src="{{ url_for('static', filename='Tool-manager.jpg') }}" alt="Tool manager" />
-                    <div class="app-label">Tool manager</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Calendar" class="app-icon">
-                    <img src="{{ url_for('static', filename='calendar.jpg') }}" alt="Calendar" />
-                    <div class="app-label">Calendar</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/File manager" class="app-icon">
-                    <img src="{{ url_for('static', filename='file.jpg') }}" alt="File manager" />
-                    <div class="app-label">File manager</div>
-                </a>
-                <a href="/Cycle time estimation" class="app-icon">
-                    <img src="{{ url_for('static', filename='cycle.jpg') }}" alt="Cycle time estimation" />
-                    <div class="app-label">Cycle time estimation</div>
-                </a>
-
-            </div>
-
-            <div id="category2-apps" class="app-icons-container">
-                <!-- 类别2的应用图标 -->
-                <a href="/report" class="app-icon">
-                    <img src="{{ url_for('static', filename='simulation.jpg') }}" alt="Simulation" />
-                    <div class="app-label">Simulation</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Digital twin" class="app-icon">
-                    <img src="{{ url_for('static', filename='digital-twin.jpg') }}" alt="Digital twin" />
-                    <div class="app-label">Digital twin</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/3D viewer" class="app-icon">
-                    <img src="{{ url_for('static', filename='3d-viewer.jpg') }}" alt="2D/3D viewer" />
-                    <div class="app-label">2D/3D viewer</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/NC operation" class="app-icon">
-                    <img src="{{ url_for('static', filename='operations.jpg') }}" alt="NC operation" />
-                    <div class="app-label">NC operation</div>
-                </a>
-                <a href="/Collision advance" class="app-icon">
-                    <img src="{{ url_for('static', filename='collision.jpg') }}" alt="Collision advance" />
-                    <div class="app-label">Collision advance</div>
-                </a>
-
-            </div>
-            <!-- 其他类别对应的应用图标容器... -->
-
-            <div id="category3-apps" class="app-icons-container">
-                <!-- 类别1的应用图标 -->
-                <a href="/Data logger" class="app-icon">
-                    <img src="{{ url_for('static', filename='log.jpg') }}" alt="Data logger" />
-                    <div class="app-label">Data logger</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Maintenance manager" class="app-icon">
-                    <img src="{{ url_for('static', filename='report.jpg') }}" alt="Maintenance manager" />
-                    <div class="app-label">Maintenance manager</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Servo viewer" class="app-icon">
-                    <img src="{{ url_for('static', filename='Servo-viewer.jpg') }}" alt="Servo viewer" />
-                    <div class="app-label">Servo viewer</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/KPI" class="app-icon">
-                    <img src="{{ url_for('static', filename='kpi.jpg') }}" alt="KPI" />
-                    <div class="app-label">KPI</div>
-                </a>
-
-            </div>
-
-            <div id="category4-apps" class="app-icons-container">
-                <!-- 类别1的应用图标 -->
-                <!-- 应用图标... -->
-                <a href="/Team board" class="app-icon">
-                    <img src="{{ url_for('static', filename='team.jpg') }}" alt="Team board" />
-                    <div class="app-label">Team board</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Cloud Machining" class="app-icon">
-                    <img src="{{ url_for('static', filename='cloud.jpg') }}" alt="Cloud Machining" />
-                    <div class="app-label">Cloud Machining</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Finance" class="app-icon">
-                    <img src="{{ url_for('static', filename='finance.jpg') }}" alt="Finance" />
-                    <div class="app-label">Finance</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Update" class="app-icon">
-                    <img src="{{ url_for('static', filename='update.jpg') }}" alt="Update" />
-                    <div class="app-label">Update</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Customer Support" class="app-icon">
-                    <img src="{{ url_for('static', filename='consumer_service.jpg') }}" alt="Customer Support" />
-                    <div class="app-label">Customer Support</div>
-                </a>
-                <a href="/Shopping" class="app-icon">
-                    <img src="{{ url_for('static', filename='shopping.jpg') }}" alt="Shopping" />
-                    <div class="app-label">Shopping</div>
-                </a>
-
-            </div>
-
-            <div id="category5-apps" class="app-icons-container">
-                <!-- 类别1的应用图标 -->
-                <a href="/report" class="app-icon">
-                    <img src="{{ url_for('static', filename='manual.jpg') }}" alt="manual" />
-                    <div class="app-label">manual</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/log" class="app-icon">
-                    <img src="{{ url_for('static', filename='memo.jpg') }}" alt="memo" />
-                    <div class="app-label">memo</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/task" class="app-icon">
-                    <img src="{{ url_for('static', filename='camera.jpg') }}" alt="camera" />
-                    <div class="app-label">camera</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/task" class="app-icon">
-                    <img src="{{ url_for('static', filename='calculator.jpg') }}" alt="calculator" />
-                    <div class="app-label">calculator</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/task" class="app-icon">
-                    <img src="{{ url_for('static', filename='browser.jpg') }}" alt="browser" />
-                    <div class="app-label">browser</div>
-                </a>
-                <a href="/task" class="app-icon">
-                    <img src="{{ url_for('static', filename='setting.jpg') }}" alt="setting" />
-                    <div class="app-label">setting</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/task" class="app-icon">
-                    <img src="{{ url_for('static', filename='maintenance.jpg') }}" alt="maintenance" />
-                    <div class="app-label">maintenance</div>
-                </a>
-
-            </div>
-
-        </div>
-    </div>
+    </div> -->
 
     <!-- Middle section for axis status -->
     <div class="axis-status" id="axis-status">

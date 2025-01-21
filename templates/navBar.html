@@ -39,10 +39,13 @@
             /* padding: 10px 10px; */
             cursor: pointer; 
             margin-right: 20px; 
+            color: #DDDDDD; /* Make sure the icon color is white */
+            font-size: 30px; /* Increase the icon size */
         }
 
         .nav-button:first-child {
-            margin-right: 40px;
+            margin-right: 30px;
+            margin-left: 20px;
         }
 
         .page-title {
@@ -65,7 +68,7 @@
 </style></head>
 
 <div class="top-nav-bar">
-    <button class="nav-button" id="sidebar-button"> &#9776; <!-- Unicode for Hamburger Menu Icon --> </button>
+    <button class="nav-button" id="sidebar-button"> <i class="fas fa-bars"></i></button>
     <a href="/index">
         <button class="nav-button" id="back-button">
             <img src="{{ url_for('static', filename='TEC-Logo.svg') }}" alt="返回" style="width: 170px;">
@@ -388,9 +391,11 @@
 
 
 <script>
-    document.getElementById("sidebar-button").onclick = function() {
-        document.getElementById("nav-toggle").checked = !document.getElementById("nav-toggle").checked;
-    };
+    // Sidebar toggle
+    $('#sidebar-button').click(function(){
+        $('.side-bar').addClass('active');
+        $('#sidebar-button').css("visibility", "hidden");
+    });
 
     // Layout window dialog
         const layoutButton = document.getElementById('layout-button');

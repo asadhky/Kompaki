@@ -55,6 +55,7 @@ db_config = {
     'port': 3308,
     'database': 'userdb'
 }
+
 # 用您的OpenAI API密钥替换此处
 secrets_path = os.path.join(os.getcwd(), 'secrets.json')
 with open(secrets_path, 'r') as file:
