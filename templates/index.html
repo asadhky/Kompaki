@@ -520,6 +520,10 @@
 
     <script>
 
+        let xPosition = 0.0;
+        let yPosition = 0.0;
+        let zPosition = 0.0;
+
         function fetchAxisValues() {
             fetch('/get-axis-values')
                 .then(response => response.json())
@@ -646,6 +650,42 @@
 
 
 
+        function updateAxisValuesInGCode() {
+            const updatedData = {
+                "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Position": {
+                    "value": parseFloat(xPosition),
+                    "type": "LREAL"
+                },
+                "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Position": {
+                    "value": parseFloat(zPosition),
+                    "type": "LREAL"
+                },
+                "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Position": {
+                    "value": parseFloat(yPosition),
+                    "type": "LREAL"
+                }
+            };
+
+            // Send updated data to the server
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/update-gcode", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log("GCode updated successfully:", updatedData);
+                        
+                    } else {
+                        console.error("Failed to update GCode");
+                    }
+                }
+            };
+            document.getElementById('x-end').innerText = "0.00";
+            document.getElementById('y-end').innerText = "0.00";
+            document.getElementById('z-end').innerText = "0.00";
+            console.log("Sending updated data:", updatedData);  // Log the data being sent
+            xhr.send(JSON.stringify(updatedData));
+        }
 
 
 
@@ -658,6 +698,8 @@
 
             overrideStartButton.classList.add('active');
             overrideStopButton.classList.remove('active');
+
+            updateAxisValuesInGCode();
         });
 
         // Event listener for "Stop Override" button
@@ -1719,38 +1761,34 @@ function setSpeedZ() {
 //     }
 // });
 
-// Function to handle position update for a specific axis
 function updateAxisPosition(axis, inputId) {
     const positionInput = document.getElementById(inputId);
     if (!positionInput) {
         console.error(`Input field for ${axis} axis not found`);
         return;
     }
-    const position = positionInput.value;
+
+    const position = parseFloat(positionInput.value).toFixed(3);
+    if (isNaN(position)) {
+        console.error(`Invalid position entered for ${axis} axis`);
+        return;
+    }
+
+    // Store the new position in the corresponding global variable
+    if (axis === 'x') xPosition = position;
+    if (axis === 'y') yPosition = position;
+    if (axis === 'z') zPosition = position;
+
+    console.log(`Updated ${axis.toUpperCase()} Position: ${position}`);
 
     // Update the displayed end position for the selected axis
     const endPositionElement = document.getElementById(`${axis}-end`);
     if (endPositionElement) {
-        endPositionElement.textContent = parseFloat(position).toFixed(3);
+        endPositionElement.textContent = position;
     } else {
         console.error(`Display element for ${axis} axis end position not found`);
         return;
     }
-
-    // Send the update to the server
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/update-axis-position', true);
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                console.log(`Position updated successfully for ${axis} axis`);
-            } else {
-                console.error(`Failed to update position for ${axis} axis`);
-            }
-        }
-    };
-    xhr.send(JSON.stringify({ axis: axis, end_position: parseFloat(position).toFixed(3) }));
 }
 
 // Separate functions for each axis

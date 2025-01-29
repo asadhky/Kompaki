@@ -31,6 +31,7 @@ app.secret_key = '123456'  # Ensure to replace with your actual secret key
 # Assume data.json exists and stores slider values
 DATA_FILE = 'var1.json'
 OP_DATA_FILE = 'op.json'
+GCODE_FILE = "gcode.json"  # Path to gcode.json
 
 s3_client = boto3.client('s3')
 BUCKET_NAME = 'newtwincatjsonfile'
@@ -467,6 +468,73 @@ def get_highlight_line():
 
     highlight_line = current_data.get('highlight_line', 1)  # Default to 1 if not found
     return jsonify({"highlight_line": highlight_line})
+
+
+@app.route('/update-gcode', methods=['POST'])
+def update_gcode():
+    try:
+        # Load existing data from gcode.json
+        with open(GCODE_FILE, 'r') as f:
+            current_data = json.load(f)
+    except FileNotFoundError:
+        return jsonify({"error": "gcode.json not found"}), 404
+    except json.JSONDecodeError:
+        return jsonify({"error": "Invalid JSON format in gcode.json"}), 400
+
+    # Get new axis positions from the request
+    updated_positions = request.json
+    print("Received updated positions:", updated_positions)  # Log received data
+
+    # Update the relevant positions in the gcode.json file
+    for key in updated_positions:
+        if key in current_data:
+            if updated_positions[key]["value"] != 0.0:
+                current_data[key]["value"] = updated_positions[key]["value"]
+            else:
+                print(f"Skipping update for key {key} as the value is 0.0")  # Log the skipped update
+        else:
+            print(f"Key {key} not found in gcode.json")  # Log missing key
+            return jsonify({"error": f"Key {key} not found in gcode.json"}), 400
+
+    # Define the execute keys
+    execute_keys = [
+        "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Execute",
+        "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Execute",
+        "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Execute"
+    ]
+
+    # Only toggle the execute values if the updated positions are not 0.0
+    for execute_key in execute_keys:
+        if execute_key in current_data:
+            if any(updated_positions[key]["value"] != 0.0 for key in updated_positions):
+                current_data[execute_key]["value"] = False
+                with open(GCODE_FILE, 'w') as f:
+                    json.dump(current_data, f, indent=4)
+                current_data[execute_key]["value"] = True
+                with open(GCODE_FILE, 'w') as f:
+                    json.dump(current_data, f, indent=4)
+                current_data[execute_key]["value"] = False
+            else:
+                print(f"Skipping execute toggle for {execute_key} as all values are 0.0")  # Log the skipped toggle
+        else:
+            print(f"Key {execute_key} not found in gcode.json")  # Log missing key
+            return jsonify({"error": f"Key {execute_key} not found in gcode.json"}), 400
+
+    # Write updated data back to gcode.json
+    with open(GCODE_FILE, 'w') as f:
+        json.dump(current_data, f, indent=4)
+    
+    print("Updated GCode data:", current_data)  # Log updated data
+
+    try:
+        # Upload the updated data to S3
+        s3_client.upload_file(GCODE_FILE, BUCKET_NAME, GCODE_FILE)
+    except Exception as e:
+        return jsonify({"message": "Failed to upload to S3", "error": str(e)}), 500
+
+    return jsonify({"message": "GCode updated successfully!", "updated_data": updated_positions}), 200
+
+
 
 
 @app.route('/get-spindle-state', methods=['GET'])
