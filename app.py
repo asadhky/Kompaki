@@ -470,6 +470,7 @@ def get_highlight_line():
     return jsonify({"highlight_line": highlight_line})
 
 
+
 @app.route('/update-gcode', methods=['POST'])
 def update_gcode():
     try:
@@ -490,6 +491,7 @@ def update_gcode():
         if key in current_data:
             if updated_positions[key]["value"] != 0.0:
                 current_data[key]["value"] = updated_positions[key]["value"]
+                print(f"Updated {key} value to {updated_positions[key]['value']}")  # Debug: Log the update
             else:
                 print(f"Skipping update for key {key} as the value is 0.0")  # Log the skipped update
         else:
@@ -507,6 +509,7 @@ def update_gcode():
     for execute_key in execute_keys:
         if execute_key in current_data:
             if any(updated_positions[key]["value"] != 0.0 for key in updated_positions):
+                print(f"Toggling {execute_key} value to False, then True, then False")  # Debug: Log the toggle
                 current_data[execute_key]["value"] = False
                 with open(GCODE_FILE, 'w') as f:
                     json.dump(current_data, f, indent=4)
@@ -529,10 +532,53 @@ def update_gcode():
     try:
         # Upload the updated data to S3
         s3_client.upload_file(GCODE_FILE, BUCKET_NAME, GCODE_FILE)
+        print("Uploaded GCode data to S3")  # Debug: Log the S3 upload
     except Exception as e:
-        return jsonify({"message": "Failed to upload to S3", "error": str(e)}), 500
+        print(f"Failed to upload to S3: {str(e)}")  # Debug: Log the S3 upload failure
 
+    # Update MovementAuto value in op.json
+    try:
+        with open(OP_DATA_FILE, 'r') as f:
+            op_data = json.load(f)
+        print("Loaded op.json data:", op_data)  # Debug: Log the loaded data
+
+        op_data['MovementAuto']['value'] = True
+        with open(OP_DATA_FILE, 'w') as f:
+            json.dump(op_data, f, indent=4)
+        print("Set MovementAuto to True in op.json")  # Debug: Log the update
+
+        try:
+            s3_client.upload_file(OP_DATA_FILE, BUCKET_NAME, OP_DATA_FILE)
+            print("Uploaded OP data to S3")  # Debug: Log the S3 upload
+        except Exception as e:
+            print(f"Failed to upload to S3: {str(e)}")  # Debug: Log the S3 upload failure
+
+        time.sleep(10)
+
+        op_data['MovementAuto']['value'] = False
+        with open(OP_DATA_FILE, 'w') as f:
+            json.dump(op_data, f, indent=4)
+        print("Set MovementAuto to False in op.json")  # Debug: Log the update
+
+        try:
+            s3_client.upload_file(OP_DATA_FILE, BUCKET_NAME, OP_DATA_FILE)
+            print("Uploaded OP data to S3")  # Debug: Log the S3 upload
+        except Exception as e:
+            print(f"Failed to upload to S3: {str(e)}")  # Debug: Log the S3 upload failure
+
+    except Exception as e:
+        print(f"Failed to update op.json: {str(e)}")  # Debug: Log the failure
+
+    try:
+        s3_client.upload_file(OP_DATA_FILE, BUCKET_NAME, OP_DATA_FILE)
+        print("Uploaded OP data to S3")  # Debug: Log the S3 upload
+    except Exception as e:
+        print(f"Failed to upload to S3: {str(e)}")  # Debug: Log the S3 upload failure
+    
     return jsonify({"message": "GCode updated successfully!", "updated_data": updated_positions}), 200
+
+
+
 
 
 
