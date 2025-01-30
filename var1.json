@@ -55,16 +55,8 @@
         "value": true,
         "type": "BOOL"
     },
-    "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Execute": {
-        "value": true,
-        "type": "BOOL"
-    },
     "GVL_Motion_Control_single_axis_1.Rap_Position": {
         "value": 3.0,
-        "type": "LREAL"
-    },
-    "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Position": {
-        "value": 7.0,
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis_1.bsA_ResetExe": {
@@ -76,10 +68,6 @@
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_1.bsa_Jogbwd": {
-        "value": false,
-        "type": "BOOL"
-    },
-    "GVL_Motion_Control_single_axis_1.MoveAbs_Done": {
         "value": false,
         "type": "BOOL"
     },
@@ -103,16 +91,8 @@
         "value": true,
         "type": "BOOL"
     },
-    "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Execute": {
-        "value": true,
-        "type": "BOOL"
-    },
     "GVL_Motion_Control_single_axis_2.Rap_Position": {
         "value": 5.0,
-        "type": "LREAL"
-    },
-    "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Position": {
-        "value": 1.0,
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis_2.bsA_ResetExe": {
@@ -124,10 +104,6 @@
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_2.bsa_Jogbwd": {
-        "value": false,
-        "type": "BOOL"
-    },
-    "GVL_Motion_Control_single_axis_2.MoveAbs_Done": {
         "value": false,
         "type": "BOOL"
     },
@@ -151,15 +127,7 @@
         "value": true,
         "type": "BOOL"
     },
-    "GVL_Motion_Control_single_axis_3.fbsa_MoveAbs.Execute": {
-        "value": false,
-        "type": "BOOL"
-    },
     "GVL_Motion_Control_single_axis_3.Rap_Position": {
-        "value": 0,
-        "type": "LREAL"
-    },
-    "GVL_Motion_Control_single_axis_3.fbsa_MoveAbs.Position": {
         "value": 0,
         "type": "LREAL"
     },
@@ -172,10 +140,6 @@
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_3.bsa_Jogbwd": {
-        "value": false,
-        "type": "BOOL"
-    },
-    "GVL_Motion_Control_single_axis_3.MoveAbs_Done": {
         "value": false,
         "type": "BOOL"
     },
