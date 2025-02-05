@@ -4,19 +4,19 @@
         "type": "LREAL"
     },
     "GVl_Motion_Control_single_axis.bsa_PowerEn": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVl_Motion_Control_single_axis.bsa_PowerEnPostive": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVl_Motion_Control_single_axis.bsa_PowerEnNegative": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis.fbsa_ReadActualPosition.Enable": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis.Rap_Position": {
@@ -40,19 +40,19 @@
         "type": "LREAL"
     },
     "GVl_Motion_Control_single_axis_1.bsa_PowerEn": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVl_Motion_Control_single_axis_1.bsa_PowerEnPostive": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVl_Motion_Control_single_axis_1.bsa_PowerEnNegative": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_1.fbsa_ReadActualPosition.Enable": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_1.Rap_Position": {
@@ -76,19 +76,19 @@
         "type": "LREAL"
     },
     "GVl_Motion_Control_single_axis_2.bsa_PowerEn": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVl_Motion_Control_single_axis_2.bsa_PowerEnPostive": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVl_Motion_Control_single_axis_2.bsa_PowerEnNegative": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_2.fbsa_ReadActualPosition.Enable": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_2.Rap_Position": {

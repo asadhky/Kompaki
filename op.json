@@ -1,6 +1,6 @@
 {
     "Auto": {
-        "value": false,
+        "value": true,
         "type": "BOOL"
     },
     "MovementAuto": {
