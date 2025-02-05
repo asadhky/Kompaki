@@ -897,4 +897,44 @@
       cursor: pointer;
   }
   
-  
+  #snackbarmsg {
+    visibility: hidden; /* Hidden by default. Visible when shown */
+    min-width: 250px;
+    margin-left: -125px; /* Center the snackbar */
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 16px;
+    position: fixed;
+    z-index: 10000; /* Ensure it's on top */
+    left: 50%;
+    bottom: 100px;
+    font-size: 17px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+#snackbarmsg.show {
+    visibility: visible; /* Show the snackbar */
+    animation: fadein 0.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 100px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 100px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 100px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 100px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}

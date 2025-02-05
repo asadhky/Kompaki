@@ -606,6 +606,9 @@
                     </div>
                 </div>
 
+                <div id="snackbarmsg">This is a snackbar message!</div>
+                
+
                 <!-- 下部：Terminal 输出台 -->
                 <div class="section" id="terminal-section">
                     <h2 data-key="terminal-output-title" style="color: #b3b3b3;">Program Monitor</h2>
@@ -629,6 +632,27 @@
         let xPosition = 0.0;
         let yPosition = 0.0;
         let zPosition = 0.0;
+
+        let snackbarTimeout;
+
+        function showSnackbar(message) {
+            const snackbar = document.getElementById("snackbarmsg");
+            snackbar.textContent = message; // Set message text
+            snackbar.classList.add("show");
+
+            // Clear existing timeout if there's one
+            if (snackbarTimeout) {
+                clearTimeout(snackbarTimeout);
+            }
+
+            // Set a new timeout and store its ID
+            snackbarTimeout = setTimeout(function() {
+                snackbar.classList.remove("show");
+            }, 4000); 
+        }
+
+
+
 
         function fetchAxisValues() {
             fetch('/get-axis-values')
@@ -806,6 +830,8 @@
 
             overrideStartButton.classList.add('active');
             overrideStopButton.classList.remove('active');
+            
+            showSnackbar("G Code Values Updated");
 
             updateAxisValuesInGCode();
         });
@@ -1951,6 +1977,10 @@ function setPositionZ() {
                 // Update the button text
                 button.textContent = isEnabling ? "Disable" : "Enable";
 
+                var axis = "X"; // Change this dynamically if needed
+                var message = isEnabling ? axis + " Axis Enabled" : axis + " Axis Disabled";
+                showSnackbar(message);
+
                 // Send JSON values to the server
                 updateAxisState(jsonValues);
             }
@@ -1970,6 +2000,10 @@ function setPositionZ() {
                 // Update the button text
                 button.textContent = isEnabling ? "Disable" : "Enable";
 
+                var axis = "Y"; // Change this dynamically if needed
+                var message = isEnabling ? axis + " Axis Enabled" : axis + " Axis Disabled";
+                showSnackbar(message);
+
                 // Send JSON values to the server
                 updateAxisState(jsonValues);
             }
@@ -1988,6 +2022,10 @@ function setPositionZ() {
 
                 // Update the button text
                 button.textContent = isEnabling ? "Disable" : "Enable";
+
+                var axis = "Z"; // Change this dynamically if needed
+                var message = isEnabling ? axis + " Axis Enabled" : axis + " Axis Disabled";
+                showSnackbar(message);
  
                 // Send JSON values to the server
                 updateAxisState(jsonValues);
