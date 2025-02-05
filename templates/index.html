@@ -262,15 +262,39 @@
                         </div>
                         
                         <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="x-current">0.00</span></div>
-                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="x-end">0.00</span></div>
-                        <div class="flex flex-col" >
-                            <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
+                        <!-- <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="x-end">0.00</span></div> -->
+                        <div class="flex flex-col" style="margin-top: 8px;">
+                            <label for="position" style="color: #d3d3d3;" data-key="label-position">End Position</label>
                             <input
                                 type="number"
                                 id="position-x"
                                 placeholder="Enter position"
+                                style="
+                                    width: 132px;
+                                    padding: 8px; /* p-2 */
+                                    background-color: #242424; /* bg-gray-700 */
+                                    color: white;
+                                    border-radius: 6px; /* rounded-md */
+                                    border: none;
+                                    outline: none;
+                                    transition: box-shadow 0.2s ease;
+                                "
                             />
-                            <button id="set-position-x" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionX()">Set End</button>
+                            <button id="set-position-x" style="
+                                margin-top: -10px;
+                                padding: 0.5rem 1rem; /* Increased padding for fatter button */
+                                background-color: #526D82; /* bg-gray-700 */
+                                color: #d3d3d3; /* text-gray-200 */
+                                border: 1px solid #3C3D37; /* border-gray-600 */
+                                border-radius: 0.375rem; /* rounded-md */
+                                transition: background-color 0.2s, transform 0.2s; /* Smooth transition */
+                                outline: none; /* Remove default outline */
+                                font-size: 0.875rem; /* text-sm */
+                                font-weight: 600; /* Bold text */
+                                gap: 0.5rem; /* Spacing between elements */
+                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+                                cursor: pointer;
+                            " onclick="setPositionX()">Set End</button>
                         </div>
                         <!-- <div class="flex flex-col">
                             <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
@@ -294,16 +318,6 @@
                             <div>
                                 <button class="reset-axis-btn" id="enable-axis-x" onclick="toggleAxis('x')">Enable</button>
                             </div>
-                            <!-- <div class="flex flex-col">
-                            <label for="speed" class="text-sm mb-1" data-key="label-speed">Current Position</label>
-                            <input
-                                type="number"
-                                id="speed-x"
-                                placeholder="Enter speed"
-                                class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                            />
-                            <button id="set-speed-x" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setSpeedX()">Set Current</button>
-                            </div> -->
                             <div class="flex flex-col">
                                 <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
                                 <input
@@ -338,16 +352,39 @@
 
                         </div>
                         <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="y-current">0.00</span></div>
-                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="y-end">0.00</span></div>
-                        <div class="flex flex-col" >
-                            <label for="position" data-key="label-position">End Position</label>
+                        <!-- <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="y-end">0.00</span></div> -->
+                        <div class="flex flex-col" style="margin-top: 8px;">
+                            <label for="position" style="color: #d3d3d3;" data-key="label-position">End Position</label>
                             <input
                                 type="number"
                                 id="position-y"
                                 placeholder="Enter position"
-                                class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                style="
+                                    width: 132px;
+                                    padding: 8px; /* p-2 */
+                                    background-color: #242424; /* bg-gray-700 */
+                                    color: white;
+                                    border-radius: 6px; /* rounded-md */
+                                    border: none;
+                                    outline: none;
+                                    transition: box-shadow 0.2s ease;
+                                "
                             />
-                            <button id="set-position-y" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionY()">Set End</button>
+                            <button id="set-position-y" style="
+                            margin-top: -10px;
+                            padding: 0.5rem 1rem; /* Increased padding for fatter button */
+                            background-color: #526D82; /* bg-gray-700 */
+                            color: #d3d3d3; /* text-gray-200 */
+                            border: 1px solid #3C3D37; /* border-gray-600 */
+                            border-radius: 0.375rem; /* rounded-md */
+                            transition: background-color 0.2s, transform 0.2s; /* Smooth transition */
+                            outline: none; /* Remove default outline */
+                            font-size: 0.875rem; /* text-sm */
+                            font-weight: 600; /* Bold text */
+                            gap: 0.5rem; /* Spacing between elements */
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+                            cursor: pointer;
+                        " onclick="setPositionY()">Set End</button>
                         </div>
                         
                     </div>
@@ -405,16 +442,39 @@
 
                         </div>
                         <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="z-current">0.00</span></div>
-                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="z-end">0.00</span></div>
-                        <div class="flex flex-col">
-                            <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
+                        <!-- <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="z-end">0.00</span></div> -->
+                        <div class="flex flex-col" style="margin-top: 8px;">
+                            <label for="position" style="color: #d3d3d3;" data-key="label-position">End Position</label>
                             <input
                                 type="number"
                                 id="position-z"
                                 placeholder="Enter position"
-                                class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                style="
+                                    width: 132px;
+                                    padding: 8px; /* p-2 */
+                                    background-color: #242424; /* bg-gray-700 */
+                                    color: white;
+                                    border-radius: 6px; /* rounded-md */
+                                    border: none;
+                                    outline: none;
+                                    transition: box-shadow 0.2s ease;
+                                "
                             />
-                            <button id="set-position-z" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionZ()">Set End</button>
+                            <button id="set-position-z" style="
+                                margin-top: -10px;
+                                padding: 0.5rem 1rem; /* Increased padding for fatter button */
+                                background-color: #526D82; /* bg-gray-700 */
+                                color: #d3d3d3; /* text-gray-200 */
+                                border: 1px solid #3C3D37; /* border-gray-600 */
+                                border-radius: 0.375rem; /* rounded-md */
+                                transition: background-color 0.2s, transform 0.2s; /* Smooth transition */
+                                outline: none; /* Remove default outline */
+                                font-size: 0.875rem; /* text-sm */
+                                font-weight: 600; /* Bold text */
+                                gap: 0.5rem; /* Spacing between elements */
+                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+                                cursor: pointer;
+                            " onclick="setPositionZ()">Set End</button>
                             </div>
                     </div>
                     <!-- Edit Z Axis Dialog -->
@@ -727,9 +787,9 @@
                     }
                 }
             };
-            document.getElementById('x-end').innerText = "0.00";
-            document.getElementById('y-end').innerText = "0.00";
-            document.getElementById('z-end').innerText = "0.00";
+            // document.getElementById('x-end').innerText = "0.00";
+            // document.getElementById('y-end').innerText = "0.00";
+            // document.getElementById('z-end').innerText = "0.00";
             console.log("Sending updated data:", updatedData);  // Log the data being sent
             xhr.send(JSON.stringify(updatedData));
         }
