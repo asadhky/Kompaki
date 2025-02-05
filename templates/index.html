@@ -245,9 +245,12 @@
                     <div class="axis" id="status-x-axis" onclick="selectAxis('x')">
                         <div class="axis-header">
                             <h2 data-key="title-x-axis" style="color: #b3b3b3;">X Axis</h2>
-                            <button class="edit-axis-button" id="edit-axis-x">
+                            <button class="edit-axis-button hidden" id="edit-axis-x">
                                 <img src="{{ url_for('static', filename='edit1.png') }}" alt="Edit Axis" class="button-icon">
                             </button>
+                            <button class="reset-axis-btn" id="enable-axis-x" onclick="toggleAxis('x')">Enable</button>
+                            
+                            
                         </div>
                         <div class="axis-controls button-group">
                             <button class="arrow-button fast-button" onclick="moveAxis('x', 'fast-left')"><img src="{{ url_for('static', filename='fast-backward.png') }}" alt="Fast Left" class="button-icon"></button>
@@ -260,6 +263,24 @@
                         
                         <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="x-current">0.00</span></div>
                         <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="x-end">0.00</span></div>
+                        <div class="flex flex-col" >
+                            <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
+                            <input
+                                type="number"
+                                id="position-x"
+                                placeholder="Enter position"
+                            />
+                            <button id="set-position-x" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionX()">Set End</button>
+                        </div>
+                        <!-- <div class="flex flex-col">
+                            <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
+                            <input
+                                type="number"
+                                id="position-x"
+                                placeholder="Enter position"
+                            />
+                            <button id="set-position-x" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionX()">Set End</button>
+                        </div> -->
                         
                     </div>
                     <!-- Edit X Axis Dialog -->
@@ -284,26 +305,29 @@
                             <button id="set-speed-x" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setSpeedX()">Set Current</button>
                             </div> -->
                             <div class="flex flex-col">
-                            <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
-                            <input
-                                type="number"
-                                id="position-x"
-                                placeholder="Enter position"
-                                class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                            />
-                            <button id="set-position-x" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionX()">Set End</button>
+                                <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
+                                <input
+                                    type="number"
+                                    id="position-x"
+                                    placeholder="Enter position"
+                                    class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                />
+                                <button id="set-position-x" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionX()">Set End</button>
                             </div>
                         </div>
                         </div>
                     </div>
-  
+
+                      
                     <!-- Y Axis -->
                     <div class="axis" id="status-y-axis" onclick="selectAxis('y')">
                         <div class="axis-header">
                             <h2 data-key="title-y-axis" style="color: #b3b3b3;">Y Axis</h2>
-                            <button class="edit-axis-button" id="edit-axis-y">
+                            <button class="edit-axis-button hidden" id="edit-axis-y">
                                 <img src="{{ url_for('static', filename='edit1.png') }}" alt="Edit Axis" class="button-icon">
-                            </button>                        </div>
+                            </button>                        
+                            <button class="reset-axis-btn" id="enable-axis-y" onclick="toggleAxis('y')">Enable</button>
+                        </div>
                         <div class="axis-controls button-group">
                             <button class="arrow-button fast-button" onclick="moveAxis('y', 'fast-up-left')">    <img src="{{ url_for('static', filename='fastdiagleft.png') }}" alt="Fast Diag Left" class="button-icon"></button>
                             <button class="arrow-button" onclick="moveAxis('y', 'up-left')"><img src="{{ url_for('static', filename='diagleft.png') }}" alt="Diag Left Arrow" class="button-icon"></button>
@@ -315,6 +339,16 @@
                         </div>
                         <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="y-current">0.00</span></div>
                         <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="y-end">0.00</span></div>
+                        <div class="flex flex-col" >
+                            <label for="position" data-key="label-position">End Position</label>
+                            <input
+                                type="number"
+                                id="position-y"
+                                placeholder="Enter position"
+                                class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            />
+                            <button id="set-position-y" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionY()">Set End</button>
+                        </div>
                         
                     </div>
                     <!-- Edit Y Axis Dialog -->
@@ -339,7 +373,8 @@
                             <button id="set-speed-y" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setSpeedY()">Set Current</button>
                             </div> -->
                             <div class="flex flex-col">
-                            <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
+                            <label for="position" class="text-sm mb-1" data-key="label-position" style="color: #d3d3d3;">End Position</label>
+
                             <input
                                 type="number"
                                 id="position-y"
@@ -356,9 +391,11 @@
                     <div class="axis" id="status-z-axis" onclick="selectAxis('z')">
                         <div class="axis-header">
                             <h2 data-key="title-z-axis" style="color: #b3b3b3;">Z Axis</h2>
-                            <button class="edit-axis-button" id="edit-axis-z">
+                            <button class="edit-axis-button hidden" id="edit-axis-z">
                                 <img src="{{ url_for('static', filename='edit1.png') }}" alt="Edit Axis" class="button-icon">
-                            </button>                        </div>
+                            </button>                        
+                            <button class="reset-axis-btn" id="enable-axis-z" onclick="toggleAxis('z')">Enable</button>
+                        </div>
                         <div class="axis-controls button-group">
                             <button class="arrow-button fast-button" onclick="moveAxis('z', 'fast-up')"><img src="{{ url_for('static', filename='fastup.png') }}" alt="Fast Up" class="button-icon"></button>
                             <button class="arrow-button" onclick="moveAxis('z', 'up')"><img src="{{ url_for('static', filename='uparrow.png') }}" alt="Up Arrow" class="button-icon"></button>
@@ -369,7 +406,16 @@
                         </div>
                         <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="z-current">0.00</span></div>
                         <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="z-end">0.00</span></div>
-                        
+                        <div class="flex flex-col">
+                            <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
+                            <input
+                                type="number"
+                                id="position-z"
+                                placeholder="Enter position"
+                                class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            />
+                            <button id="set-position-z" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionZ()">Set End</button>
+                            </div>
                     </div>
                     <!-- Edit Z Axis Dialog -->
                     <div id="edit-dialog3" class="edit-dialog hidden">
@@ -392,7 +438,7 @@
                             />
                             <button id="set-speed-z" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setSpeedZ()">Set Current</button>
                             </div> -->
-                            <div class="flex flex-col">
+                            <!-- <div class="flex flex-col">
                             <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
                             <input
                                 type="number"
@@ -401,7 +447,7 @@
                                 class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             />
                             <button id="set-position-z" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionZ()">Set End</button>
-                            </div>
+                            </div> -->
                         </div>
                         </div>
                     </div>
@@ -553,7 +599,7 @@
 
         // Function to show the edit dialog
         function showEditDialog() {
-            document.getElementById('edit-dialog1').classList.remove('hidden');
+            // document.getElementById('edit-dialog1').classList.remove('hidden');
         }
 
         // Function to close the edit dialog
@@ -563,7 +609,7 @@
 
         // Function to show the edit dialog
         function showEditDialogY() {
-            document.getElementById('edit-dialog2').classList.remove('hidden');
+            // document.getElementById('edit-dialog2').classList.remove('hidden');
         }
 
         // Function to close the edit dialog
@@ -573,7 +619,7 @@
 
         // Function to show the edit dialog
         function showEditDialogZ() {
-            document.getElementById('edit-dialog3').classList.remove('hidden');
+            // document.getElementById('edit-dialog3').classList.remove('hidden');
         }
 
         // Function to close the edit dialog
@@ -651,6 +697,7 @@
 
 
         function updateAxisValuesInGCode() {
+            console.log("Updating GCode with new axis values");
             const updatedData = {
                 "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Position": {
                     "value": parseFloat(xPosition),
@@ -691,6 +738,7 @@
 
         // Event listener for "Start Override" button
         overrideStartButton.addEventListener('click', () => {
+            console.log('Start Override button clicked');
             if (!isOverrideRunning) {
                 isOverrideRunning = true;  // Set to true
                 updateOverrideState(isOverrideRunning);
@@ -1825,6 +1873,7 @@ function setPositionZ() {
 
         // Toggle the axis power
         function toggleAxis(axis) {
+            console.log('Toggling axis:', axis);
             // Only toggle for X-axis; similar logic can be applied for other axes if needed
             if (axis === 'x') {
                 const button = document.getElementById('enable-axis-x');
