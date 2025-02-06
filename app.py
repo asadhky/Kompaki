@@ -11,7 +11,8 @@ import time
 import json
 import secrets
 from mysql.connector import Error
-import openai
+# import openai
+from openai import OpenAI
 import logging 
 import pyads
 import json
@@ -61,8 +62,8 @@ with open(secrets_path, 'r') as file:
     secrets = json.load(file)
 
 # Access the API_KEY from the secrets
-api_key = secrets['API_KEY']
-openai.api_key = api_key
+# api_key = secrets['API_KEY']
+# openai.api_key = api_key
 # Initialize a global variable for the PLC connection
 plc = None
 
@@ -1103,19 +1104,19 @@ def ask_perplexity(question):
     content.replace("**", " ")
     return content
 
+client = OpenAI()
 def ask_gpt(question):
     instruction = "Consider you are a CNC machine AI assistant. As the CNC Machine AI Assistant, you should provide user-friendly, knowledgeable, and efficient support for operating the machine. It should guide users with clear instructions, assist in selecting tools, materials, and settings, interpret G-code/M-code with real-time feedback and also provide accurate CNC code if asked by the user to provide CNC code for anything. The assistant must offer optimization tips to improve efficiency, monitor machine status, and suggest maintenance or troubleshooting steps when needed. It should adapt to user expertise, offering detailed explanations for novices and advanced insights for experts, while maintaining a professional yet approachable tone. Safety must be prioritized with alerts for unsafe conditions and quick access to emergency stop commands. Additionally, it should include a comprehensive library of materials and tools, suggest best practices, and ensure secure, personalized interaction for an intuitive and productive user experience."
-    response = openai.chat.completions.create(
-        model="gpt-4o",
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": instruction},
             {"role": "user", "content": question}
         ]
     )
     try:
-        # reply = response.choices[0].message
-        reply = response['choices'][0]['message']['content']
-        return reply
+        reply = response.choices[0].message
+        return reply.content
     except KeyError as e:
         print("Key error while accessing response content:", e)
         return "Key error while accessing response content"
@@ -1127,10 +1128,21 @@ def ask_gpt(question):
 @app.route('/ask', methods=['GET', 'POST'])
 def ask():
     if request.method == 'POST':
+    #     category = {
+    #     "Generation of G-code": "generate G-code, create toolpath, CNC programming, machine code, coordinate generation"
+    # }
         question = request.json['question']
-        response_ai = ask_perplexity(question)
-        formatted_response = format_output(response_ai)
-        # question_category = classify_prompt(question)
+        question_category = classify_prompt(question)
+
+        if question_category == "Generation of G-code":
+             response_ai = ask_perplexity(question)
+             response_ai = extract_gcode(response_ai)
+             if response_ai == "No gcode":
+                response_ai = ask_gpt(question)
+        else:
+            response_ai = ask_gpt(question)
+    
+        formatted_response = format_gpt_response(response_ai)
         response = {
             'answer' : formatted_response
         }
@@ -1138,7 +1150,40 @@ def ask():
     else:
         return render_template('index.html')
 
-# Classifies the prompt into different categories
+def extract_gcode(response):
+    lines = response.split('\n')
+    gcodes = []
+    count = 0
+
+    for line in lines:
+        line = line.strip()
+        if line.startswith('- ') and ':' in line:
+            # Split at the first colon and clean the command
+            count += 1
+            command = line.split(':', 1)[0][2:].strip()
+            gcodes.append(command)
+    
+    if count == 0:
+        return "No gcode"
+    else:
+        return '\n'.join(gcodes)
+
+def format_gpt_response(text):
+    # Remove leading/trailing whitespace
+    formatted_text = text.strip()  
+    # Remove Markdown headings (### Example CNC Program)
+    formatted_text = re.sub(r'###.*', '', formatted_text)
+    # Remove Markdown code block markers (```plaintext, ``` etc.)
+    formatted_text = re.sub(r'```.*?```', '', formatted_text, flags=re.DOTALL)
+    # Remove inline Markdown formatting (e.g., **bold text**)
+    formatted_text = re.sub(r'\*\*(.*?)\*\*', r'\1', formatted_text)
+    # Remove excessive new lines
+    formatted_text = re.sub(r'\n{3,}', '\n\n', formatted_text)  
+    
+    return formatted_text
+
+
+# Formats perplexity AI response
 def format_output(raw_text):
     # Remove Markdown headings (### Example CNC Program)
     formatted_text = re.sub(r'###.*', '', raw_text)
