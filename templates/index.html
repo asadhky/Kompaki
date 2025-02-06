@@ -97,10 +97,11 @@
             background-color: #424242;
             padding: 20px;
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.8);
             width: 30%;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            border: 0.1px solid #ff3333; 
         }
 
         .rangetitles {
@@ -1960,6 +1961,9 @@ function setPositionZ() {
         // Toggle the axis power
         function toggleAxis(axis) {
             console.log('Toggling axis:', axis);
+
+            const axisContainer = document.getElementById('status-' + axis + '-axis');
+
             // Only toggle for X-axis; similar logic can be applied for other axes if needed
             if (axis === 'x') {
                 const button = document.getElementById('enable-axis-x');
@@ -1976,6 +1980,13 @@ function setPositionZ() {
 
                 // Update the button text
                 button.textContent = isEnabling ? "Disable" : "Enable";
+
+                // Toggle the green highlight
+                if (isEnabling) {
+                    axisContainer.classList.add('highlight');
+                } else {
+                    axisContainer.classList.remove('highlight');
+                }
 
                 var axis = "X"; // Change this dynamically if needed
                 var message = isEnabling ? axis + " Axis Enabled" : axis + " Axis Disabled";
@@ -2000,6 +2011,13 @@ function setPositionZ() {
                 // Update the button text
                 button.textContent = isEnabling ? "Disable" : "Enable";
 
+                // Toggle the green highlight
+                if (isEnabling) {
+                    axisContainer.classList.add('highlight');
+                } else {
+                    axisContainer.classList.remove('highlight');
+                }
+
                 var axis = "Y"; // Change this dynamically if needed
                 var message = isEnabling ? axis + " Axis Enabled" : axis + " Axis Disabled";
                 showSnackbar(message);
@@ -2022,6 +2040,13 @@ function setPositionZ() {
 
                 // Update the button text
                 button.textContent = isEnabling ? "Disable" : "Enable";
+
+                // Toggle the green highlight
+                if (isEnabling) {
+                    axisContainer.classList.add('highlight');
+                } else {
+                    axisContainer.classList.remove('highlight');
+                }
 
                 var axis = "Z"; // Change this dynamically if needed
                 var message = isEnabling ? axis + " Axis Enabled" : axis + " Axis Disabled";

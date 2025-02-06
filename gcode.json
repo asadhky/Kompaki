@@ -24,7 +24,7 @@
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Position": {
-        "value": 333,
+        "value": 332,
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Execute": {
@@ -40,7 +40,7 @@
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Position": {
-        "value": 44,
+        "value": 6,
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Execute": {
@@ -56,7 +56,7 @@
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Position": {
-        "value": 1213,
+        "value": 1122,
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Execute": {
