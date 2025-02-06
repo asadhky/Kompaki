@@ -1,0 +1,82 @@
+{
+    "GVL_Motion_Control_single_axis_3.fbsa_MoveAbs.Execute": {
+        "value": true,
+        "type": "BOOL"
+    },
+    "GVL_Motion_Control_single_axis_3.MoveAbs_Done": {
+        "value": false,
+        "type": "BOOL"
+    },
+    "GVL_Motion_Control_single_axis_3.fbsa_MoveAbs.Position": {
+        "value": 0,
+        "type": "LREAL"
+    },
+    "GVL_Motion_Control_single_axis_2.MoveAbs_Done": {
+        "value": false,
+        "type": "BOOL"
+    },
+    "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Velocity": {
+        "value": 1300,
+        "type": "LREAL"
+    },
+    "GVL_Motion_Control_single_axis_3.fbsa_MoveAbs.Velocity": {
+        "value": 1300,
+        "type": "LREAL"
+    },
+    "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Position": {
+        "value": 333,
+        "type": "LREAL"
+    },
+    "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Execute": {
+        "value": false,
+        "type": "BOOL"
+    },
+    "GVL_Motion_Control_single_axis_1.MoveAbs_Done": {
+        "value": false,
+        "type": "BOOL"
+    },
+    "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Velocity": {
+        "value": 1300,
+        "type": "LREAL"
+    },
+    "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Position": {
+        "value": 44,
+        "type": "LREAL"
+    },
+    "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Execute": {
+        "value": false,
+        "type": "BOOL"
+    },
+    "GVL_Motion_Control_single_axis.MoveAbs_Done": {
+        "value": true,
+        "type": "BOOL"
+    },
+    "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Velocity": {
+        "value": 1300,
+        "type": "LREAL"
+    },
+    "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Position": {
+        "value": 1213,
+        "type": "LREAL"
+    },
+    "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Execute": {
+        "value": false,
+        "type": "BOOL"
+    },
+    "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Acceleration": {
+        "value": 300.0,
+        "type": "LREAL"
+    },
+    "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Acceleration": {
+        "value": 300.0,
+        "type": "LREAL"
+    },
+    "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Acceleration": {
+        "value": 300.0,
+        "type": "LREAL"
+    },
+    "GVL_Motion_Control_single_axis_3.fbsa_MoveAbs.Acceleration": {
+        "value": 300.0,
+        "type": "LREAL"
+    }
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style media="screen">
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+    /* Isolated Sidebar Styles */
+    .sidebar-wrapper * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .sidebar-wrapper {
+      display: flex;
+    }
+
+    .sidebar-wrapper .side-bar {
+      background: #1b1a1b;
+      backdrop-filter: blur(15px);
+      width: 250px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: -250px;
+      overflow-y: auto;
+      transition: 0.3s ease;
+      z-index: 1001; /* Sidebar should have a lower z-index */
+    }
+
+    .sidebar-wrapper .side-bar.active {
+      left: 0;
+    }
+
+    .sidebar-wrapper h1 {
+      text-align: center;
+      font-weight: 500;
+      font-size: 25px;
+      padding-bottom: 13px;
+      color: #dddddd;
+    }
+
+    .sidebar-wrapper .side-bar .menu {
+      width: 100%;
+      margin-top: 30px;
+    }
+
+    .sidebar-wrapper .side-bar .menu .item {
+      position: relative;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+
+    .sidebar-wrapper .side-bar .menu .item a {
+      color: #dddddd;
+      font-size: 16px;
+      text-decoration: none;
+      display: block;
+      padding: 5px 30px;
+      line-height: 60px;
+      font-weight: 400;
+    }
+
+    .sidebar-wrapper .side-bar .menu .item a:hover {
+      background: #33363a;
+      transition: 0.5s ease;
+      border-radius: 12px;
+    }
+
+    .sidebar-wrapper .side-bar .menu .item i {
+      margin-right: 15px;
+    }
+
+    .sidebar-wrapper .side-bar .menu .item a .dropdown {
+      position: absolute;
+      right: 0;
+      margin: 20px;
+      transition: 0.3s ease;
+    }
+
+    .sidebar-wrapper .side-bar .menu .item .sub-menu {
+      background: #262627;
+      display: none;
+    }
+
+    .sidebar-wrapper .side-bar .menu .item .sub-menu a {
+      padding-left: 40px;
+    }
+
+    .sidebar-wrapper .rotate {
+      transform: rotate(90deg);
+    }
+
+    .sidebar-wrapper .close-btn {
+      position: absolute;
+      color: #fff;
+      font-size: 23px;
+      right:  0px;
+      margin: 15px;
+      cursor: pointer;
+    }
+
+    .sidebar-wrapper .menu-btn {
+      position: absolute;
+      color: rgb(0, 0, 0);
+      font-size: 35px;
+      margin: 25px;
+      cursor: pointer;
+    }
+
+    .sidebar-wrapper .main {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px;
+      flex-direction: column;
+    }
+
+    .sidebar-wrapper .main h1 {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 60px;
+      text-align: center;
+      line-height: 80px;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar-wrapper .main h1 {
+        font-size: 40px;
+        line-height: 60px;
+      }
+    }
+
+    .sidebar-wrapper img {
+      width: 80px;
+      margin-top: 15px;
+      margin-left: 34%;
+    }
+
+    .sidebar-wrapper header {
+      background: #33363a;
+    }
+
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+<div class="sidebar-wrapper">
+  <div class="side-bar " >
+    <header>
+      <div class="close-btn">
+        <i class="fas fa-times"></i>
+      </div>
+      <img src="{{ url_for('static', filename='TEC-Logo.svg') }}" alt="">
+      <h1>Dashboard</h1>
+    </header>
+    <div class="menu">
+      <div class="item"><a href="#"><i class="fa-solid fa-chart-diagram"></i>Workflow</a></div>
+      <div class="item">
+        <a class="sub-btn"><i class="fas fa-table"></i>Planning<i class="fas fa-angle-right dropdown"></i></a>
+        <div class="sub-menu">
+          <a href="/code" class="sub-item"><i class="fa-solid fa-code"></i>G Code</a>
+          <a href="/connection" class="sub-item"><i class="fa-solid fa-wifi"></i>Connection</a>
+          <a href="#" class="sub-item"><i class="fa-solid fa-screwdriver-wrench"></i>Tool Manager</a>
+          <a href="#" class="sub-item"><i class="fa-regular fa-file"></i>File Manager</a>
+        </div>
+      </div>
+      <div class="item">
+        <a class="sub-btn"><i class="fa-solid fa-plug"></i></i>Machining<i class="fas fa-angle-right dropdown"></i></a>
+        <div class="sub-menu">
+          <a href="/simulation" class="sub-item">Simulation</a>
+          <a href="#" class="sub-item">Digital Twin</a>
+          <a href="#" class="sub-item">2D/3D Viewer</a>
+          <a href="#" class="sub-item">NC Operation</a>
+          <a href="#" class="sub-item">Collision Advance</a>
+        </div>
+      </div>
+      <div class="item">
+        <a class="sub-btn"><i class="fas fa-desktop"></i>Monitoring<i class="fas fa-angle-right dropdown"></i></a>
+        <div class="sub-menu">
+          <a href="#" class="sub-item">Data Logger</a>
+          <a href="#" class="sub-item">Maintenance Manager</a>
+          <a href="#" class="sub-item">Servo Viewer</a>
+          <a href="#" class="sub-item">KPI</a>
+        </div>
+      </div>
+      <div class="item"><a href="#"><i class="fa-solid fa-users-line"></i>Community</a></div>
+      <div class="item"><a href="#"><i class="fa-solid fa-terminal"></i>Development</a></div>
+      <div class="item"><a href="#"><i class="fa-solid fa-gear"></i>Utility</a></div>
+      <div class="item"><a href="#"><i class="fa-solid fa-plus"></i>Add Category</a></div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    // jQuery for toggle sub menus
+    $('.sub-btn').click(function(){
+      $(this).next('.sub-menu').slideToggle();
+      $(this).find('.dropdown').toggleClass('rotate');
+    });
+
+    $('.close-btn').click(function(){
+      $('.side-bar').removeClass('active');
+      $('#sidebar-button').css("visibility", "visible");
+    });
+  });
+</script>
+
+</body>
+</html>

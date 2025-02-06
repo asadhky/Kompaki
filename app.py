@@ -32,6 +32,7 @@ app.secret_key = '123456'  # Ensure to replace with your actual secret key
 # Assume data.json exists and stores slider values
 DATA_FILE = 'var1.json'
 OP_DATA_FILE = 'op.json'
+GCODE_FILE = "gcode.json"  # Path to gcode.json
 
 s3_client = boto3.client('s3')
 BUCKET_NAME = 'newtwincatjsonfile'
@@ -56,6 +57,7 @@ db_config = {
     'port': 3308,
     'database': 'userdb'
 }
+
 # 用您的OpenAI API密钥替换此处
 secrets_path = os.path.join(os.getcwd(), 'secrets.json')
 with open(secrets_path, 'r') as file:
@@ -467,6 +469,118 @@ def get_highlight_line():
 
     highlight_line = current_data.get('highlight_line', 1)  # Default to 1 if not found
     return jsonify({"highlight_line": highlight_line})
+
+
+
+@app.route('/update-gcode', methods=['POST'])
+def update_gcode():
+    try:
+        # Load existing data from gcode.json
+        with open(GCODE_FILE, 'r') as f:
+            current_data = json.load(f)
+    except FileNotFoundError:
+        return jsonify({"error": "gcode.json not found"}), 404
+    except json.JSONDecodeError:
+        return jsonify({"error": "Invalid JSON format in gcode.json"}), 400
+
+    # Get new axis positions from the request
+    updated_positions = request.json
+    print("Received updated positions:", updated_positions)
+
+    # Update the relevant positions in the gcode.json file
+    for key in updated_positions:
+        if key in current_data:
+            if updated_positions[key]["value"] != 0.0:
+                current_data[key]["value"] = updated_positions[key]["value"]
+                print(f"Updated {key} value to {updated_positions[key]['value']}")
+            else:
+                print(f"Skipping update for key {key} as the value is 0.0")
+        else:
+            print(f"Key {key} not found in gcode.json")
+            return jsonify({"error": f"Key {key} not found in gcode.json"}), 400
+
+    # Write updated data back to gcode.json
+    with open(GCODE_FILE, 'w') as f:
+        json.dump(current_data, f, indent=4)
+
+    print("Updated GCode data:", current_data)
+
+    # Upload the updated data to S3
+    try:
+        s3_client.upload_file(GCODE_FILE, BUCKET_NAME, GCODE_FILE)
+        print("Uploaded GCode data to S3")
+    except Exception as e:
+        print(f"Failed to upload to S3: {str(e)}")
+
+    # Update MovementAuto value in op.json
+    try:
+        with open(OP_DATA_FILE, 'r') as f:
+            op_data = json.load(f)
+        print("Loaded op.json data:", op_data)
+
+        op_data['MovementAuto']['value'] = True
+        with open(OP_DATA_FILE, 'w') as f:
+            json.dump(op_data, f, indent=4)
+        print("Set MovementAuto to True in op.json")
+
+        s3_client.upload_file(OP_DATA_FILE, BUCKET_NAME, OP_DATA_FILE)
+        print("Uploaded OP data to S3")
+    except Exception as e:
+        print(f"Failed to update op.json: {str(e)}")
+
+    # Define the execute keys
+    execute_keys = [
+        "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Execute",
+        "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Execute",
+        "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Execute"
+    ]
+
+    # Perform False -> True -> False sequence near the end
+    for execute_key in execute_keys:
+        if execute_key in current_data:
+            print(f"Toggling {execute_key} value to False, then True, then False with 6s delay")
+            
+            for value in [False, True, False]:
+                current_data[execute_key]["value"] = value
+                with open(GCODE_FILE, 'w') as f:
+                    json.dump(current_data, f, indent=4)
+                print(f"Set {execute_key} to {value}")
+                # Write updated data back to gcode.json
+                with open(GCODE_FILE, 'w') as f:
+                    json.dump(current_data, f, indent=4)
+
+                print("Updated GCode data:", current_data)
+
+                # Upload the updated data to S3
+                try:
+                    s3_client.upload_file(GCODE_FILE, BUCKET_NAME, GCODE_FILE)
+                    print("Uploaded GCode data to S3")
+                except Exception as e:
+                    print(f"Failed to upload to S3: {str(e)}")
+                time.sleep(6)
+        else:
+            print(f"Key {execute_key} not found in gcode.json")
+            return jsonify({"error": f"Key {execute_key} not found in gcode.json"}), 400
+
+    # Set MovementAuto to False after toggling sequence
+    try:
+        op_data['MovementAuto']['value'] = False
+        with open(OP_DATA_FILE, 'w') as f:
+            json.dump(op_data, f, indent=4)
+        print("Set MovementAuto to False in op.json")
+
+        s3_client.upload_file(OP_DATA_FILE, BUCKET_NAME, OP_DATA_FILE)
+        print("Uploaded OP data to S3")
+    except Exception as e:
+        print(f"Failed to update op.json: {str(e)}")
+
+    return jsonify({"message": "GCode updated successfully!", "updated_data": updated_positions}), 200
+
+
+
+
+
+
 
 
 @app.route('/get-spindle-state', methods=['GET'])

@@ -1,6 +1,6 @@
 {
     "GVl_Motion_Control_single_axis.LrSA_PowerOverride": {
-        "value": 31,
+        "value": 28,
         "type": "LREAL"
     },
     "GVl_Motion_Control_single_axis.bsa_PowerEn": {
@@ -19,24 +19,12 @@
         "value": false,
         "type": "BOOL"
     },
-    "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Execute": {
-        "value": false,
-        "type": "BOOL"
-    },
     "GVL_Motion_Control_single_axis.Rap_Position": {
         "value": 1.0,
         "type": "LREAL"
     },
-    "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Position": {
-        "value": 5.0,
-        "type": "LREAL"
-    },
-    "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Velocity": {
-        "value": 2,
-        "type": "LREAL"
-    },
     "GVL_Motion_Control_single_axis.bsA_ResetExe": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis.bsa_Jogfwd": {
@@ -47,12 +35,8 @@
         "value": false,
         "type": "BOOL"
     },
-    "GVL_Motion_Control_single_axis.MoveAbs_Done": {
-        "value": true,
-        "type": "BOOL"
-    },
     "GVl_Motion_Control_single_axis_1.LrSA_PowerOverride": {
-        "value": 31,
+        "value": 28,
         "type": "LREAL"
     },
     "GVl_Motion_Control_single_axis_1.bsa_PowerEn": {
@@ -71,40 +55,24 @@
         "value": false,
         "type": "BOOL"
     },
-    "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Execute": {
-        "value": false,
-        "type": "BOOL"
-    },
     "GVL_Motion_Control_single_axis_1.Rap_Position": {
         "value": 3.0,
         "type": "LREAL"
     },
-    "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Position": {
-        "value": 7.0,
-        "type": "LREAL"
-    },
-    "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Velocity": {
-        "value": 10,
-        "type": "LREAL"
-    },
     "GVL_Motion_Control_single_axis_1.bsA_ResetExe": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_1.bsa_Jogfwd": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_1.bsa_Jogbwd": {
         "value": false,
         "type": "BOOL"
     },
-    "GVL_Motion_Control_single_axis_1.MoveAbs_Done": {
-        "value": false,
-        "type": "BOOL"
-    },
     "GVl_Motion_Control_single_axis_2.LrSA_PowerOverride": {
-        "value": 31,
+        "value": 28,
         "type": "LREAL"
     },
     "GVl_Motion_Control_single_axis_2.bsa_PowerEn": {
@@ -123,24 +91,12 @@
         "value": false,
         "type": "BOOL"
     },
-    "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Execute": {
-        "value": false,
-        "type": "BOOL"
-    },
     "GVL_Motion_Control_single_axis_2.Rap_Position": {
         "value": 5.0,
         "type": "LREAL"
     },
-    "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Position": {
-        "value": 1.0,
-        "type": "LREAL"
-    },
-    "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Velocity": {
-        "value": 0,
-        "type": "LREAL"
-    },
     "GVL_Motion_Control_single_axis_2.bsA_ResetExe": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_2.bsa_Jogfwd": {
@@ -151,12 +107,8 @@
         "value": false,
         "type": "BOOL"
     },
-    "GVL_Motion_Control_single_axis_2.MoveAbs_Done": {
-        "value": false,
-        "type": "BOOL"
-    },
     "GVl_Motion_Control_single_axis_3.LrSA_PowerOverride": {
-        "value": 57,
+        "value": 100,
         "type": "LREAL"
     },
     "GVl_Motion_Control_single_axis_3.bsa_PowerEn": {
@@ -175,24 +127,12 @@
         "value": true,
         "type": "BOOL"
     },
-    "GVL_Motion_Control_single_axis_3.fbsa_MoveAbs.Execute": {
-        "value": false,
-        "type": "BOOL"
-    },
     "GVL_Motion_Control_single_axis_3.Rap_Position": {
         "value": 0,
         "type": "LREAL"
     },
-    "GVL_Motion_Control_single_axis_3.fbsa_MoveAbs.Position": {
-        "value": 0,
-        "type": "LREAL"
-    },
-    "GVL_Motion_Control_single_axis_3.fbsa_MoveAbs.Velocity": {
-        "value": 0,
-        "type": "LREAL"
-    },
     "GVL_Motion_Control_single_axis_3.bsA_ResetExe": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_3.bsa_Jogfwd": {
@@ -200,10 +140,6 @@
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_3.bsa_Jogbwd": {
-        "value": false,
-        "type": "BOOL"
-    },
-    "GVL_Motion_Control_single_axis_3.MoveAbs_Done": {
         "value": false,
         "type": "BOOL"
     },
@@ -238,5 +174,53 @@
     "JOG_MODE.JogMode_3": {
         "value": "2",
         "type": "STRING"
+    },
+    "GVl_Motion_control_single_axis.bsa_HomeExe": {
+        "value": false,
+        "type": "BOOL"
+    },
+    "GVl_Motion_control_single_axis_1.bsa_HomeExe": {
+        "value": false,
+        "type": "BOOL"
+    },
+    "GVl_Motion_control_single_axis_2.bsa_HomeExe": {
+        "value": false,
+        "type": "BOOL"
+    },
+    "GVl_Motion_control_single_axis_3.bsa_HomeExe": {
+        "value": false,
+        "type": "BOOL"
+    },
+    "GVL_Motion_Control_single_axis.fbsa_SetPosition.Execute": {
+        "value": false,
+        "type": "BOOL"
+    },
+    "GVL_Motion_Control_single_axis_1.fbsa_SetPosition.Execute": {
+        "value": false,
+        "type": "BOOL"
+    },
+    "GVL_Motion_Control_single_axis_2.fbsa_SetPosition.Execute": {
+        "value": false,
+        "type": "BOOL"
+    },
+    "GVL_Motion_Control_single_axis_3.fbsa_SetPosition.Execute": {
+        "value": false,
+        "type": "BOOL"
+    },
+    "GVL_Motion_Control_single_axis_1.fbsa_SetPosition.Position": {
+        "value": 0,
+        "type": "LREAL"
+    },
+    "GVL_Motion_Control_single_axis.fbsa_SetPosition.Position": {
+        "value": 0,
+        "type": "LREAL"
+    },
+    "GVL_Motion_Control_single_axis_2.fbsa_SetPosition.Position": {
+        "value": 0,
+        "type": "LREAL"
+    },
+    "GVL_Motion_Control_single_axis_3.fbsa_SetPosition.Position": {
+        "value": 0,
+        "type": "LREAL"
     }
 }

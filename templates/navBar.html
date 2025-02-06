@@ -39,10 +39,13 @@
             /* padding: 10px 10px; */
             cursor: pointer; 
             margin-right: 20px; 
+            color: #DDDDDD; /* Make sure the icon color is white */
+            font-size: 30px; /* Increase the icon size */
         }
 
         .nav-button:first-child {
-            margin-right: 40px;
+            margin-right: 30px;
+            margin-left: 20px;
         }
 
         .page-title {
@@ -65,7 +68,7 @@
 </style></head>
 
 <div class="top-nav-bar">
-    <button class="nav-button" id="sidebar-button"> &#9776; <!-- Unicode for Hamburger Menu Icon --> </button>
+    <button class="nav-button" id="sidebar-button"> <i class="fas fa-bars"></i></button>
     <a href="/index">
         <button class="nav-button" id="back-button">
             <img src="{{ url_for('static', filename='TEC-Logo.svg') }}" alt="返回" style="width: 170px;">
@@ -388,9 +391,11 @@
 
 
 <script>
-    document.getElementById("sidebar-button").onclick = function() {
-        document.getElementById("nav-toggle").checked = !document.getElementById("nav-toggle").checked;
-    };
+    // Sidebar toggle
+    $('#sidebar-button').click(function(){
+        $('.side-bar').addClass('active');
+        $('#sidebar-button').css("visibility", "hidden");
+    });
 
     // Layout window dialog
         const layoutButton = document.getElementById('layout-button');
@@ -467,7 +472,7 @@
                 "button-enable-axis": "Enable Axis",
                 "label-speed": "Set Current Position",
                 "button-set-speed": "Set Current",
-                "label-position": "Set End Position",
+                "label-position": "End Position:",
                 "button-set-position": "Set End",
                 "label-override": "Select Forward Speed",
                 "label-spindle": "Select Spindle Speed",
@@ -516,14 +521,14 @@
                 "title-y-axis": "Y-Achse",
                 "title-z-axis": "Z-Achse",
                 "label-current-position": "Aktuelle Position: ",
-                "label-end-position": "Endposition: ",
+                "label-end-position": "End Position: ",
                 "label-active-position": "Aktive Position: ",
                 "button-enable-axis": "Achse aktivieren",
                 "label-speed": "Geschwindigkeit",
                 "button-set-speed": "Geschwindigkeit einstellen",
                 "label-position": "Position",
                 "button-set-position": "Position einstellen",
-                "label-override": "Vorwärtsgeschwindigkeit",
+                "label-override": "Vorschub",
                 "label-spindle": "Spindeldrehzahl",
                 "terminal-output-title": "Terminalausgabe"
             }

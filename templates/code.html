@@ -10,7 +10,7 @@
             box-sizing: border-box;
         }
         .highlighted-line {
-            background-color: #697565;
+            background-color: #526D82;
         }
 
         .fixed-bottom-bar {
@@ -251,7 +251,7 @@
         }
 
         .code-item.selected {
-            background-color: #697565;
+            background-color: #526D82;
             color: #fff;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
@@ -328,12 +328,6 @@
             border-color: #4CAF50;
         }
 
-        /* #save-code,
-        #view-3d-button,
-        #download-gcode {
-            margin-top: 10px;
-        } */
-
 
         #current-code-name {
             font-weight: bold;
@@ -358,26 +352,7 @@
             cursor: not-allowed;
         }
 
-        #upload-button {
-            width: 100%;
-            background-color: #388e3c;
-            color: white;
-            padding: 16px 0px;
-            font-size: 1.1rem;
-            border: none;
-            outline: none;
-            border-radius: 8px;
-            font-weight: 400;
-            cursor: pointer;
-            margin: 10px 0 10px;
-            transition: 0.5s ease;
-        }
 
-        #upload-button:hover {
-            background-color: #2e7d32;
-            outline: 2px solid white;
-            transform: scale(0.95);
-        }
 
 
         #save-code,
@@ -387,7 +362,7 @@
         #stop-cycle-button,
         #download-gcode {
             width: 100%;
-            background-color: #697565;
+            background-color: #526D82;
             color: white;
             padding: 16px 0px;
             font-size: 1.1rem;
@@ -407,7 +382,7 @@
         #auto-cycle-button:hover,
         #stop-cycle-button:hover,
         #download-gcode:hover {
-            background-color: #7a8b74;
+            background-color: #6D8495;
             outline: 2px solid white;
             transform: scale(0.95);
         }
@@ -481,7 +456,7 @@
         /* Shared button styles */
         .styled-button {
             flex: 1; /* Ensures equal width for both buttons */
-            background-color: #388e3c; /* Green background */
+            background-color: #242424; /* Green background */
             color: white; /* White text */
             height: 45px; /* Fixed height for consistent proportions */
             font-size: 1.1rem; /* Font size */
@@ -499,7 +474,7 @@
 
         /* Hover state */
         .styled-button:hover {
-            background-color: #2e7d32; /* Darker green */
+            background-color: #3B3B3B; /* Darker green */
             outline: 2px solid white; /* White outline */
             transform: scale(0.95); /* Slight shrink effect */
         }
@@ -668,7 +643,8 @@
 
 <body>
     <!-- Top navigation bar -->
-    {% include 'insidenavBar.html' %}
+    {% include 'navBar.html' %}
+    {% include 'sidebar.html' %}
 
     <div class="container">
         <div id="code-list" class="code-list">

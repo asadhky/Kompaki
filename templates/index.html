@@ -106,6 +106,7 @@
         .rangetitles {
             background-color: #424242;
             padding: 20px;
+            padding-bottom: 0;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 48%;
@@ -168,9 +169,15 @@
             width: 20px;
             height: 20px;
         }
+
         .icon-container {
-            text-align: center; /* Centers the icon */
+            display: flex;
+            justify-content: center; /* Centers the content horizontally */
+            align-items: center; /* Centers the content vertically (if needed) */
+            width: 100%; /* Ensures the container takes up full width */
         }
+
+
 
         .header-container {
             display: flex;
@@ -190,7 +197,7 @@
     {% include 'sidebar.html' %}
 
     <!-- Assuming you have a top bar where the categories will go -->
-    <div class="top-categories" id="categories">
+    <!-- <div class="top-categories" id="categories">
         <div class="category" id="category-individualworkflow">Individual Workflow</div>
         <div class="category" id="category-planning">Planning</div>
         <div class="category" id="category-machining">Machining</div>
@@ -198,7 +205,6 @@
         <div class="category" id="category-community">Community</div>
         <div class="category" id="category-development">Development</div>
         <div class="category" id="category-utility">Utility</div>
-        <!-- Add Category Button -->
         <div class="app-category-item add-category" onclick="addCategory()">
             <span class="add-category-icon">+</span>
         </div>
@@ -211,378 +217,7 @@
             }
         </style>
         </style>
-    </div>
-
-    <!-- Application icons will be displayed here when the Individual Workflow category is clicked -->
-    <div id="category-individualworkflow-apps-container" class="apps-container">
-        <a href="/connection" class="app-icon">
-            <img src="{{ url_for('static', filename='pc.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-sample">sample1</div>
-        </a>
-        <!-- Other applications... -->
-        <a href="/Tool manager" class="app-icon">
-            <img src="{{ url_for('static', filename='Tool-manager.jpg') }}" alt="连接" />
-            <div class="app-label" data-key="label-sample">sample2</div>
-        </a>
-        <a href="/Calendar" class="app-icon">
-            <img src="{{ url_for('static', filename='calendar.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-sample">sample3</div>
-        </a>
-        <a href="/File manager" class="app-icon">
-            <img src="{{ url_for('static', filename='file.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-sample">sample4</div>
-        </a>
-        </a>
-    </div>
-
-    <!-- Application icons will be displayed here when the Planning category is clicked -->
-    <div id="category-planning-apps-container" class="apps-container">
-        <a href="/connection" class="app-icon">
-            <img src="{{ url_for('static', filename='pc.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-connection">Connection</div>
-        </a>
-        <!-- Other applications... -->
-        <a href="/Tool manager" class="app-icon">
-            <img src="{{ url_for('static', filename='Tool-manager.jpg') }}" alt="连接" />
-            <div class="app-label" data-key="label-tool-manager">Tool Manager</div>
-        </a>
-        <a href="/Calendar" class="app-icon">
-            <img src="{{ url_for('static', filename='calendar.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-calendar">Calendar</div>
-        </a>
-        <a href="/File manager" class="app-icon">
-            <img src="{{ url_for('static', filename='file.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-file-manager">File Manager</div>
-        </a>
-        <a href="/Cycle time estimation" class="app-icon">
-            <img src="{{ url_for('static', filename='cycle.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-cycle-time-estimation">Cycle Time Estimation</div>
-        </a>
-        <a href="/code" class="app-icon">
-            <img src="{{ url_for('static', filename='code.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-code">Code</div>
-        </a>
-    </div>
-
-    <!-- Application icons will be displayed here when the Machining category is clicked -->
-    <div id="category-machining-apps-container" class="apps-container">
-        <a href="/simulation" class="app-icon">
-            <img src="{{ url_for('static', filename='simulation.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-simulation">Simulation</div>
-        </a>
-        <a href="/Digital twin" class="app-icon">
-            <img src="{{ url_for('static', filename='digital-twin.jpg') }}" alt="连接" />
-            <div class="app-label" data-key="label-digital-twin">Digital twin</div>
-        </a>
-        <a href="/3D viewer" class="app-icon">
-            <img src="{{ url_for('static', filename='3d-viewer.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-2d-3d-viewer">2D/3D viewer</div>
-        </a>
-        <a href="/NC operation" class="app-icon">
-            <img src="{{ url_for('static', filename='operations.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-nc-operation">NC operation</div>
-        </a>
-        <a href="/Collision advance" class="app-icon">
-            <img src="{{ url_for('static', filename='collision.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-collision-advance">Collision advance</div>
-        </a>
-    </div>
-    
-    
-
-    <!-- Application icons will be displayed here when the Monitoring category is clicked -->
-    <div id="category-monitoring-apps-container" class="apps-container">
-        <a href="/Data logger" class="app-icon">
-            <img src="{{ url_for('static', filename='log.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-data-logger">Data logger</div>
-        </a>
-        <a href="/Maintenance manager" class="app-icon">
-            <img src="{{ url_for('static', filename='report.jpg') }}" alt="连接" />
-            <div class="app-label" data-key="label-maintenance-manager">Maintenance manager</div>
-        </a>
-        <a href="/Servo viewer" class="app-icon">
-            <img src="{{ url_for('static', filename='Servo-viewer.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-servo-viewer">Servo viewer</div>
-        </a>
-        <a href="/KPI" class="app-icon">
-            <img src="{{ url_for('static', filename='kpi.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-kpi">KPI</div>
-        </a>
-    </div>
-    
-
-    <!-- Application icons will be displayed here when the Community category is clicked -->
-    <div id="category-community-apps-container" class="apps-container">
-        <a href="/team board" class="app-icon">
-            <img src="{{ url_for('static', filename='team.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-team-board">Team board</div>
-        </a>
-        <a href="/cloud" class="app-icon">
-            <img src="{{ url_for('static', filename='cloud.jpg') }}" alt="连接" />
-            <div class="app-label" data-key="label-cloud-machining">Cloud Machining</div>
-        </a>
-        <a href="/finance" class="app-icon">
-            <img src="{{ url_for('static', filename='finance.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-finance">Finance</div>
-        </a>
-        <a href="/update" class="app-icon">
-            <img src="{{ url_for('static', filename='update.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-update">Update</div>
-        </a>
-        <a href="/consumer_service" class="app-icon">
-            <img src="{{ url_for('static', filename='consumer_service.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-customer-support">Customer Support</div>
-        </a>
-        <a href="/shopping" class="app-icon">
-            <img src="{{ url_for('static', filename='shopping.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-shopping">Shopping</div>
-        </a>
-    </div>
-
-    <!-- Application icons will be displayed here when the Development category is clicked -->
-    <div id="category-development-apps-container" class="apps-container">
-        <a href="/connection" class="app-icon">
-            <img src="{{ url_for('static', filename='pc.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-sample">sample1</div>
-        </a>
-        <!-- Other applications... -->
-        <a href="/Tool manager" class="app-icon">
-            <img src="{{ url_for('static', filename='Tool-manager.jpg') }}" alt="连接" />
-            <div class="app-label" data-key="label-sample">sample2</div>
-        </a>
-        <a href="/Calendar" class="app-icon">
-            <img src="{{ url_for('static', filename='calendar.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-sample">sample3</div>
-        </a>
-        <a href="/File manager" class="app-icon">
-            <img src="{{ url_for('static', filename='file.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-sample">sample4</div>
-        </a>
-        </a>
-    </div>
-    
-
-    <!-- Application icons will be displayed here when the Utility category is clicked -->
-    <div id="category-utility-apps-container" class="apps-container">
-        <a href="/manual" class="app-icon">
-            <img src="{{ url_for('static', filename='manual.jpg') }}" alt="仿真" />
-            <div class="app-label" data-key="label-manual">manual</div>
-        </a>
-        <a href="/memo" class="app-icon">
-            <img src="{{ url_for('static', filename='memo.jpg') }}" alt="连接" />
-            <div class="app-label" data-key="label-memo">memo</div>
-        </a>
-        <a href="/camera" class="app-icon">
-            <img src="{{ url_for('static', filename='camera.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-camera">camera</div>
-        </a>
-        <a href="/calculator" class="app-icon">
-            <img src="{{ url_for('static', filename='calculator.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-calculator">calculator</div>
-        </a>
-        <a href="/browser" class="app-icon">
-            <img src="{{ url_for('static', filename='browser.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-browser">browser</div>
-        </a>
-        <a href="/setting1" class="app-icon">
-            <img src="{{ url_for('static', filename='setting.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-setting">setting</div>
-        </a>
-        <a href="/maintenance" class="app-icon">
-            <img src="{{ url_for('static', filename='maintenance.jpg') }}" alt="代码" />
-            <div class="app-label" data-key="label-maintenance">maintenance</div>
-        </a>
-    </div>
-    
-
-
-
-
-
-    <!--    &lt;!&ndash; 自定义右键菜单 &ndash;&gt;-->
-    <!--    <div id="customContextMenu" class="custom-context-menu">-->
-    <!--        <button id="addButton">Add</button>-->
-    <!--        <button id="deleteButton">Delete</button>-->
-    <!--        <button id="renameButton">Rename</button>-->
-    <!--    </div>-->
-
-    <!--    <div id="folderMenu" class="folder-menu">-->
-    <!--        <button id="add-folder-Button">Add new folder</button>-->
-    <!--        <button id="delete-folder-Button">Delete folder</button>-->
-    <!--        <button id="rename-folder-Button">Rename folder</button>-->
-    <!--    </div>-->
-
-    <!-- add 应用列表 -->
-    <div id="smallModal" class="small-modal">
-        <div class="small-modal-content">
-            <span class="close-button">&times;</span>
-            <h2>Add List</h2>
-            <div id="current-category-name" class="current-category-name"></div>
-            <div class="app-category-list">
-                <div class="app-category-item" onclick="showApps('category1-apps')">Planning</div>
-                <div class="app-category-item" onclick="showApps('category2-apps')">Machining</div>
-                <div class="app-category-item" onclick="showApps('category3-apps')">Monitoring</div>
-                <div class="app-category-item" onclick="showApps('category4-apps')">Community</div>
-                <div class="app-category-item" onclick="showApps('category5-apps')">Utility</div>
-                <!-- 其他类别... -->
-            </div>
-
-            <div id="category1-apps" class="app-icons-container">
-                <!-- 类别1的应用图标 -->
-                <!-- 应用图标... -->
-                <a href="/PC operation" class="app-icon">
-                    <img src="{{ url_for('static', filename='pc.jpg') }}" alt="PC operation" />
-                    <div class="app-label">connection</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Tool manager" class="app-icon">
-                    <img src="{{ url_for('static', filename='Tool-manager.jpg') }}" alt="Tool manager" />
-                    <div class="app-label">Tool manager</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Calendar" class="app-icon">
-                    <img src="{{ url_for('static', filename='calendar.jpg') }}" alt="Calendar" />
-                    <div class="app-label">Calendar</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/File manager" class="app-icon">
-                    <img src="{{ url_for('static', filename='file.jpg') }}" alt="File manager" />
-                    <div class="app-label">File manager</div>
-                </a>
-                <a href="/Cycle time estimation" class="app-icon">
-                    <img src="{{ url_for('static', filename='cycle.jpg') }}" alt="Cycle time estimation" />
-                    <div class="app-label">Cycle time estimation</div>
-                </a>
-
-            </div>
-
-            <div id="category2-apps" class="app-icons-container">
-                <!-- 类别2的应用图标 -->
-                <a href="/report" class="app-icon">
-                    <img src="{{ url_for('static', filename='simulation.jpg') }}" alt="Simulation" />
-                    <div class="app-label">Simulation</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Digital twin" class="app-icon">
-                    <img src="{{ url_for('static', filename='digital-twin.jpg') }}" alt="Digital twin" />
-                    <div class="app-label">Digital twin</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/3D viewer" class="app-icon">
-                    <img src="{{ url_for('static', filename='3d-viewer.jpg') }}" alt="2D/3D viewer" />
-                    <div class="app-label">2D/3D viewer</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/NC operation" class="app-icon">
-                    <img src="{{ url_for('static', filename='operations.jpg') }}" alt="NC operation" />
-                    <div class="app-label">NC operation</div>
-                </a>
-                <a href="/Collision advance" class="app-icon">
-                    <img src="{{ url_for('static', filename='collision.jpg') }}" alt="Collision advance" />
-                    <div class="app-label">Collision advance</div>
-                </a>
-
-            </div>
-            <!-- 其他类别对应的应用图标容器... -->
-
-            <div id="category3-apps" class="app-icons-container">
-                <!-- 类别1的应用图标 -->
-                <a href="/Data logger" class="app-icon">
-                    <img src="{{ url_for('static', filename='log.jpg') }}" alt="Data logger" />
-                    <div class="app-label">Data logger</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Maintenance manager" class="app-icon">
-                    <img src="{{ url_for('static', filename='report.jpg') }}" alt="Maintenance manager" />
-                    <div class="app-label">Maintenance manager</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Servo viewer" class="app-icon">
-                    <img src="{{ url_for('static', filename='Servo-viewer.jpg') }}" alt="Servo viewer" />
-                    <div class="app-label">Servo viewer</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/KPI" class="app-icon">
-                    <img src="{{ url_for('static', filename='kpi.jpg') }}" alt="KPI" />
-                    <div class="app-label">KPI</div>
-                </a>
-
-            </div>
-
-            <div id="category4-apps" class="app-icons-container">
-                <!-- 类别1的应用图标 -->
-                <!-- 应用图标... -->
-                <a href="/Team board" class="app-icon">
-                    <img src="{{ url_for('static', filename='team.jpg') }}" alt="Team board" />
-                    <div class="app-label">Team board</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Cloud Machining" class="app-icon">
-                    <img src="{{ url_for('static', filename='cloud.jpg') }}" alt="Cloud Machining" />
-                    <div class="app-label">Cloud Machining</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Finance" class="app-icon">
-                    <img src="{{ url_for('static', filename='finance.jpg') }}" alt="Finance" />
-                    <div class="app-label">Finance</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Update" class="app-icon">
-                    <img src="{{ url_for('static', filename='update.jpg') }}" alt="Update" />
-                    <div class="app-label">Update</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/Customer Support" class="app-icon">
-                    <img src="{{ url_for('static', filename='consumer_service.jpg') }}" alt="Customer Support" />
-                    <div class="app-label">Customer Support</div>
-                </a>
-                <a href="/Shopping" class="app-icon">
-                    <img src="{{ url_for('static', filename='shopping.jpg') }}" alt="Shopping" />
-                    <div class="app-label">Shopping</div>
-                </a>
-
-            </div>
-
-            <div id="category5-apps" class="app-icons-container">
-                <!-- 类别1的应用图标 -->
-                <a href="/report" class="app-icon">
-                    <img src="{{ url_for('static', filename='manual.jpg') }}" alt="manual" />
-                    <div class="app-label">manual</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/log" class="app-icon">
-                    <img src="{{ url_for('static', filename='memo.jpg') }}" alt="memo" />
-                    <div class="app-label">memo</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/task" class="app-icon">
-                    <img src="{{ url_for('static', filename='camera.jpg') }}" alt="camera" />
-                    <div class="app-label">camera</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/task" class="app-icon">
-                    <img src="{{ url_for('static', filename='calculator.jpg') }}" alt="calculator" />
-                    <div class="app-label">calculator</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/task" class="app-icon">
-                    <img src="{{ url_for('static', filename='browser.jpg') }}" alt="browser" />
-                    <div class="app-label">browser</div>
-                </a>
-                <a href="/task" class="app-icon">
-                    <img src="{{ url_for('static', filename='setting.jpg') }}" alt="setting" />
-                    <div class="app-label">setting</div>
-                </a>
-                <!-- 更多应用图标... -->
-                <a href="/task" class="app-icon">
-                    <img src="{{ url_for('static', filename='maintenance.jpg') }}" alt="maintenance" />
-                    <div class="app-label">maintenance</div>
-                </a>
-
-            </div>
-
-        </div>
-    </div>
+    </div> -->
 
     <!-- Middle section for axis status -->
     <div class="axis-status" id="axis-status">
@@ -610,9 +245,12 @@
                     <div class="axis" id="status-x-axis" onclick="selectAxis('x')">
                         <div class="axis-header">
                             <h2 data-key="title-x-axis" style="color: #b3b3b3;">X Axis</h2>
-                            <button class="edit-axis-button" id="edit-axis-x">
+                            <button class="edit-axis-button hidden" id="edit-axis-x">
                                 <img src="{{ url_for('static', filename='edit1.png') }}" alt="Edit Axis" class="button-icon">
                             </button>
+                            <button class="reset-axis-btn" id="enable-axis-x" onclick="toggleAxis('x')">Enable</button>
+                            
+                            
                         </div>
                         <div class="axis-controls button-group">
                             <button class="arrow-button fast-button" onclick="moveAxis('x', 'fast-left')"><img src="{{ url_for('static', filename='fast-backward.png') }}" alt="Fast Left" class="button-icon"></button>
@@ -624,7 +262,49 @@
                         </div>
                         
                         <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="x-current">0.00</span></div>
-                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="x-end">0.00</span></div>
+                        <!-- <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="x-end">0.00</span></div> -->
+                        <div class="flex flex-col" style="margin-top: 8px;">
+                            <label for="position" style="color: #d3d3d3;" data-key="label-position">End Position</label>
+                            <input
+                                type="number"
+                                id="position-x"
+                                placeholder="Enter position"
+                                style="
+                                    width: 132px;
+                                    padding: 8px; /* p-2 */
+                                    background-color: #242424; /* bg-gray-700 */
+                                    color: white;
+                                    border-radius: 6px; /* rounded-md */
+                                    border: none;
+                                    outline: none;
+                                    transition: box-shadow 0.2s ease;
+                                "
+                            />
+                            <button id="set-position-x" style="
+                                margin-top: -10px;
+                                padding: 0.5rem 1rem; /* Increased padding for fatter button */
+                                background-color: #526D82; /* bg-gray-700 */
+                                color: #d3d3d3; /* text-gray-200 */
+                                border: 1px solid #3C3D37; /* border-gray-600 */
+                                border-radius: 0.375rem; /* rounded-md */
+                                transition: background-color 0.2s, transform 0.2s; /* Smooth transition */
+                                outline: none; /* Remove default outline */
+                                font-size: 0.875rem; /* text-sm */
+                                font-weight: 600; /* Bold text */
+                                gap: 0.5rem; /* Spacing between elements */
+                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+                                cursor: pointer;
+                            " onclick="setPositionX()">Set End</button>
+                        </div>
+                        <!-- <div class="flex flex-col">
+                            <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
+                            <input
+                                type="number"
+                                id="position-x"
+                                placeholder="Enter position"
+                            />
+                            <button id="set-position-x" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionX()">Set End</button>
+                        </div> -->
                         
                     </div>
                     <!-- Edit X Axis Dialog -->
@@ -638,37 +318,30 @@
                             <div>
                                 <button class="reset-axis-btn" id="enable-axis-x" onclick="toggleAxis('x')">Enable</button>
                             </div>
-                            <!-- <div class="flex flex-col">
-                            <label for="speed" class="text-sm mb-1" data-key="label-speed">Current Position</label>
-                            <input
-                                type="number"
-                                id="speed-x"
-                                placeholder="Enter speed"
-                                class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                            />
-                            <button id="set-speed-x" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setSpeedX()">Set Current</button>
-                            </div> -->
                             <div class="flex flex-col">
-                            <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
-                            <input
-                                type="number"
-                                id="position-x"
-                                placeholder="Enter position"
-                                class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                            />
-                            <button id="set-position-x" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionX()">Set End</button>
+                                <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
+                                <input
+                                    type="number"
+                                    id="position-x"
+                                    placeholder="Enter position"
+                                    class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                />
+                                <button id="set-position-x" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionX()">Set End</button>
                             </div>
                         </div>
                         </div>
                     </div>
-  
+
+                      
                     <!-- Y Axis -->
                     <div class="axis" id="status-y-axis" onclick="selectAxis('y')">
                         <div class="axis-header">
                             <h2 data-key="title-y-axis" style="color: #b3b3b3;">Y Axis</h2>
-                            <button class="edit-axis-button" id="edit-axis-y">
+                            <button class="edit-axis-button hidden" id="edit-axis-y">
                                 <img src="{{ url_for('static', filename='edit1.png') }}" alt="Edit Axis" class="button-icon">
-                            </button>                        </div>
+                            </button>                        
+                            <button class="reset-axis-btn" id="enable-axis-y" onclick="toggleAxis('y')">Enable</button>
+                        </div>
                         <div class="axis-controls button-group">
                             <button class="arrow-button fast-button" onclick="moveAxis('y', 'fast-up-left')">    <img src="{{ url_for('static', filename='fastdiagleft.png') }}" alt="Fast Diag Left" class="button-icon"></button>
                             <button class="arrow-button" onclick="moveAxis('y', 'up-left')"><img src="{{ url_for('static', filename='diagleft.png') }}" alt="Diag Left Arrow" class="button-icon"></button>
@@ -679,7 +352,40 @@
 
                         </div>
                         <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="y-current">0.00</span></div>
-                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="y-end">0.00</span></div>
+                        <!-- <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="y-end">0.00</span></div> -->
+                        <div class="flex flex-col" style="margin-top: 8px;">
+                            <label for="position" style="color: #d3d3d3;" data-key="label-position">End Position</label>
+                            <input
+                                type="number"
+                                id="position-y"
+                                placeholder="Enter position"
+                                style="
+                                    width: 132px;
+                                    padding: 8px; /* p-2 */
+                                    background-color: #242424; /* bg-gray-700 */
+                                    color: white;
+                                    border-radius: 6px; /* rounded-md */
+                                    border: none;
+                                    outline: none;
+                                    transition: box-shadow 0.2s ease;
+                                "
+                            />
+                            <button id="set-position-y" style="
+                            margin-top: -10px;
+                            padding: 0.5rem 1rem; /* Increased padding for fatter button */
+                            background-color: #526D82; /* bg-gray-700 */
+                            color: #d3d3d3; /* text-gray-200 */
+                            border: 1px solid #3C3D37; /* border-gray-600 */
+                            border-radius: 0.375rem; /* rounded-md */
+                            transition: background-color 0.2s, transform 0.2s; /* Smooth transition */
+                            outline: none; /* Remove default outline */
+                            font-size: 0.875rem; /* text-sm */
+                            font-weight: 600; /* Bold text */
+                            gap: 0.5rem; /* Spacing between elements */
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+                            cursor: pointer;
+                        " onclick="setPositionY()">Set End</button>
+                        </div>
                         
                     </div>
                     <!-- Edit Y Axis Dialog -->
@@ -704,7 +410,8 @@
                             <button id="set-speed-y" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setSpeedY()">Set Current</button>
                             </div> -->
                             <div class="flex flex-col">
-                            <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
+                            <label for="position" class="text-sm mb-1" data-key="label-position" style="color: #d3d3d3;">End Position</label>
+
                             <input
                                 type="number"
                                 id="position-y"
@@ -721,9 +428,11 @@
                     <div class="axis" id="status-z-axis" onclick="selectAxis('z')">
                         <div class="axis-header">
                             <h2 data-key="title-z-axis" style="color: #b3b3b3;">Z Axis</h2>
-                            <button class="edit-axis-button" id="edit-axis-z">
+                            <button class="edit-axis-button hidden" id="edit-axis-z">
                                 <img src="{{ url_for('static', filename='edit1.png') }}" alt="Edit Axis" class="button-icon">
-                            </button>                        </div>
+                            </button>                        
+                            <button class="reset-axis-btn" id="enable-axis-z" onclick="toggleAxis('z')">Enable</button>
+                        </div>
                         <div class="axis-controls button-group">
                             <button class="arrow-button fast-button" onclick="moveAxis('z', 'fast-up')"><img src="{{ url_for('static', filename='fastup.png') }}" alt="Fast Up" class="button-icon"></button>
                             <button class="arrow-button" onclick="moveAxis('z', 'up')"><img src="{{ url_for('static', filename='uparrow.png') }}" alt="Up Arrow" class="button-icon"></button>
@@ -733,8 +442,40 @@
 
                         </div>
                         <div data-key="label-current-position" style="color: #d3d3d3;">Current Position: <span id="z-current">0.00</span></div>
-                        <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="z-end">0.00</span></div>
-                        
+                        <!-- <div data-key="label-end-position" style="color: #d3d3d3;">End Position: <span id="z-end">0.00</span></div> -->
+                        <div class="flex flex-col" style="margin-top: 8px;">
+                            <label for="position" style="color: #d3d3d3;" data-key="label-position">End Position</label>
+                            <input
+                                type="number"
+                                id="position-z"
+                                placeholder="Enter position"
+                                style="
+                                    width: 132px;
+                                    padding: 8px; /* p-2 */
+                                    background-color: #242424; /* bg-gray-700 */
+                                    color: white;
+                                    border-radius: 6px; /* rounded-md */
+                                    border: none;
+                                    outline: none;
+                                    transition: box-shadow 0.2s ease;
+                                "
+                            />
+                            <button id="set-position-z" style="
+                                margin-top: -10px;
+                                padding: 0.5rem 1rem; /* Increased padding for fatter button */
+                                background-color: #526D82; /* bg-gray-700 */
+                                color: #d3d3d3; /* text-gray-200 */
+                                border: 1px solid #3C3D37; /* border-gray-600 */
+                                border-radius: 0.375rem; /* rounded-md */
+                                transition: background-color 0.2s, transform 0.2s; /* Smooth transition */
+                                outline: none; /* Remove default outline */
+                                font-size: 0.875rem; /* text-sm */
+                                font-weight: 600; /* Bold text */
+                                gap: 0.5rem; /* Spacing between elements */
+                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+                                cursor: pointer;
+                            " onclick="setPositionZ()">Set End</button>
+                            </div>
                     </div>
                     <!-- Edit Z Axis Dialog -->
                     <div id="edit-dialog3" class="edit-dialog hidden">
@@ -757,7 +498,7 @@
                             />
                             <button id="set-speed-z" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setSpeedZ()">Set Current</button>
                             </div> -->
-                            <div class="flex flex-col">
+                            <!-- <div class="flex flex-col">
                             <label for="position" class="text-sm mb-1" data-key="label-position">End Position</label>
                             <input
                                 type="number"
@@ -766,7 +507,7 @@
                                 class="p-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             />
                             <button id="set-position-z" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2" onclick="setPositionZ()">Set End</button>
-                            </div>
+                            </div> -->
                         </div>
                         </div>
                     </div>
@@ -865,6 +606,9 @@
                     </div>
                 </div>
 
+                <div id="snackbarmsg">This is a snackbar message!</div>
+                
+
                 <!-- 下部：Terminal 输出台 -->
                 <div class="section" id="terminal-section">
                     <h2 data-key="terminal-output-title" style="color: #b3b3b3;">Program Monitor</h2>
@@ -884,6 +628,31 @@
     {% include 'footer.html' %}
 
     <script>
+
+        let xPosition = 0.0;
+        let yPosition = 0.0;
+        let zPosition = 0.0;
+
+        let snackbarTimeout;
+
+        function showSnackbar(message) {
+            const snackbar = document.getElementById("snackbarmsg");
+            snackbar.textContent = message; // Set message text
+            snackbar.classList.add("show");
+
+            // Clear existing timeout if there's one
+            if (snackbarTimeout) {
+                clearTimeout(snackbarTimeout);
+            }
+
+            // Set a new timeout and store its ID
+            snackbarTimeout = setTimeout(function() {
+                snackbar.classList.remove("show");
+            }, 4000); 
+        }
+
+
+
 
         function fetchAxisValues() {
             fetch('/get-axis-values')
@@ -914,7 +683,7 @@
 
         // Function to show the edit dialog
         function showEditDialog() {
-            document.getElementById('edit-dialog1').classList.remove('hidden');
+            // document.getElementById('edit-dialog1').classList.remove('hidden');
         }
 
         // Function to close the edit dialog
@@ -924,7 +693,7 @@
 
         // Function to show the edit dialog
         function showEditDialogY() {
-            document.getElementById('edit-dialog2').classList.remove('hidden');
+            // document.getElementById('edit-dialog2').classList.remove('hidden');
         }
 
         // Function to close the edit dialog
@@ -934,7 +703,7 @@
 
         // Function to show the edit dialog
         function showEditDialogZ() {
-            document.getElementById('edit-dialog3').classList.remove('hidden');
+            // document.getElementById('edit-dialog3').classList.remove('hidden');
         }
 
         // Function to close the edit dialog
@@ -1011,11 +780,49 @@
 
 
 
+        function updateAxisValuesInGCode() {
+            console.log("Updating GCode with new axis values");
+            const updatedData = {
+                "GVL_Motion_Control_single_axis.fbsa_MoveAbs.Position": {
+                    "value": parseFloat(xPosition),
+                    "type": "LREAL"
+                },
+                "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Position": {
+                    "value": parseFloat(yPosition),
+                    "type": "LREAL"
+                },
+                "GVL_Motion_Control_single_axis_1.fbsa_MoveAbs.Position": {
+                    "value": parseFloat(zPosition),
+                    "type": "LREAL"
+                }
+            };
+
+            // Send updated data to the server
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/update-gcode", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log("GCode updated successfully:", updatedData);
+                        
+                    } else {
+                        console.error("Failed to update GCode");
+                    }
+                }
+            };
+            // document.getElementById('x-end').innerText = "0.00";
+            // document.getElementById('y-end').innerText = "0.00";
+            // document.getElementById('z-end').innerText = "0.00";
+            console.log("Sending updated data:", updatedData);  // Log the data being sent
+            xhr.send(JSON.stringify(updatedData));
+        }
 
 
 
         // Event listener for "Start Override" button
         overrideStartButton.addEventListener('click', () => {
+            console.log('Start Override button clicked');
             if (!isOverrideRunning) {
                 isOverrideRunning = true;  // Set to true
                 updateOverrideState(isOverrideRunning);
@@ -1023,6 +830,10 @@
 
             overrideStartButton.classList.add('active');
             overrideStopButton.classList.remove('active');
+            
+            showSnackbar("G Code Values Updated");
+
+            updateAxisValuesInGCode();
         });
 
         // Event listener for "Stop Override" button
@@ -2084,38 +1895,34 @@ function setSpeedZ() {
 //     }
 // });
 
-// Function to handle position update for a specific axis
 function updateAxisPosition(axis, inputId) {
     const positionInput = document.getElementById(inputId);
     if (!positionInput) {
         console.error(`Input field for ${axis} axis not found`);
         return;
     }
-    const position = positionInput.value;
+
+    const position = parseFloat(positionInput.value).toFixed(3);
+    if (isNaN(position)) {
+        console.error(`Invalid position entered for ${axis} axis`);
+        return;
+    }
+
+    // Store the new position in the corresponding global variable
+    if (axis === 'x') xPosition = position;
+    if (axis === 'y') yPosition = position;
+    if (axis === 'z') zPosition = position;
+
+    console.log(`Updated ${axis.toUpperCase()} Position: ${position}`);
 
     // Update the displayed end position for the selected axis
     const endPositionElement = document.getElementById(`${axis}-end`);
     if (endPositionElement) {
-        endPositionElement.textContent = parseFloat(position).toFixed(3);
+        endPositionElement.textContent = position;
     } else {
         console.error(`Display element for ${axis} axis end position not found`);
         return;
     }
-
-    // Send the update to the server
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/update-axis-position', true);
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                console.log(`Position updated successfully for ${axis} axis`);
-            } else {
-                console.error(`Failed to update position for ${axis} axis`);
-            }
-        }
-    };
-    xhr.send(JSON.stringify({ axis: axis, end_position: parseFloat(position).toFixed(3) }));
 }
 
 // Separate functions for each axis
@@ -2152,6 +1959,7 @@ function setPositionZ() {
 
         // Toggle the axis power
         function toggleAxis(axis) {
+            console.log('Toggling axis:', axis);
             // Only toggle for X-axis; similar logic can be applied for other axes if needed
             if (axis === 'x') {
                 const button = document.getElementById('enable-axis-x');
@@ -2168,6 +1976,10 @@ function setPositionZ() {
 
                 // Update the button text
                 button.textContent = isEnabling ? "Disable" : "Enable";
+
+                var axis = "X"; // Change this dynamically if needed
+                var message = isEnabling ? axis + " Axis Enabled" : axis + " Axis Disabled";
+                showSnackbar(message);
 
                 // Send JSON values to the server
                 updateAxisState(jsonValues);
@@ -2188,6 +2000,10 @@ function setPositionZ() {
                 // Update the button text
                 button.textContent = isEnabling ? "Disable" : "Enable";
 
+                var axis = "Y"; // Change this dynamically if needed
+                var message = isEnabling ? axis + " Axis Enabled" : axis + " Axis Disabled";
+                showSnackbar(message);
+
                 // Send JSON values to the server
                 updateAxisState(jsonValues);
             }
@@ -2205,7 +2021,11 @@ function setPositionZ() {
                 };
 
                 // Update the button text
-                button.textContent = isEnabling ? "Stop" : "Enable";
+                button.textContent = isEnabling ? "Disable" : "Enable";
+
+                var axis = "Z"; // Change this dynamically if needed
+                var message = isEnabling ? axis + " Axis Enabled" : axis + " Axis Disabled";
+                showSnackbar(message);
  
                 // Send JSON values to the server
                 updateAxisState(jsonValues);
