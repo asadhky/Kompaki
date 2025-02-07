@@ -50,8 +50,8 @@ app.config['MAIL_USERNAME'] = 'riskerasad@gmail.com'
 app.config['MAIL_PASSWORD'] = 'iqmzuxopchoogpdu'
 
 db_config = {
-    'user': 'root',
-    'password': 'buttsahib',
+    'user': 'xixi',
+    'password': 'Chenxi1213!',
     'host': 'localhost',
     'port': 3308,
     'database': 'userdb'
@@ -1133,7 +1133,7 @@ def index():
 
 @app.route('/visitor')
 def visitor():
-    return render_template('visitorIndex.html')
+    return render_template('index.html')
 
 class Folder(db.Model):
     id = db.Column(db.Integer, primary_key=True)

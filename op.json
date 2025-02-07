@@ -4,7 +4,7 @@
         "type": "BOOL"
     },
     "MovementAuto": {
-        "value": false,
+        "value": true,
         "type": "BOOL"
     }
 }
