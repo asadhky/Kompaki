@@ -97,10 +97,11 @@
             background-color: #424242;
             padding: 20px;
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.8);
             width: 30%;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            border: 0.1px solid #ff3333; 
         }
 
         .rangetitles {
@@ -112,7 +113,8 @@
             width: 48%;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Subtle shadow */
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.8);
+            border: 0.1px solid #ff3333; 
         }
 
         .axis {
@@ -517,26 +519,11 @@
                        
                                 
             </div>
-            
-            
-                <!-- <div id="axis-controls" style="display:none;" class="form-group-inline">
-
-                    <button id="enable-axis-x" onclick="toggleAxis('x')">Enable X Axis</button>
-                    <button id="enable-axis-y" onclick="toggleAxis('y')">Enable Y Axis</button>
-                    <button id="enable-axis-z" onclick="toggleAxis('z')">Enable Z Axis</button>
-                    <button class="reset-axis-btn" id="enable-axis-x" onclick="toggleAxis('x')">Enable</button>
-                    <label for="speed" data-key="label-speed">Current Position</label>
-                    <input type="number" id="speed" placeholder="Enter speed">
-                    <button id="set-speed" data-key="button-set-speed">Set Current</button>
-                    <label for="position" data-key="label-position">End Position</label>
-                    <input type="number" id="position" placeholder="Enter position">
-                    <button id="set-position" data-key="button-set-position">Set End</button>
-                </div> -->
 
             
                 <div class="section">
                     <div class="axis-container">
-                        <div class="rangetitles" id="terminal-section">
+                        <div class="rangetitles" id="range-section-1">
                             <div style="display: flex; align-items: center; justify-content: space-between;">
                                 <h2 data-key="label-override" style="color: #b3b3b3; margin-right: 20px;">Select Forward Speed</h2>
                                 <div style="display: flex; gap: 10px;">
@@ -570,7 +557,7 @@
                             
                             
                         </div>
-                        <div class="rangetitles" id="terminal-section">
+                        <div class="rangetitles" id="range-section-2">
                             <div style="display: flex; align-items: center; justify-content: space-between;">
                                 <h2 data-key="label-spindle" style="color: #b3b3b3; display: inline-block;">Select Spindle Speed</h2>
                                 <div style="display: flex; gap: 10px;">
@@ -822,29 +809,35 @@
 
         // Event listener for "Start Override" button
         overrideStartButton.addEventListener('click', () => {
+            const rangeContainer = document.getElementById('range-section-1'); 
             console.log('Start Override button clicked');
+
             if (!isOverrideRunning) {
                 isOverrideRunning = true;  // Set to true
                 updateOverrideState(isOverrideRunning);
             }
 
-            overrideStartButton.classList.add('active');
-            overrideStopButton.classList.remove('active');
+            // overrideStartButton.classList.add('active');
+            // overrideStopButton.classList.remove('active');
             
             showSnackbar("G Code Values Updated");
+
+            rangeContainer.classList.add('highlight');
 
             updateAxisValuesInGCode();
         });
 
         // Event listener for "Stop Override" button
         overrideStopButton.addEventListener('click', () => {
+            const rangeContainer = document.getElementById('range-section-1'); 
             if (isOverrideRunning) {
                 isOverrideRunning = false;
                 updateOverrideState(isOverrideRunning);
             }
 
-            overrideStopButton.classList.add('active');
-            overrideStartButton.classList.remove('active');
+            // overrideStopButton.classList.add('active');
+            // overrideStartButton.classList.remove('active');
+            rangeContainer.classList.remove('highlight');
         });
 
         // Function to update override state
@@ -950,6 +943,7 @@
 
     // IMP THIS IS REVERSED WITH STOP
     spindleStartButton.addEventListener('click', () => {
+        const spindleContainer = document.getElementById('range-section-2');
         fetch('/stop-spindle', {
             method: 'POST',
             headers: {
@@ -964,12 +958,14 @@
         .catch(error => {
             console.error('Error:', error);
         });
-        spindleStartButton.classList.add('active');
-        spindleStopButton.classList.remove('active');
+        // spindleStartButton.classList.add('active');
+        // spindleStopButton.classList.remove('active');
+        spindleContainer.classList.remove('highlight');
     });
 
     // IMP REVERSED
     spindleStopButton.addEventListener('click', () => {
+        const spindleContainer = document.getElementById('range-section-2');
         fetch('/start-spindle', {
             method: 'POST',
             headers: {
@@ -985,8 +981,9 @@
             console.error('Error:', error);
         });
 
-        spindleStopButton.classList.add('active');
-        spindleStartButton.classList.remove('active');
+        // spindleStopButton.classList.add('active');
+        // spindleStartButton.classList.remove('active');
+        spindleContainer.classList.add('highlight');
     });
 });
 
@@ -1960,6 +1957,9 @@ function setPositionZ() {
         // Toggle the axis power
         function toggleAxis(axis) {
             console.log('Toggling axis:', axis);
+
+            const axisContainer = document.getElementById('status-' + axis + '-axis');
+
             // Only toggle for X-axis; similar logic can be applied for other axes if needed
             if (axis === 'x') {
                 const button = document.getElementById('enable-axis-x');
@@ -1976,6 +1976,13 @@ function setPositionZ() {
 
                 // Update the button text
                 button.textContent = isEnabling ? "Disable" : "Enable";
+
+                // Toggle the green highlight
+                if (isEnabling) {
+                    axisContainer.classList.add('highlight');
+                } else {
+                    axisContainer.classList.remove('highlight');
+                }
 
                 var axis = "X"; // Change this dynamically if needed
                 var message = isEnabling ? axis + " Axis Enabled" : axis + " Axis Disabled";
@@ -2000,6 +2007,13 @@ function setPositionZ() {
                 // Update the button text
                 button.textContent = isEnabling ? "Disable" : "Enable";
 
+                // Toggle the green highlight
+                if (isEnabling) {
+                    axisContainer.classList.add('highlight');
+                } else {
+                    axisContainer.classList.remove('highlight');
+                }
+
                 var axis = "Y"; // Change this dynamically if needed
                 var message = isEnabling ? axis + " Axis Enabled" : axis + " Axis Disabled";
                 showSnackbar(message);
@@ -2022,6 +2036,13 @@ function setPositionZ() {
 
                 // Update the button text
                 button.textContent = isEnabling ? "Disable" : "Enable";
+
+                // Toggle the green highlight
+                if (isEnabling) {
+                    axisContainer.classList.add('highlight');
+                } else {
+                    axisContainer.classList.remove('highlight');
+                }
 
                 var axis = "Z"; // Change this dynamically if needed
                 var message = isEnabling ? axis + " Axis Enabled" : axis + " Axis Disabled";

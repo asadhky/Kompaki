@@ -1134,7 +1134,7 @@ def index():
 
 @app.route('/visitor')
 def visitor():
-    return render_template('visitorIndex.html')
+    return render_template('index.html')
 
 class Folder(db.Model):
     id = db.Column(db.Integer, primary_key=True)

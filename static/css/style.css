@@ -938,3 +938,15 @@
     from {bottom: 100px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
 }
+
+.axis.highlight {
+    border: 1px solid #4CAF50; /* Green border */
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.8); /* Green glow */
+    transition: all 0.3s ease-in-out; /* Smooth transition */
+}
+
+.rangetitles.highlight {
+    border: 1px solid #4CAF50; /* Green border */
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.8); /* Green glow */
+    transition: all 0.3s ease-in-out; /* Smooth transition */
+}
