@@ -1312,7 +1312,7 @@ def debug_api_key():
     import os
     api_key = os.getenv('OPENAI_API_KEY')
     if api_key:
-        return f"API Key is accessible: {api_key[:4]}****"  # Masking for security
+        return f"API Key is accessible: {api_key[:9]}****"  # Masking for security
     else:
         return "API Key is not accessible in Flask."
 
