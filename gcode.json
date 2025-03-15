@@ -28,7 +28,7 @@
         "type": "LREAL"
     },
     "GVL_Motion_Control_single_axis_2.fbsa_MoveAbs.Execute": {
-        "value": true,
+        "value": false,
         "type": "BOOL"
     },
     "GVL_Motion_Control_single_axis_1.MoveAbs_Done": {

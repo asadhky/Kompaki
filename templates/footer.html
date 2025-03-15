@@ -12,7 +12,7 @@
             --text-color: #ececec;
             --inverse-text-color: #252631;
             --background-color: #1f2029;
-            --icon-background-color: #252631;
+            --icon-background-color: #333;
             --inverse-background-color: #526D82;
         }
 
@@ -92,6 +92,7 @@
                         0 32px 64px -48px rgba(0, 0, 0, 0.5);
             transition: all 0.1s ease;
             z-index: 1100;
+            font-weight: 200;
         }
 
         body.show-chatbot .chatbot {
@@ -266,6 +267,43 @@
             font-size: 16px;
         }
 
+        .chat.incoming {
+            position: relative;
+            padding-right: 35px; /* Space for the copy button */
+        }
+
+
+        .copy-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: transparent; /* Transparent background */
+            color: #526D82; /* Text color (for the icon) */
+            border: 1px solid rgba(82, 109, 130, 0.3); /* Faint border with reduced opacity */
+            cursor: pointer;
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Increased box shadow for more depth */
+        }
+
+        .copy-btn:hover {
+            background-color: rgba(82, 109, 130, 0.09); /* Slightly less transparent hover effect */
+            border-color: rgba(82, 109, 130, 0.5); /* Darken the border on hover */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+        }
+
+        .copy-btn:active {
+            background-color: rgba(82, 109, 130, 0.18); /* Slightly less transparent active effect */
+            border-color: rgba(82, 109, 130, 0.7); /* Darker border when active */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); /* Even stronger shadow on active */
+        }
+
+
+
+
+
 
         @media (max-width: 490px) {
             .chatbot {
@@ -371,6 +409,8 @@
                 const question = chatInput.value.trim();
                 if (!question) return;
 
+                chatInput.value = ''; // Clear the input field immediately
+
                 // Append user message to chat
                 const userMessage = `<li class="chat outgoing"><p>${question}</p></li>`;
                 chatHistory.insertAdjacentHTML('beforeend', userMessage);
@@ -383,10 +423,16 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        const aiMessage = `<li class="chat incoming">
+                        let aiMessage = `<li class="chat incoming">
                             <span class="material-symbols-outlined">smart_toy</span>
-                            <p>${data.answer}</p>
-                        </li>`;
+                            <p>${data.answer}</p>`;
+
+                        // Check if response contains G-code (starts with 'G' or 'M' followed by numbers)
+                        if (/^(G|M)\d+/m.test(data.answer)) {
+                            aiMessage += `<button class="copy-btn" onclick="copyGCode(this)">Copy</button>`;
+                        }
+
+                        aiMessage += `</li>`;
                         chatHistory.insertAdjacentHTML('beforeend', aiMessage);
                         chatInput.value = '';
                         chatHistory.scrollTop = chatHistory.scrollHeight;
@@ -397,6 +443,16 @@
                     });
             });
         });
+
+        // Function to copy G-code
+        function copyGCode(button) {
+            const messageText = button.previousElementSibling.textContent; // Get G-code text
+            navigator.clipboard.writeText(messageText).then(() => {
+                button.textContent = "Copied!";
+                setTimeout(() => button.textContent = "Copy", 2000);
+            }).catch(err => console.error("Failed to copy:", err));
+        }
+
     </script>
 </body>
 </html>
