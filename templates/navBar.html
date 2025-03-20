@@ -11,15 +11,117 @@
         box-sizing: inherit;
     }
 
-        .langBtn {
-            cursor: pointer;
-            border-radius: 5px;
-            text-decoration: none;
+
+        .dropdown button {
+        background-color: #253849;
+        min-width: 130px;
+        width: max-content;
+        height: 40px;
+        border-radius: 5px;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        justify-content: space-evenly;
         }
-        .langBtn img {
-            width: 20px;
-            height: 20px;
+        .dropdown button img {
+        margin: 0 5px 0 0;
         }
+        .dropdown button img,
+        .dropdown-content li img {
+        width: 28px;
+        }
+        .dropdown button,
+        .dropdown-content li {
+            background-color: #253849;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-family: "Open Sans", sans-serif;
+            font-family: "Noto Sans JP", sans-serif;
+            font-family: "Noto Sans Arabic", sans-serif;
+            font-family: "Noto Sans KR", sans-serif;
+            font-weight: 500;
+        }
+        .arrow-down {
+        width: 0;
+        height: 0;
+        display: inline-block;
+        vertical-align: middle;
+        border-style: solid;
+        border-width: 4px 4px 0 4px;
+        border-color: #fff transparent transparent transparent;
+        margin: 0 0 0 5px;
+        }
+
+        .dropdown button:hover {
+        cursor: pointer;
+        background-color: #36516b;
+        }
+        /* Style for the dropdown content */
+        .dropdown-content {
+        display: none;
+        position: absolute;
+        margin: 1px 0 0 0;
+        padding: 0;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        border-radius: 5px;
+        overflow-y: hidden;
+        max-height: 315px;
+        }
+        /* Style for the dropdown content items */
+        .dropdown-content li {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        justify-content: flex-start;
+        }
+        .dropdown-content li img {
+            margin-right: 10px; /* Adjust the spacing between flag and text */
+  vertical-align: middle; /* Align the flag vertically centered with the text */
+        }
+        /* Style for the dropdown content items on hover */
+        .dropdown-content li:hover {
+        background-color: #36516b;
+        cursor: pointer;
+        color: blue;
+        }
+        /* Show the dropdown content when the dropdown button is clicked */
+        .dropdown:focus-within .dropdown-content {
+        display: block;
+        }
+        /* Animate the dropdown content */
+        @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        }
+
+        .dropdown-content {
+        animation: slideIn 0.3s ease-out;
+        }
+
+        #dropdown-content li a:visited {
+            color: white; /* Ensure visited links remain white */
+        }
+        /* Scrollbar styles */
+        ::-webkit-scrollbar {
+        width: 8px;
+        height: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+        border-radius: 8px;
+        background: #c2c9d2;
+        }
+
         .icon-container {
             text-align: center; /* Centers the icon */
         }
@@ -31,7 +133,6 @@
             /* padding: 30px 20px; 上下30px，左右20px的内边距 */
             background: #242424;
         }
-
 
         .nav-button {
             background: none; 
@@ -47,6 +148,17 @@
             margin-right: 30px;
             margin-left: 20px;
         }
+
+        #choose-button {
+            margin-right: 0;
+        }
+
+        #back-button {
+            margin-left: 0;
+        }
+
+
+        
 
         .page-title {
             flex-grow: 1;
@@ -70,16 +182,17 @@
 <div class="top-nav-bar">
     <button class="nav-button" id="sidebar-button"> <i class="fas fa-bars"></i></button>
     <a href="/index">
-        <button class="nav-button" id="back-button">
-            <img src="{{ url_for('static', filename='TEC-Logo.svg') }}" alt="返回" style="width: 170px;">
-        </button>
-    </a>
-    <a href="/index">
         <button class="nav-button" id="choose-button">
             <img src="{{ url_for('static', filename='home.png') }}" alt="选择" style="width: 50px; height: auto;">
         </button>
     </a>
 
+    <a href="/index">
+        <button class="nav-button" id="back-button">
+            <img src="{{ url_for('static', filename='TEC-Logo.svg') }}" alt="返回" style="width: 170px;">
+        </button>
+    </a>
+    
     <h1 class="page-title" style="font-family: 'Roboto', sans-serif; text-align: center; color: #0b0c10; padding-left: 7%;"></h1>
 
     <a>
@@ -103,14 +216,25 @@
     
 
     <!-- Language change buttons -->
-    <div class="nav-button">
-        <a href="#" class="langBtn" language="english">
-            <img src="../static/EnglishFlag.png" alt="EN" class="langIcon">
-        </a>
-        <a href="#" class="langBtn" language="german">
-            <img src="../static/GermanFlag.png" alt="DE" class="langIcon">
-        </a>
-    </div>
+    <div class="dropdown" tabindex="0">
+        <button id="dropdown-btn">
+          <span>Select Language</span>
+          <span class="arrow-down"></span>
+        </button>
+        <ul class="dropdown-content" id="dropdown-content">
+          <li>
+            <a href="#" class="langBtn" language="english">
+              <img src="../static/EnglishFlag.png" alt="EN" class="langIcon"> English
+            </a>
+          </li>
+          <li>
+            <a href="#" class="langBtn" language="german">
+              <img src="../static/GermanFlag.png" alt="DE" class="langIcon"> Deutsch
+            </a>
+          </li>
+        </ul>
+      </div>
+      
 
     <!-- <a href="/layouts">
         <button class="nav-button" id="choose-button">
@@ -396,6 +520,35 @@
         $('.side-bar').addClass('active');
         $('#sidebar-button').css("visibility", "hidden");
     });
+
+    const dropdownBtn = document.getElementById("dropdown-btn");
+const dropdownContent = document.getElementById("dropdown-content");
+const langButtons = document.querySelectorAll(".langBtn");
+
+dropdownBtn.addEventListener("click", function () {
+  dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+});
+
+// Handle language selection from dropdown
+langButtons.forEach((button) => {
+  button.addEventListener("click", function (e) {
+    const selectedLang = e.target.closest("a").getAttribute("language");
+    console.log("Selected language: " + selectedLang);
+    // Add your translation logic here
+    setSelectedLocale(selectedLang);
+    dropdownContent.style.display = "none"; // Hide the dropdown after selecting a language
+  });
+});
+
+// Function to update selected locale (Example)
+function setSelectedLocale(language) {
+  const langName = language === "english" ? "English" : "Deutsch"; // Adjust as per your translation logic
+  dropdownBtn.innerHTML = `${langName} <span class="arrow-down"></span>`;
+}
+
+// Initialize with default locale
+setSelectedLocale("english"); // Set the initial language to English (or based on browser language)
+
 
     // Layout window dialog
         const layoutButton = document.getElementById('layout-button');
