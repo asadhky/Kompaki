@@ -690,13 +690,39 @@
 
 }
 
-#terminal-output {
-    background-color: black; /* Pitch black background */
-    color: #d3d3d3; /* Bright green text to mimic a terminal look */
-    padding: 10px; /* Padding inside the terminal section */
-    height: 300px; /* Adjust height as needed */
-    overflow-y: auto; /* Allows scrolling when the content exceeds the height */
+#terminal-section {
+    display: flex;
+    flex-direction: row; /* Side by side layout */
+    height: 400px;
+    gap: 10px; /* Adds spacing between elements */
+    align-items: flex-start; /* Aligns items properly */
 }
+
+#terminal-output {
+    background-color: black;
+    color: #d3d3d3;
+    padding: 10px;
+    height: 100%;
+    width: 80%;
+    overflow-y: auto;
+}
+
+#live-feed {
+    display: flex;
+    justify-content: center; /* Center image horizontally */
+    align-items: center; /* Center image vertically */
+    width: 40%;
+    height: 100%;
+    overflow: hidden; /* Prevents overflow */
+}
+
+#live-feed img {
+    width: 100%; /* Makes sure the image stays inside the container */
+    height: auto; /* Keeps aspect ratio */
+    object-fit: contain; /* Ensures the image fits properly */
+}
+
+
 
 /* Styling for the axis-controls container */
 .axis-controls {
