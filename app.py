@@ -1150,35 +1150,22 @@ class FolderApp(db.Model):
     folder_id = db.Column(db.Integer, db.ForeignKey('folder.id'), primary_key=True)
     app_id = db.Column(db.Integer, db.ForeignKey('app.id'), primary_key=True)
 
-
-# @app.route('/ask', methods=['POST'])
-# def ask_gpt():
-#     try:
-#         question = request.json['question']
-#         # Make a request to the OpenAI API to get a response from ChatGPT
-#         response = openai.ChatCompletion.create(
-#             model="gpt-3.5-turbo",
-#             messages=[
-#                 {"role": "user", "content": question}
-#             ]
-#         )
-#
-#         if response.choices:
-#             return jsonify({'response': response.choices[0].text.strip()})
-#         else:
-#             return jsonify({'error': 'No response from ChatGPT'}), 500
-#
-#     except Exception as e:
-#         app.logger.error("Error occurred: %s", str(e))  # 使用 Flask 的日志系统记录异常信息
-#         return jsonify({'error': str(e)}), 500
-#
-
-
-# 定义 ask_gpt 函数，输入问题，返回 GPT-3 的回答
 def ask_perplexity(question):
+    """
+    Sends a question to the Perplexity AI API and retrieves a response.
+
+    Args:
+        question (str): The user's question related to CNC machine operations.
+
+    Returns:
+        str: The response content from the Perplexity AI API.
+    """
+
+    # System instruction defining the CNC AI assistant's behavior and capabilities
     instruction = "Consider you are a CNC machine AI assistant. As the CNC Machine AI Assistant, you should provide user-friendly, knowledgeable, and efficient support for operating the machine. It should guide users with clear instructions, assist in selecting tools, materials, and settings, interpret G-code/M-code with real-time feedback and also provide accurate CNC code if asked by the user to provide CNC code for anything. The assistant must offer optimization tips to improve efficiency, monitor machine status, and suggest maintenance or troubleshooting steps when needed. It should adapt to user expertise, offering detailed explanations for novices and advanced insights for experts, while maintaining a professional yet approachable tone. Safety must be prioritized with alerts for unsafe conditions and quick access to emergency stop commands. Additionally, it should include a comprehensive library of materials and tools, suggest best practices, and ensure secure, personalized interaction for an intuitive and productive user experience."
     url = "https://api.perplexity.ai/chat/completions"
 
+    # Payload containing model details, system instruction, and user question
     payload = {
         "model": "llama-3.1-sonar-small-128k-online",
         "messages": [
@@ -1203,10 +1190,13 @@ def ask_perplexity(question):
         "presence_penalty": 0,
         "frequency_penalty": 1
     }
+    # Authorization headers for API access
     headers = {
         "Authorization": "Bearer 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",
         "Content-Type": "application/json"
     }
+
+    # Sending the request to the Perplexity AI API
     response = requests.request("POST", url, json=payload, headers=headers)
     # Get the JSON response
     api_response = response.json()
@@ -1214,13 +1204,28 @@ def ask_perplexity(question):
     # Extract content from the nested structure
     content = api_response.get('choices', [{}])[0].get('message', {}).get('content', 'No content found')
     assert isinstance(content, str), f"Expected a string, but got {type(content)}"
+
+    # Replace formatting symbols for better readability
     content.replace("###", "\n")
     content.replace("**", " ")
     return content
 
 client = OpenAI()
+
 def ask_gpt(question):
+    """
+    Sends a question to OpenAI's GPT model and retrieves a response.
+
+    Args:
+        question (str): The user's question related to CNC machine operations.
+
+    Returns:
+        str: The response content from OpenAI's GPT model.
+    """
+    # System instruction defining the CNC AI assistant's behavior and capabilities
     instruction = "Consider you are a CNC machine AI assistant. As the CNC Machine AI Assistant, you should provide user-friendly, knowledgeable, and efficient support for operating the machine. It should guide users with clear instructions, assist in selecting tools, materials, and settings, interpret G-code/M-code with real-time feedback and also provide accurate CNC code if asked by the user to provide CNC code for anything. The assistant must offer optimization tips to improve efficiency, monitor machine status, and suggest maintenance or troubleshooting steps when needed. It should adapt to user expertise, offering detailed explanations for novices and advanced insights for experts, while maintaining a professional yet approachable tone. Safety must be prioritized with alerts for unsafe conditions and quick access to emergency stop commands. Additionally, it should include a comprehensive library of materials and tools, suggest best practices, and ensure secure, personalized interaction for an intuitive and productive user experience."
+    
+    # Sending request to OpenAI's GPT model
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
@@ -1229,8 +1234,10 @@ def ask_gpt(question):
         ]
     )
     try:
+        # Extracting and returning the response content
         reply = response.choices[0].message
         return reply.content
+    
     except KeyError as e:
         print("Key error while accessing response content:", e)
         return "Key error while accessing response content"
@@ -1238,24 +1245,35 @@ def ask_gpt(question):
         print("Index error while accessing response content:", e)
         return "Index error while accessing response content"
 
-# 定义路由，处理 POST 请求
+
 @app.route('/ask', methods=['GET', 'POST'])
 def ask():
+    """
+    Handles incoming requests to process user questions and generate appropriate responses.
+
+    Returns:
+        JSON response containing the answer to the user's question if the request is POST.
+        Renders the index page if the request is not POST.
+    """
     if request.method == 'POST':
-    #     category = {
-    #     "Generation of G-code": "generate G-code, create toolpath, CNC programming, machine code, coordinate generation"
-    # }
+        # Extract the question from the incoming JSON request
         question = request.json['question']
+        # Classify the question to determine its category
         question_category = classify_prompt(question)
 
         if question_category == "Generation of G-code":
+            # If the question relates to G-code generation, ask Perplexity AI for a response
              response_ai = ask_perplexity(question)
+            # Extract the G-code from the response
              response_ai = extract_gcode(response_ai)
+            # If no G-code was found, fall back to asking GPT for an answer
              if response_ai == "No gcode":
                 response_ai = ask_gpt(question)
         else:
+            # If the question is not about G-code, ask GPT directly
             response_ai = ask_gpt(question)
-    
+
+        # Format the AI response before returning it
         formatted_response = format_gpt_response(response_ai)
         response = {
             'answer' : formatted_response
@@ -1267,20 +1285,20 @@ def ask():
 def extract_gcode(response):
     lines = response.split('\n')
     gcodes = []
-    count = 0
+    count = 0 # Counter to track the number of extracted commands
 
     for line in lines:
-        line = line.strip()
+        line = line.strip() # Remove leading and trailing whitespace
         if line.startswith('- ') and ':' in line:
-            # Split at the first colon and clean the command
+            # Check if the line starts with '- ' and contains ':'
             count += 1
-            command = line.split(':', 1)[0][2:].strip()
+            command = line.split(':', 1)[0][2:].strip() # Extract command before ':' and remove '- '
             gcodes.append(command)
     
     if count == 0:
-        return "No gcode"
+        return "No gcode"   # Return a message if no G-code commands were found
     else:
-        return '\n'.join(gcodes)
+        return '\n'.join(gcodes)  # Return the extracted commands as a newline-separated string
 
 def format_gpt_response(text):
     # Remove leading/trailing whitespace
@@ -1307,18 +1325,9 @@ def format_output(raw_text):
     formatted_text = re.sub(r'\*\*(.*?)\*\*', r'\1', formatted_text)
     return formatted_text
 
-@app.route('/debug-api-key', methods=['GET'])
-def debug_api_key():
-    import os
-    api_key = os.getenv('OPENAI_API_KEY')
-    if api_key:
-        return f"API Key is accessible: {api_key[:9]}****"  # Masking for security
-    else:
-        return "API Key is not accessible in Flask."
-
 
 def classify_prompt(prompt):
-        # Define example prompts for each category
+    # Define example prompts for each category
     categories = {
         "Machine-specific knowledge management (simple)": "status, state, info, details, overview",
         "Machine-specific knowledge management (complex)": "report, analyze, diagnose, detailed analysis, in-depth",
@@ -1342,8 +1351,18 @@ def classify_prompt(prompt):
     # Identify the best matching category
     max_similarity = max(similarities)
     best_category = list(categories.keys())[similarities.argmax()] if max_similarity > 0.05 else "Other"
+    # 0.05 is the threshold that was chosen after testing
 
     return best_category
+
+@app.route('/debug-api-key', methods=['GET'])
+def debug_api_key():
+    import os
+    api_key = os.getenv('OPENAI_API_KEY')
+    if api_key:
+        return f"API Key is accessible: {api_key[:9]}****"  # Masking for security
+    else:
+        return "API Key is not accessible in Flask."
 
 @app.errorhandler(500)
 def internal_server_error(e):
