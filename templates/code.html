@@ -629,6 +629,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
     <script src="https://cdn.jsdelivr.net/gh/kerdirks/JSCut/gcodeviewer/gcodeviewer.js"></script>
+    <script src="/JavaScript/utilities.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/theme/dracula.min.css">
@@ -679,8 +680,8 @@
                     <img src="{{ url_for('static', filename='save.png') }}" alt="Upload Icon" style="width: 14px; margin-left: 8px; position: relative; bottom: -0.5px;">
                 </button>
                 <button id="view-3d-button">View 3D</button>
-                <button id="auto-cycle-button">Auto Cycle</button>
-                <button id="stop-cycle-button">Stop Cycle</button>
+                <!-- <button id="auto-cycle-button">Auto Cycle</button>
+                <button id="stop-cycle-button">Stop Cycle</button> -->
                 <button id="clear-code-button">Clear Code</button>
                 <button id="download-gcode">Download
                     <img src="{{ url_for('static', filename='downloads.png') }}" alt="Upload Icon" style="width: 14px; margin-left: 8px; position: relative; bottom: -0.5px;">
@@ -792,21 +793,21 @@
             codeEditor.addLineClass(lineInfo, 'background', 'highlighted-line');
         }
 
-        document.getElementById('auto-cycle-button').addEventListener('click', function () {
-            fetch('/auto-cycle',{
-                method: 'POST'
-            })
-            .then(response => response.json())
-            .then(data => console.log(data.message))
-        });
+        // document.getElementById('auto-cycle-button').addEventListener('click', function () {
+        //     fetch('/auto-cycle',{
+        //         method: 'POST'
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => console.log(data.message))
+        // });
 
-        document.getElementById('stop-cycle-button').addEventListener('click', function () {
-            fetch('/stop-cycle',{
-                method: 'POST'
-            })
-            .then(response => response.json())
-            .then(data => console.log(data.message))
-        });
+        // document.getElementById('stop-cycle-button').addEventListener('click', function () {
+        //     fetch('/stop-cycle',{
+        //         method: 'POST'
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => console.log(data.message))
+        // });
 
         // 函数来处理代码显示和编辑
         function displayCode(codeName) {

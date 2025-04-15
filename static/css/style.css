@@ -698,12 +698,44 @@
     align-items: flex-start; /* Aligns items properly */
 }
 
+#left-panel {
+    width: 25%; /* Takes up 33% of the terminal-section width */
+    height: 100%; /* Matches height of other sections */
+    background-color: #f0f0f0; /* Light gray background, change as needed */
+    padding: 10px;
+    overflow-y: auto; /* Adds scroll if content overflows */
+    border: 1px solid #ddd; /* Optional border */
+    box-sizing: border-box; /* Includes padding and border in width */
+}
+
+#middle-section {
+    flex: 1; /* Takes remaining space after left-panel */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Terminal header section */
+.terminal-header {
+    height: 15%; /* 15% of terminal-section height */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    background-color: #333; /* Dark background */
+    color: #d3d3d3; /* Light text */
+    border-bottom: 1px solid #555;
+}
+
+
+
 #terminal-output {
     background-color: black;
     color: #d3d3d3;
     padding: 10px;
     height: 100%;
-    width: 80%;
+    width: 100%;
+    flex: 1;
     overflow-y: auto;
 }
 
@@ -711,7 +743,7 @@
     display: flex;
     justify-content: center; /* Center image horizontally */
     align-items: center; /* Center image vertically */
-    width: 40%;
+    width: 30%;
     height: 100%;
     overflow: hidden; /* Prevents overflow */
 }
@@ -944,6 +976,36 @@
     visibility: visible; /* Show the snackbar */
     animation: fadein 0.5s;
 }
+
+.cycle-btn {
+    width: 45px;
+    aspect-ratio: 1 / 1; /* ensures square */
+    border: none;
+    background: none;
+    border-radius: 4px;
+    padding: 0;
+    cursor: pointer;
+    overflow: hidden;
+    display: inline-block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9); /* <-- shadow added */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .cycle-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); /* slightly stronger on hover */
+  }
+  
+  .cycle-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  
+  
+  
 
 @-webkit-keyframes fadein {
     from {bottom: 0; opacity: 0;}

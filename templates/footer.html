@@ -176,6 +176,7 @@
             padding: 5px;
             margin-right: 10px;
             border-radius: 5px;
+            max-height: 150px;
             font-size: 14px !important; /* Force smaller font size */
             outline: none;
             background: #232D36;
@@ -300,6 +301,29 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); /* Even stronger shadow on active */
         }
 
+        .floating-chat {
+            position: fixed;
+            bottom: 100px;
+            right: 35px;
+            width: 80px;
+            height: 80px;
+            background: #526D82;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            transition: background 200ms, transform 200ms;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.9);
+            }
+            .floating-chat:hover {
+                transform: scale(1.1);
+                background: #339dff; /* a lighter blue shade */
+            }
+
 
 
 
@@ -342,9 +366,9 @@
                 <i class="icon ion-md-call"></i>
             </button>
         </a>
-        <button id="AI-chat-button" class="footer-button">
+        <!-- <button id="AI-chat-button" class="footer-button">
             <i class="fas fa-robot"></i>
-        </button>
+        </button> -->
     </div>
 
     <div class="chatbot" id="chatbot">
@@ -390,7 +414,7 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             const chatbot = document.getElementById('chatbot');
-            const aiChatButton = document.getElementById('AI-chat-button');
+            const aiChatButton = document.getElementById('floating-chat');
             const closeChatbot = document.getElementById('close-chatbot');
             const sendButton = document.getElementById('send-btn');
             const chatInput = document.getElementById('chat-input');
@@ -453,6 +477,23 @@
             }).catch(err => console.error("Failed to copy:", err));
         }
 
+        document.addEventListener('DOMContentLoaded', function () {
+            const chatInput = document.getElementById('chat-input');
+
+            chatInput.addEventListener('input', () => {
+                chatInput.style.height = 'auto';
+                chatInput.style.height = `${chatInput.scrollHeight}px`;
+            });
+        });
+
+
     </script>
+
+    <!-- FLOATING CHAT BUTTON -->
+    <div class="floating-chat" id="floating-chat">
+        <img src="../static/aisymbol.png" alt="AI Chat" style="width: 70px; height: 70px;" />
+    </div>
+    
+  
 </body>
 </html>

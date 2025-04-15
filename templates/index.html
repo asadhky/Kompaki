@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="static/css/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
+
     <style>
         /* Existing CSS from index.html */
 
@@ -187,29 +188,6 @@
     <!-- Top navigation bar -->
     {% include 'navBar.html' %}
     {% include 'sidebar.html' %}
-
-    <!-- Assuming you have a top bar where the categories will go -->
-    <!-- <div class="top-categories" id="categories">
-        <div class="category" id="category-individualworkflow">Individual Workflow</div>
-        <div class="category" id="category-planning">Planning</div>
-        <div class="category" id="category-machining">Machining</div>
-        <div class="category" id="category-monitoring">Monitoring</div>
-        <div class="category" id="category-community">Community</div>
-        <div class="category" id="category-development">Development</div>
-        <div class="category" id="category-utility">Utility</div>
-        <div class="app-category-item add-category" onclick="addCategory()">
-            <span class="add-category-icon">+</span>
-        </div>
-        <style>
-            .add-category {border-radius: 5px;}
-            .add-category:hover {
-            background-color: #e0e0e0;
-            transition: background-color 0.3s ease;
-            
-            }
-        </style>
-        </style>
-    </div> -->
 
     <!-- Middle section for axis status -->
     <div class="axis-status" id="axis-status">
@@ -587,17 +565,56 @@
                 
 
                 <!-- 下部：Terminal 输出台 -->
-                <div class="section" id="terminal-section">
-                    <!-- <h2 data-key="terminal-output-title" style="color: #b3b3b3;">Program Monitor</h2> -->
+                <!-- <div class="section" id="terminal-section">
+                    <button id="auto-cycle-button" class="cycle-btn">
+                        <img src="../static/cyclestart.jpg" alt="Auto" />
+                      </button>
+                      <button id="stop-cycle-button" class="cycle-btn">
+                        <img src="../static/cyclestop.jpg" alt="Stop" />
+                      </button>                      
                     
                     <div id="terminal-output">
-                        <!-- Terminal output will be appended here -->
                     </div>
                 
                     <div id="live-feed">
                         <img src="https://komp.loca.lt/" alt="CNC Camera Feed">
                     </div>
+                </div> -->
+
+                <div class="section" id="terminal-section">
+                    <!-- New left section (33% width) -->
+                    <div id="left-panel">
+                        <!-- Content for your left panel goes here -->
+                         <h3>TFS Placeholder</h3>
+                    </div>
+                    
+                    <div id="middle-section">
+                        <!-- New header section (15% height) -->
+                        <div class="terminal-header">
+                            <h2>NC Code Name</h2>
+                            <div class="terminal-buttons">
+                                <button id="auto-cycle-button" class="cycle-btn">
+                                    <img src="../static/cyclestart.jpg" alt="Auto" />
+                                  </button>
+                                  <button id="stop-cycle-button" class="cycle-btn">
+                                    <img src="../static/cyclestop.jpg" alt="Stop" />
+                                  </button>  
+                            </div>
+                        </div>
+                        
+                        <!-- Existing terminal output (85% height) -->
+                        <div id="terminal-output">
+                            <!-- Terminal output will be appended here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Existing live feed (keeps its current width) -->
+                    <div id="live-feed">
+                        <img src="https://komp.loca.lt/" alt="CNC Camera Feed">
+                    </div>
                 </div>
+
+                
                 
                 
                 
@@ -802,6 +819,22 @@
             xhr.send(JSON.stringify(updatedData));
         }
 
+        // Auto Cycle and Stop Cycle Functionality
+        document.getElementById('auto-cycle-button').addEventListener('click', function () {
+            fetch('/auto-cycle',{
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => console.log(data.message))
+        });
+
+        document.getElementById('stop-cycle-button').addEventListener('click', function () {
+            fetch('/stop-cycle',{
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => console.log(data.message))
+        });
 
 
         // Event listener for "Start Override" button
