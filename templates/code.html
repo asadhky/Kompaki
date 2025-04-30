@@ -358,8 +358,6 @@
         #save-code,
         #view-3d-button,
         #clear-code-button,
-        #auto-cycle-button,
-        #stop-cycle-button,
         #download-gcode {
             width: 100%;
             background-color: #526D82;
@@ -379,8 +377,6 @@
         #save-code:hover,
         #view-3d-button:hover,
         #clear-code-button:hover,
-        #auto-cycle-button:hover,
-        #stop-cycle-button:hover,
         #download-gcode:hover {
             background-color: #6D8495;
             outline: 2px solid white;
@@ -484,6 +480,8 @@
             width: 16px; /* Icon size */
             margin-left: 8px; /* Space between text and icon */
         }
+
+        
 
         @import url("https://fonts.googleapis.com/css?family=Roboto");
         @-webkit-keyframes come-in {
@@ -629,7 +627,6 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
     <script src="https://cdn.jsdelivr.net/gh/kerdirks/JSCut/gcodeviewer/gcodeviewer.js"></script>
-    <script src="/JavaScript/utilities.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/theme/dracula.min.css">
@@ -679,13 +676,21 @@
                 <button id="save-code">Save
                     <img src="{{ url_for('static', filename='save.png') }}" alt="Upload Icon" style="width: 14px; margin-left: 8px; position: relative; bottom: -0.5px;">
                 </button>
-                <button id="view-3d-button">View 3D</button>
+                <!-- <button id="view-3d-button">View 3D</button> -->
                 <!-- <button id="auto-cycle-button">Auto Cycle</button>
                 <button id="stop-cycle-button">Stop Cycle</button> -->
                 <button id="clear-code-button">Clear Code</button>
                 <button id="download-gcode">Download
                     <img src="{{ url_for('static', filename='downloads.png') }}" alt="Upload Icon" style="width: 14px; margin-left: 8px; position: relative; bottom: -0.5px;">
                 </button>
+            </div>
+            <!-- Wrap the buttons in a container for alignment -->
+            <div class="button-container">
+                <button id="view-3d-button">View 3D</button>
+                <!-- <button id="auto-cycle-button">Auto Cycle</button>
+                <button id="stop-cycle-button">Stop Cycle</button> -->
+                <button id="clear-code-button">Activate</button>
+
             </div>
         </div>
  
@@ -1004,6 +1009,10 @@
                         if (data.success) {
                             // Add new file name to the list
                             addListItem(data.fileName); // 使用函数添加列表项和事件监听器
+                            // Highlight the new file item
+                            highlightCodeListItem(data.fileName);
+                            // Store selection
+                            localStorage.setItem('selectedCodeName', data.fileName);
                         } else {
                             alert('Failed to create new file: ' + data.message);
                         }
