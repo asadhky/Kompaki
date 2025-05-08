@@ -216,6 +216,39 @@
             padding: 10px;
             box-sizing: border-box;
             overflow-y: auto;
+            display: flex; /* Add flex layout */
+            gap: 20px; /* Space between editor and placeholder */
+            height: 100%; /* Full height */
+        }
+
+        /* New editor section */
+        .editor-section {
+            width: 70%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* New placeholder area */
+        .placeholder-area {
+            width: 30%;
+            height: 100%;
+            background: #f8f8f8;
+            border-radius: 4px;
+            padding: 15px;
+        }
+
+        .placeholder-text {
+            width: 100%;
+            height: 100%;
+            padding: 15px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            background: white;
+            resize: none;
+            color: #666;
         }
 
         .code-list {
@@ -312,7 +345,8 @@
 
         #code-editor {
             width: 100%;
-            height: 300px;
+            height: calc(100% - 120px); /* Account for buttons */
+            /* Keep existing styles below */
             padding: 10px;
             font-size: 16px;
             font-family: monospace;
@@ -358,6 +392,9 @@
         #save-code,
         #view-3d-button,
         #clear-code-button,
+        #auto-cycle-button,
+        #stop-cycle-button,
+        #activate-button,
         #download-gcode {
             width: 100%;
             background-color: #526D82;
@@ -377,10 +414,18 @@
         #save-code:hover,
         #view-3d-button:hover,
         #clear-code-button:hover,
+        #auto-cycle-button:hover,
+        #stop-cycle-button:hover,
+        #activate-button:hover,
         #download-gcode:hover {
             background-color: #6D8495;
             outline: 2px solid white;
             transform: scale(0.95);
+        }
+
+        #activate-button{
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.8);
+            border: 0.1px solid #ff3333; 
         }
 
         /* 可视化模块的基本样式 */
@@ -480,8 +525,6 @@
             width: 16px; /* Icon size */
             margin-left: 8px; /* Space between text and icon */
         }
-
-        
 
         @import url("https://fonts.googleapis.com/css?family=Roboto");
         @-webkit-keyframes come-in {
@@ -627,6 +670,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
     <script src="https://cdn.jsdelivr.net/gh/kerdirks/JSCut/gcodeviewer/gcodeviewer.js"></script>
+    <script src="/JavaScript/utilities.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/theme/dracula.min.css">
@@ -668,29 +712,27 @@
         </div>
 
         <div id="code-display" class="code-display">
-            <div id="current-code-name"></div>
-            <textarea id="code-editor" name="codeEditor" spellcheck="false"></textarea>
-            
-            <!-- Wrap the buttons in a container for alignment -->
-            <div class="button-container">
-                <button id="save-code">Save
-                    <img src="{{ url_for('static', filename='save.png') }}" alt="Upload Icon" style="width: 14px; margin-left: 8px; position: relative; bottom: -0.5px;">
-                </button>
-                <!-- <button id="view-3d-button">View 3D</button> -->
-                <!-- <button id="auto-cycle-button">Auto Cycle</button>
-                <button id="stop-cycle-button">Stop Cycle</button> -->
-                <button id="clear-code-button">Clear Code</button>
-                <button id="download-gcode">Download
-                    <img src="{{ url_for('static', filename='downloads.png') }}" alt="Upload Icon" style="width: 14px; margin-left: 8px; position: relative; bottom: -0.5px;">
-                </button>
+            <div class="editor-section">
+                <div id="current-code-name"></div>
+                <textarea id="code-editor" name="codeEditor" spellcheck="false"></textarea>
+                <div class="button-container">
+                    <!-- Keep existing buttons -->
+                    <button id="save-code">Save
+                        <img src="{{ url_for('static', filename='save.png') }}" alt="Upload Icon" style="width: 14px; margin-left: 8px; position: relative; bottom: -0.5px;">
+                    </button>
+                    <!-- <button id="view-3d-button">View 3D</button> -->
+                    <button id="clear-code-button">Clear Code</button>
+                    <button id="download-gcode">Download
+                        <img src="{{ url_for('static', filename='downloads.png') }}" alt="Upload Icon" style="width: 14px; margin-left: 8px; position: relative; bottom: -0.5px;">
+                    </button>
+                    <button id="activate-button">Activate</button>
+                </div>
             </div>
-            <!-- Wrap the buttons in a container for alignment -->
-            <div class="button-container">
+            
+            <!-- New placeholder area -->
+            <div class="placeholder-area">
                 <button id="view-3d-button">View 3D</button>
-                <!-- <button id="auto-cycle-button">Auto Cycle</button>
-                <button id="stop-cycle-button">Stop Cycle</button> -->
-                <button id="clear-code-button">Activate</button>
-
+                <textarea class="placeholder-text" placeholder="Placeholder"></textarea>
             </div>
         </div>
  
@@ -929,7 +971,13 @@
                 displayCode(codeName);  // 显示代码内容
             });
 
-            codeList.appendChild(listItem);
+            // Insert new item at the top of the list (after the buttons row)
+const buttonsRow = codeList.querySelector('.buttons-row');
+if (buttonsRow) {
+    codeList.insertBefore(listItem, buttonsRow.nextElementSibling);
+} else {
+    codeList.appendChild(listItem);  // Fallback if buttons row not found
+}
         }
 
 
@@ -1009,10 +1057,23 @@
                         if (data.success) {
                             // Add new file name to the list
                             addListItem(data.fileName); // 使用函数添加列表项和事件监听器
-                            // Highlight the new file item
-                            highlightCodeListItem(data.fileName);
-                            // Store selection
-                            localStorage.setItem('selectedCodeName', data.fileName);
+
+                            // Clear all selections first
+                            document.querySelectorAll('.code-item').forEach(item => {
+                                item.classList.remove('selected');
+                            });
+
+                            // Highlight the new file (now first item after buttons)
+                            const buttonsRow = document.querySelector('.buttons-row');
+                            const newFileItem = buttonsRow.nextElementSibling;
+                            
+                            if (newFileItem) {
+                                newFileItem.classList.add('selected');
+                                const fileName = newFileItem.querySelector('span').textContent.trim();
+                                displayCode(fileName);
+                                localStorage.setItem('selectedCodeName', fileName);
+                            }
+
                         } else {
                             alert('Failed to create new file: ' + data.message);
                         }
@@ -1064,7 +1125,7 @@
                         });
 
                         // Load and display the first code item if present
-                        const firstCodeName = codes[0];
+                        const firstCodeName = codes[codes.length-1];
                         displayCode(firstCodeName);
                         highlightCodeListItem(firstCodeName); // Highlight the first item
                         localStorage.setItem('selectedCodeName', firstCodeName); // Store in localStorage
