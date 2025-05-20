@@ -246,6 +246,11 @@
       $('#sidebar-button').css("visibility", "visible");
     });
   });
+
+  document.getElementById('sidebar-button').addEventListener('click', function() {
+  document.querySelector('.side-bar').classList.add('active');
+  this.style.visibility = 'hidden';
+});
 </script>
 
 </body>
