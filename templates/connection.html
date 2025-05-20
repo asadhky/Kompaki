@@ -2,322 +2,134 @@
 <html>
 
 <head>
-    <title>Kompaki</title>
+    <title>Machine Connection</title>
     <style>
-        /* 顶部导航栏样式 */
-        .top-nav-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 20px;
-        }
-
-        .nav-button {
-            background: none;
-            border: none;
-            padding: 10px 10px;
-            cursor: pointer;
-            margin-right: 20px;
-        }
-
-        .nav-button:first-child {
-            margin-right: 40px;
-        }
-
-        .page-title {
-            flex-grow: 1;
-            text-align: center;
-            margin: 0;
-        }
-
-        .fixed-bottom-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #fff;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-        }
-
-        .icon-button.active-icon::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 15px;
-            background-color: #4CAF50;
-        }
-
-        .icon-button {
-            border: none;
-            background-color: transparent;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .icon-button img {
-            width: 80px;
-            height: auto;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 60px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-
-        .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 46px;
-            font-weight: bold;
-        }
-
-        .close-button:hover,
-        .close-button:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        #search-input {
-            width: 80%;
-            padding: 10px;
-            font-size: 32px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-
-        #search-form button {
-            padding: 10px 20px;
-            font-size: 32px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        #search-modal .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 60px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-
-        #search-form button:hover {
-            background-color: #45a049;
-        }
-
-        .chat-history {
-            height: 300px;
-            overflow-y: auto;
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
-            font-size: 30px;
-            padding: 10px;
-        }
-
-        #chat-input {
-            width: calc(100% - 90px);
-            padding: 10px;
-            margin-right: 10px;
-            font-size: 30px;
-            box-sizing: border-box;
-        }
-
-        #send-message {
-            width: 100px;
-            padding: 20px;
-            font-size: 30px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        #send-message:hover {
-            background-color: #45a049;
-        }
-
-        .faq-question {
-            background-color: #eee;
-            color: #444;
-            cursor: pointer;
-            padding: 32px;
-            width: 100%;
-            text-align: left;
-            border: none;
-            outline: none;
-            transition: 0.4s;
-            font-size: 32px;
-        }
-
-        .faq-answer {
-            padding: 0 32px;
-            font-size: 32px;
-            background-color: white;
-            display: none;
-            overflow: hidden;
-        }
-
-        .setting-option-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .setting-option-button img {
-            width: 50px;
-            height: auto;
-        }
-
-        .modal-content p {
-            text-align: center;
-            margin-top: 5px;
-        }
-
-        #customer-service-modal .welcome-message {
-            font-size: 30px;
-            margin-top: 20px;
-        }
-
-        #customer-service-modal form {
-            margin-top: 40px;
-        }
-
-        #customer-service-modal input,
-        #customer-service-modal textarea {
-            width: 100%;
-            padding: 8px;
-            margin: 20px 0;
-            box-sizing: border-box;
-            font-size: 30px;
-        }
-
-        #customer-service-modal button {
-            font-size: 40px;
-        }
-
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            background-color: #5f6368;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 800;
+        }
+        .category {
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+
+        .category:hover {
+            background-color: #f0f0f0;
+        }
+
+        .editable {
+            border: 1px solid #ddd;
+            padding: 5px;
         }
 
         .container {
+            background-color: #5f6368;
             display: flex;
+            flex-direction: column;
             padding: 20px;
+            gap: 20px;
         }
 
-        .left-panel,
-        .right-panel {
+        .section {
+            background-color: #333;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 45%;
-            margin-right: 5%;
-        }
 
-        .right-panel {
-            margin-right: 0;
+            width: 90%;    
+            margin: 0 auto; 
         }
 
         h2 {
             margin-top: 0;
         }
 
-        .form-group {
+        .form-group-inline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             margin-bottom: 15px;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
+        .form-group-inline label {
+            margin: 0;
+            white-space: nowrap;
         }
 
-        .form-group input {
-            width: calc(100% - 22px);
+        .form-group-inline input {
+            flex: 2;
             padding: 10px;
             border-radius: 4px;
+            min-width: 0;
         }
 
-        .form-group button {
+        .form-group-inline button {
+            flex: 1;
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
             background-color: #4CAF50;
             color: #fff;
             cursor: pointer;
-        }
-
-        .axis-selection,
-        .axis-functions {
-            margin-bottom: 20px;
-        }
-
-        .axis-selection button,
-        .axis-functions button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            background-color: #007BFF;
-            color: #fff;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-
-        .axis-functions input {
-            width: calc(100% - 22px);
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-bottom: 10px;
+            white-space: nowrap;
         }
 
         .axis-container {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
+            max-width: 100%; /* Prevent overflow on zoom */
         }
 
         .axis {
-            background-color: #fff;
-            padding: 10px;
+            background-color: #424242;
+            padding: 20px;
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.8);
             width: 30%;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: 0.1px solid #ff3333; 
         }
 
-        .axis div {
-            margin-bottom: 10px;
+        .rangetitles {
+            background-color: #424242;
+            padding: 20px;
+            padding-bottom: 0;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 48%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.8);
+            border: 0.1px solid #ff3333; 
         }
+
+        .axis {
+            transition: background-color 0.8s ease, color 0.8s ease; 
+        }
+
+        .axis h2 {
+            margin-top: 0;
+
+        }
+
+        .axis.selected {
+            background-color: #50727b !important; /* Keeps the background color when selected */
+            color: #fff !important; /* Changes text color to white */
+        }
+
+        .axis.selected h2, 
+        .axis.selected div {
+            color: #fff !important; /* Ensures all text inside the selected axis is white */
+        }
+
 
         .slider-container {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            /* margin-bottom: 10px; */
         }
 
         .slider-container label {
@@ -329,331 +141,43 @@
             flex-grow: 1;
         }
 
-        .selected {
-            background-color: #FFD700 !important;
-            color: black !important;
+        .terminal-output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #333;
+            color: #d3d3d3;
+            height: 200px;
+            overflow-y: auto;
+            border-radius: 5px;
+        }
+
+        .langBtn {
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .langBtn img {
+            width: 20px;
+            height: 20px;
+        }
+
+
+
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
     </style>
 </head>
 
 <body>
-    <div class="top-nav-bar">
-        <a href="/index">
-            <button class="nav-button" id="back-button">
-                <img src="{{ url_for('static', filename='home.jpg') }}" alt="返回">
-            </button>
-        </a>
-
-        <h1 class="page-title">Connection</h1>
-
-        <button class="nav-button" id="search-button">
-            <img src="{{ url_for('static', filename='search.jpg') }}" alt="user">
-        </button>
-        <div id="search-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-button">&times;</span>
-
-                <h2>search</h2>
-
-                <form id="search-form">
-                    <input type="text" id="search-input" placeholder="Enter search content">
-                    <button type="submit">search</button>
-                </form>
-            </div>
-        </div>
-
-        <a href="/userinfo">
-            <button class="nav-button" id="user-info-button">
-                <img src="{{ url_for('static', filename='user-info.jpg') }}" alt="user">
-            </button>
-        </a>
-    </div>
-
-    <div class="container">
-        <div class="left-panel">
-            <h2>Connection</h2>
-            <div class="form-group">
-                <label for="amsnetid">AmsNetID</label>
-                <input type="text" id="amsnetid">
-            </div>
-            <div class="form-group">
-                <label for="port">Port</label>
-                <input type="text" id="port">
-            </div>
-            <div class="form-group">
-                <button id="open-port-btn">Open Port</button>
-            </div>
-
-            <div class="axis-selection">
-                <h2>Select Axis</h2>
-                <button id="select-x-axis" onclick="selectAxis('x')">X Axis</button>
-                <button id="select-y-axis" onclick="selectAxis('y')">Y Axis</button>
-                <button id="select-z-axis" onclick="selectAxis('z')">Z Axis</button>
-            </div>
-
-            <div class="axis-functions">
-                <h2>Axis Functions</h2>
-                <button id="enable-axis">Enable Axis</button>
-                <div class="form-group">
-                    <label for="speed">Speed</label>
-                    <div style="display: flex; align-items: center;">
-                        <input type="number" id="speed" placeholder="Enter speed" style="flex: 1;">
-                        <span style="margin-left: 10px;">mm/min</span>
-                    </div>
-                </div>
-                <button id="set-speed">Set Speed</button>
-                <div class="form-group">
-                    <label for="position">Position</label>
-                    <div style="display: flex; align-items: center;">
-                        <input type="number" id="position" placeholder="Enter position" style="flex: 1;">
-                        <span style="margin-left: 10px;">mm</span>
-                    </div>
-                </div>
-                <button id="set-position">Set Position</button>
-            </div>
-        </div>
-
-        <div class="right-panel">
-            <h2>Axis Status</h2>
-            <div class="axis-container">
-                <div class="axis" id="status-x-axis" onclick="selectAxis('x')">
-                    <h2>X Axis</h2>
-                    <div>Current Position: <span id="x-current">0.000</span></div>
-                    <div>End Position: <span id="x-end">0.000</span></div>
-                    <div>Active Position: <span id="x-active">0.000</span></div>
-                </div>
-                <div class="axis" id="status-y-axis" onclick="selectAxis('y')">
-                    <h2>Y Axis</h2>
-                    <div>Current Position: <span id="y-current">0.000</span></div>
-                    <div>End Position: <span id="y-end">0.000</span></div>
-                    <div>Active Position: <span id="y-active">0.000</span></div>
-                </div>
-                <div class="axis" id="status-z-axis" onclick="selectAxis('z')">
-                    <h2>Z Axis</h2>
-                    <div>Current Position: <span id="z-current">0.000</span></div>
-                    <div>End Position: <span id="z-end">0.000</span></div>
-                    <div>Active Position: <span id="z-active">0.000</span></div>
-                </div>
-            </div>
-            <div class="slider-container">
-                <label for="override-slider">Override:</label>
-                <input type="range" id="override-slider" min="0" max="100" value="98">
-                <span id="override-value">98%</span>
-            </div>
-            <div class="slider-container">
-                <label for="spindle-slider">Spindle:</label>
-                <input type="range" id="spindle-slider" min="0" max="100" value="0">
-                <span id="spindle-value">0%</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="fixed-bottom-bar">
-        <button id="help-service-button" class="icon-button">
-            <img src="{{url_for('static', filename='ph_question.jpg')}}" alt="帮助">
-        </button>
-        <div id="help-service-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-button">&times;</span>
-                <h2>help</h2>
-
-                <div class="faq-section">
-                    <button class="faq-question">question 1</button>
-                    <div class="faq-answer" style="display: none;">
-                        <p>solution 1 ：......</p>
-                    </div>
-                </div>
-
-                <div class="faq-section">
-                    <button class="faq-question">question 2</button>
-                    <div class="faq-answer" style="display: none;">
-                        <p>solution 2 ：......</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <button id="customer-service-button" class="icon-button">
-            <img src="{{ url_for('static', filename='consumer_service.jpg') }}" alt="服务" />
-        </button>
-        <div id="customer-service-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-button">&times;</span>
-                <h2>customer service</h2>
-
-                <p class="welcome-message">Welcome to our customer service center! How can we help you?</p>
-
-                <form id="contact-form">
-                    <input type="text" placeholder="username" required><br>
-                    <input type="email" placeholder="E-mail" required><br>
-                    <textarea placeholder="question"></textarea><br>
-                    <button type="submit">submit</button>
-                </form>
-            </div>
-        </div>
-
-        <button id="AI-chat-button" class="icon-button">
-            <img src="{{ url_for('static', filename='AIchat.jpg') }}" alt="服务" />
-        </button>
-        <div id="AI-chat-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-button">&times;</span>
-                <h2>AI chat</h2>
-
-                <div id="chat-history" class="chat-history"></div>
-
-                <input type="text" id="chat-input" placeholder="Enter question ......">
-                <button id="send-message">send</button>
-            </div>
-        </div>
-
-        <button id="setting-button" class="icon-button">
-            <img src="{{ url_for('static', filename='setting.jpg') }}" alt="服务" />
-        </button>
-        <div id="setting-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-button">&times;</span>
-                <h2>setting</h2>
-
-                <button class="setting-option-button">
-                    <img src="{{ url_for('static', filename='copy.jpg') }}" alt="选项1" />
-                </button>
-
-                <button class="setting-option-button">
-                    <img src="{{ url_for('static', filename='delete.jpg') }}" alt="选项2" />
-                </button>
-
-                <button id="create-folder-button">
-                    <img src="{{ url_for('static', filename='add.jpg') }}" alt="选项2" />
-                </button>
-            </div>
-        </div>
-
-        <button id="monitoring-button" class="icon-button">
-            <img src="{{ url_for('static', filename='monitoring.jpg') }}" alt="服务" />
-        </button>
-        <div id="monitoring-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-button">&times;</span>
-                <h2>monitoring</h2>
-            </div>
-        </div>
-    </div>
+    {% include 'navBar.html' %}
+    {% include 'sidebar.html' %}
 
     <script>
-        function selectAxis(axis) {
-            // 清除所有按钮和状态的选中样式
-            document.querySelectorAll('.axis-selection button').forEach(button => button.classList.remove('selected'));
-            document.querySelectorAll('.axis').forEach(status => status.classList.remove('selected'));
-
-            // 添加选中样式
-            document.getElementById(`select-${axis}-axis`).classList.add('selected');
-            document.getElementById(`status-${axis}-axis`).classList.add('selected');
-        }
-
-        document.querySelectorAll('.axis').forEach(axis => {
-            axis.addEventListener('click', () => {
-                const axisId = axis.id.split('-')[1];
-                selectAxis(axisId);
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.faq-question').forEach(function (question) {
-                question.addEventListener('click', function () {
-                    var answer = this.nextElementSibling;
-                    answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
-                });
-            });
-
-            document.getElementById('contact-form').addEventListener('submit', function (e) {
-                e.preventDefault();
-                alert('表单已提交！');
-            });
-
-            document.getElementById('send-message').addEventListener('click', function () {
-                var input = document.getElementById('chat-input');
-                var message = input.value;
-                input.value = '';
-
-                var chatHistory = document.getElementById('chat-history');
-                var newMessage = document.createElement('div');
-                newMessage.textContent = message;
-                chatHistory.appendChild(newMessage);
-            });
-
-            document.getElementById('search-form').addEventListener('submit', function (e) {
-                e.preventDefault();
-                var searchText = document.getElementById('search-input').value;
-                console.log('搜索内容：', searchText);
-            });
-
-            var modals = {
-                'customer-service-modal': document.getElementById('customer-service-modal'),
-                'AI-chat-modal': document.getElementById('AI-chat-modal'),
-                'help-service-modal': document.getElementById('help-service-modal'),
-                'setting-modal': document.getElementById('setting-modal'),
-                'monitoring-modal': document.getElementById('monitoring-modal'),
-                'search-modal': document.getElementById('search-modal')
-            };
-
-            var buttons = {
-                'customer-service-button': 'customer-service-modal',
-                'AI-chat-button': 'AI-chat-modal',
-                'help-service-button': 'help-service-modal',
-                'setting-button': 'setting-modal',
-                'monitoring-button': 'monitoring-modal',
-                'search-button': 'search-modal'
-            };
-
-            for (var buttonId in buttons) {
-                document.getElementById(buttonId).onclick = function () {
-                    modals[buttons[this.id]].style.display = "block";
-                };
-            }
-
-            Array.from(document.getElementsByClassName("close-button")).forEach(function (closeButton) {
-                closeButton.onclick = function () {
-                    this.closest('.modal').style.display = 'none';
-                };
-            });
-
-            window.onclick = function (event) {
-                for (var modalId in modals) {
-                    if (event.target == modals[modalId]) {
-                        modals[modalId].style.display = "none";
-                    }
-                }
-            };
-
-            document.getElementById('override-slider').addEventListener('input', function () {
-                document.getElementById('override-value').textContent = this.value + '%';
-            });
-
-            document.getElementById('spindle-slider').addEventListener('input', function () {
-                document.getElementById('spindle-value').textContent = this.value + '%';
-            });
-
-            document.getElementById('open-port-btn').addEventListener('click', function () {
-                const amsNetID = document.getElementById('amsnetid').value;
-                const port = document.getElementById('port').value;
-                alert(`Opening port with AmsNetID: ${amsNetID} and Port: ${port}`);
-            });
-
-            document.getElementById('enable-axis').addEventListener('click', function () {
-                alert('Axis enabled');
-            });
-
-            document.getElementById('set-speed').addEventListener('click', function () {
-                const speed = document.getElementById('speed').value;
-                alert(`Setting speed to ${speed}`);
-            });
-
-            document.getElementById('set-position').addEventListener('click', function () {
-                const position = document.getElementById('position').value;
-                alert(`Setting position to ${position}`);
-            });
-        });
+        
     </script>
 </body>
 

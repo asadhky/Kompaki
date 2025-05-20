@@ -11,19 +11,23 @@
         box-sizing: inherit;
     }
 
+    .dropdown {
+        align-items: center;    /* Vertically center button */
+        margin-right: 20px;     /* Match other icon spacing */
+    }
 
-        .dropdown button {
+    .dropdown button {
         background-color: #253849;
-        min-width: 130px;
-        width: max-content;
+        width: 130px;
+        /* width: max-content; */
         height: 40px;
         border-radius: 5px;
         color: white;
-        padding: 10px;
+        padding: 10px 15px;;
         font-size: 16px;
         border: none;
         cursor: pointer;
-        justify-content: space-evenly;
+        justify-content: space-between;
         }
         .dropdown button img {
         margin: 0 5px 0 0;
@@ -127,7 +131,6 @@
         }
 
         .top-nav-bar {
-            
             display: flex; /* 使用弹性盒子布局 */
             justify-content: space-between;
             align-items: center; /* 子元素垂直居中 */
@@ -177,6 +180,25 @@
             font-family: 'Roboto', sans-serif;
             font-weight: 800;
         } */
+
+        .centered-icon-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .icon-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .icon-label {
+            color: #DDDDDD;
+            font-size: 12px;
+            font-family: 'Roboto', sans-serif;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Shadow added */
+        }
          
 </style></head>
 
@@ -196,6 +218,16 @@
     
     <h1 class="page-title" style="font-family: 'Roboto', sans-serif; text-align: center; color: #0b0c10; padding-left: 7%;"></h1>
 
+    <!-- Replace the existing centered icon div with this -->
+    <div class="centered-icon-container">
+        <div class="icon-text-wrapper">
+            <img src="{{ url_for('static', filename='newsiemensicon.png') }}" 
+                alt="Center Icon" 
+                style="width: 50px; height: auto;">
+            <span class="icon-label">Siemens Profitrainer</span>
+        </div>
+    </div>
+
     <a>
         <button class="nav-button" id="search-button">
             <img src="{{ url_for('static', filename='search.png') }}" alt="搜索" style="width: 40px; height: auto;">
@@ -214,7 +246,7 @@
         </div>
     </a>
 
-    
+
 
     <!-- Language change buttons -->
     <div class="dropdown" tabindex="0">

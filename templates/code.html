@@ -658,6 +658,23 @@
         box-shadow: 0 20px 20px -10px rgba(255, 152, 0, 0.5);
         }
 
+        .dropdown {
+        display: flex;          /* Make dropdown a flex container */
+        align-items: center;    /* Vertically center button */
+        margin-right: 20px;     /* Match other icon spacing */
+        }
+
+        .dropdown button {
+        width: 130px;           /* Fixed width instead of min-width */
+        padding: 10px 15px;     /* Adjust padding */
+        justify-content: space-between; /* Better spacing for text/arrow */
+        }
+
+        .nav-button {
+  margin-right: 20px; 
+  /* ... other existing styles ... */
+}
+
 
 
 
@@ -725,13 +742,16 @@
                     <button id="download-gcode">Download
                         <img src="{{ url_for('static', filename='downloads.png') }}" alt="Upload Icon" style="width: 14px; margin-left: 8px; position: relative; bottom: -0.5px;">
                     </button>
-                    <button id="activate-button">Activate</button>
+                    <!-- <button id="activate-button">Activate</button> -->
                 </div>
             </div>
             
             <!-- New placeholder area -->
             <div class="placeholder-area">
-                <button id="view-3d-button">View 3D</button>
+                <div class="button-container">
+                    <button id="view-3d-button">Simulate</button>
+                    <button id="activate-button">Activate</button>
+                </div>
                 <textarea class="placeholder-text" placeholder="Placeholder"></textarea>
             </div>
         </div>
